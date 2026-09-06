@@ -4,7 +4,7 @@
     <div class="space-y-6 max-w-4xl">
         <!-- Complaint Info -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">{{ $complaint->subject }}</h3>
                     <p class="text-sm text-gray-500">{{ __('complaints.submitted_on') }}: {{ $complaint->created_at->format('d M Y, h:i A') }}</p>
@@ -108,13 +108,13 @@
                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('resolution_notes', $complaint->resolution_notes) }}</textarea>
                 </div>
 
-                <div class="flex justify-end space-x-3">
+                <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                     <a href="{{ route('market-owner.complaints.index') }}"
-                       class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                       class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
                         {{ __('messages.back') }}
                     </a>
                     <button type="submit"
-                            class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                            class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                         {{ __('messages.update') }}
                     </button>
                 </div>

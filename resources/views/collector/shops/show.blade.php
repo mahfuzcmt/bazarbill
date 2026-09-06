@@ -4,13 +4,13 @@
     <div class="max-w-4xl space-y-6">
         <!-- Shop Info Card -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center justify-between">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div>
                         <h2 class="text-xl font-semibold text-gray-900">{{ $shop->shop_number }}</h2>
                         <p class="text-gray-500">{{ $shop->floor }}</p>
                     </div>
-                    <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full
+                    <span class="inline-flex self-start sm:self-auto px-3 py-1 text-sm font-semibold rounded-full
                         {{ $shop->status === 'active' ? 'bg-green-100 text-green-800' : '' }}
                         {{ $shop->status === 'vacant' ? 'bg-gray-100 text-gray-800' : '' }}
                         {{ $shop->status === 'suspended' ? 'bg-red-100 text-red-800' : '' }}">
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Financial Summary -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div class="bg-white rounded-lg shadow p-4">
                 <p class="text-sm text-gray-500">{{ __('invoices.total_due') }}</p>
                 <p class="text-2xl font-bold text-red-600">৳ {{ number_format($totalDue) }}</p>
@@ -91,13 +91,13 @@
 
         <!-- Quick Action -->
         @if($totalDue > 0)
-        <div class="bg-indigo-50 rounded-lg p-4 flex items-center justify-between">
+        <div class="bg-indigo-50 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
                 <p class="text-indigo-800 font-medium">{{ __('collector.collect_payment_prompt') }}</p>
                 <p class="text-indigo-600 text-sm">{{ __('collector.total_due') }}: ৳ {{ number_format($totalDue) }}</p>
             </div>
             <a href="{{ route('collector.payments.create', ['shop' => $shop->id]) }}"
-               class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+               class="w-full sm:w-auto text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
                 {{ __('collector.collect_payment') }}
             </a>
         </div>

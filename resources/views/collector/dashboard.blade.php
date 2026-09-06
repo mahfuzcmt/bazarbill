@@ -3,7 +3,7 @@
 
     <div class="space-y-6">
         <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-indigo-100">
@@ -62,7 +62,7 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <a href="{{ route('collector.payments.create') }}"
                class="bg-green-600 hover:bg-green-700 rounded-lg shadow p-6 text-white transition flex items-center justify-center space-x-3">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,10 +81,11 @@
         </div>
 
         <!-- Shops with Pending Dues -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('shops.shops_with_dues') }}</h3>
             </div>
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -124,16 +125,18 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.recent_payments') }}</h3>
                 <a href="{{ route('collector.payments.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('messages.view_all') }} →
                 </a>
             </div>
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -168,6 +171,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </x-app-layout>

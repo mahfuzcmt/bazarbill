@@ -84,13 +84,13 @@
             </div>
 
             <!-- Actions -->
-            <div class="flex justify-end space-x-3 pt-4 border-t">
+            <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t">
                 <a href="{{ route('collector.dashboard') }}"
-                   class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                   class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
                     {{ __('messages.cancel') }}
                 </a>
                 <button type="submit"
-                        class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition text-lg font-medium">
+                        class="w-full sm:w-auto px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition text-lg font-medium">
                     {{ __('payments.collect') }}
                 </button>
             </div>

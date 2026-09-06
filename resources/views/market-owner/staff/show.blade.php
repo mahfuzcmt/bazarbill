@@ -4,14 +4,14 @@
     <div class="max-w-4xl space-y-6">
         <!-- Staff Info Card -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center justify-between">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div class="flex items-center space-x-4">
-                        <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center">
-                            <span class="text-2xl font-bold text-indigo-600">{{ strtoupper(substr($staff->name, 0, 1)) }}</span>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <span class="text-xl sm:text-2xl font-bold text-indigo-600">{{ strtoupper(substr($staff->name, 0, 1)) }}</span>
                         </div>
                         <div>
-                            <h2 class="text-xl font-semibold text-gray-900">{{ $staff->name }}</h2>
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-900">{{ $staff->name }}</h2>
                             @if($staff->name_bn)
                             <p class="text-gray-600">{{ $staff->name_bn }}</p>
                             @endif
@@ -20,9 +20,9 @@
                             </span>
                         </div>
                     </div>
-                    <div class="flex space-x-3">
+                    <div>
                         <a href="{{ route('market-owner.staff.edit', $staff) }}"
-                           class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                           class="w-full sm:w-auto inline-flex justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
                             {{ __('messages.edit') }}
                         </a>
                     </div>
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Performance Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div class="bg-white rounded-lg shadow p-4">
                 <p class="text-sm text-gray-500">{{ __('staff.assigned_shops') }}</p>
                 <p class="text-2xl font-bold text-gray-900">{{ $assignedShops->count() }}</p>

@@ -3,7 +3,7 @@
 
     <div class="space-y-6">
         <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="bg-white rounded-lg shadow p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.today') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳{{ number_format($todayTotal) }}</p>
@@ -30,7 +30,8 @@
         </div>
 
         <!-- Payments Table -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow">
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -81,8 +82,10 @@
                 </tbody>
             </table>
 
+            </div>
+
             @if($payments->hasPages())
-            <div class="px-6 py-3 border-t border-gray-200">
+            <div class="px-4 sm:px-6 py-3 border-t border-gray-200">
                 {{ $payments->links() }}
             </div>
             @endif

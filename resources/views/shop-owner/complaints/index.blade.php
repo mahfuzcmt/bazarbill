@@ -17,13 +17,13 @@
         <div class="space-y-4">
             @forelse($complaints as $complaint)
             <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="px-6 py-4">
-                    <div class="flex items-start justify-between">
+                <div class="px-4 sm:px-6 py-4">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                         <div>
                             <h3 class="text-lg font-medium text-gray-900">{{ $complaint->subject }}</h3>
                             <p class="text-sm text-gray-500 mt-1">{{ $complaint->created_at->format('d M Y, h:i A') }}</p>
                         </div>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex flex-wrap items-center gap-2">
                             @php
                                 $priorityColors = [
                                     'high' => 'bg-red-100 text-red-800',

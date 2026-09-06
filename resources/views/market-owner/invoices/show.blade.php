@@ -4,14 +4,14 @@
     <div class="space-y-6">
         <!-- Invoice Header -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">{{ $invoice->invoice_number }}</h3>
                     <p class="text-sm text-gray-500">{{ __('invoices.generated_at') }}: {{ $invoice->generated_at->format('d M Y, h:i A') }}</p>
                 </div>
-                <div class="flex space-x-2">
+                <div class="flex flex-col sm:flex-row gap-2">
                     <a href="{{ route('market-owner.invoices.pdf', $invoice) }}"
-                       class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                       class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
@@ -19,7 +19,7 @@
                     </a>
                     @if($invoice->due_amount > 0)
                     <a href="{{ route('market-owner.payments.create', ['invoice' => $invoice->id]) }}"
-                       class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm hover:bg-green-700">
+                       class="inline-flex items-center justify-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm hover:bg-green-700">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
@@ -127,9 +127,10 @@
 
         <!-- Payment History -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.payment_history') }}</h3>
             </div>
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -168,6 +169,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Notes -->

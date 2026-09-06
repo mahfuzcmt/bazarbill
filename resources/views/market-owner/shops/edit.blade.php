@@ -155,19 +155,19 @@
             </div>
 
             <!-- Actions -->
-            <div class="flex justify-between pt-4 border-t">
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-3 pt-4 border-t">
                 <button type="button" onclick="confirmDelete()"
-                        class="px-4 py-2 border border-red-300 text-red-700 rounded-md hover:bg-red-50 transition">
+                        class="w-full sm:w-auto order-last sm:order-first px-4 py-2 border border-red-300 text-red-700 rounded-md hover:bg-red-50 transition text-center">
                     {{ __('messages.delete') }}
                 </button>
 
-                <div class="flex space-x-3">
+                <div class="flex flex-col-reverse sm:flex-row gap-3">
                     <a href="{{ route('market-owner.shops.index') }}"
-                       class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                       class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
                         {{ __('messages.cancel') }}
                     </a>
                     <button type="submit"
-                            class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                            class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                         {{ __('messages.save_changes') }}
                     </button>
                 </div>

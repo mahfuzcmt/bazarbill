@@ -20,11 +20,11 @@
         <div class="space-y-4">
             @forelse($notices as $notice)
             <div class="bg-white rounded-lg shadow overflow-hidden {{ $notice->is_pinned ? 'ring-2 ring-indigo-500' : '' }}">
-                <div class="px-6 py-4">
-                    <div class="flex items-start justify-between">
+                <div class="px-4 sm:px-6 py-4">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                         <div class="flex items-start space-x-3">
                             @if($notice->is_pinned)
-                            <svg class="w-5 h-5 text-indigo-600 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"/>
                                 <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"/>
                             </svg>
@@ -37,7 +37,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex flex-wrap items-center gap-2">
                             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $notice->target_role === 'all' ? 'bg-blue-100 text-blue-800' : ($notice->target_role === 'shop_owner' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800') }}">
                                 {{ __('notices.target_' . $notice->target_role) }}
                             </span>

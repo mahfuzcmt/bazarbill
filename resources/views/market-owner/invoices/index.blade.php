@@ -4,7 +4,7 @@
     <div class="space-y-6">
         <!-- Filters -->
         <div class="bg-white rounded-lg shadow p-4">
-            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('invoices.billing_month') }}</label>
                     <input type="month" name="month" value="{{ request('month') }}"
@@ -60,7 +60,8 @@
         </div>
 
         <!-- Invoices Table -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow">
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -151,8 +152,10 @@
                 </tbody>
             </table>
 
+            </div>
+
             @if($invoices->hasPages())
-            <div class="px-6 py-3 border-t border-gray-200">
+            <div class="px-4 sm:px-6 py-3 border-t border-gray-200">
                 {{ $invoices->withQueryString()->links() }}
             </div>
             @endif

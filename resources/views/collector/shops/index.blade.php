@@ -4,13 +4,13 @@
     <div class="space-y-6">
         <!-- Search -->
         <div class="bg-white rounded-lg shadow p-4">
-            <form method="GET" class="flex space-x-4">
+            <form method="GET" class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div class="flex-1">
                     <input type="text" name="search" value="{{ request('search') }}"
                            placeholder="{{ __('shops.search_placeholder') }}"
                            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                     {{ __('messages.search') }}
                 </button>
             </form>

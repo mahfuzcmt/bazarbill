@@ -14,21 +14,21 @@
         @else
 
         <!-- Shop Info Banner -->
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-lg p-6 text-white">
-            <div class="flex items-center justify-between">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-lg p-4 sm:p-6 text-white">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h2 class="text-2xl font-bold">{{ $shop->shop_number }}</h2>
-                    <p class="text-indigo-100">{{ $shop->floor ?? '' }} • {{ __('shops.type_' . $shop->shop_type) }}</p>
+                    <h2 class="text-xl sm:text-2xl font-bold">{{ $shop->shop_number }}</h2>
+                    <p class="text-indigo-100 text-sm sm:text-base">{{ $shop->floor ?? '' }} • {{ __('shops.type_' . $shop->shop_type) }}</p>
                 </div>
-                <div class="text-right">
+                <div class="sm:text-right">
                     <p class="text-sm text-indigo-100">{{ __('shops.monthly_rent') }}</p>
-                    <p class="text-3xl font-bold">৳{{ number_format($shop->rent_amount) }}</p>
+                    <p class="text-2xl sm:text-3xl font-bold">৳{{ number_format($shop->rent_amount) }}</p>
                 </div>
             </div>
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-red-100">
@@ -127,13 +127,14 @@
         @endif
 
         <!-- Recent Invoices -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('invoices.recent_invoices') }}</h3>
                 <a href="{{ route('shop-owner.invoices.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('messages.view_all') }} →
                 </a>
             </div>
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -166,13 +167,15 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.recent_payments') }}</h3>
             </div>
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -203,6 +206,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Notices -->

@@ -18,7 +18,7 @@
             </div>
 
             <div class="p-6">
-                <dl class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <dl class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                         <dt class="text-sm font-medium text-gray-500">{{ __('shops.shop_number') }}</dt>
                         <dd class="mt-1 text-lg font-semibold text-gray-900">{{ $shop->shop_number }}</dd>
@@ -105,7 +105,7 @@
         <!-- Financial Summary -->
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('shops.financial_summary') }}</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div class="text-center p-4 bg-gray-50 rounded-lg">
                     <p class="text-2xl font-bold text-gray-900">৳{{ number_format($shop->invoices->sum('total_amount')) }}</p>
                     <p class="text-sm text-gray-500">{{ __('invoices.total_billed') }}</p>
@@ -126,14 +126,15 @@
         </div>
 
         <!-- Recent Invoices -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('invoices.recent_invoices') }}</h3>
                 <a href="{{ route('market-owner.invoices.index', ['shop' => $shop->id]) }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('messages.view_all') }} →
                 </a>
             </div>
 
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -182,17 +183,19 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
 
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.recent_payments') }}</h3>
                 <a href="{{ route('market-owner.payments.index', ['shop' => $shop->id]) }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('messages.view_all') }} →
                 </a>
             </div>
 
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -227,6 +230,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </x-app-layout>

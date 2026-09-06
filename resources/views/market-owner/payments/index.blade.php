@@ -3,7 +3,7 @@
 
     <div class="space-y-6">
         <!-- Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white rounded-lg shadow p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.today') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳{{ number_format($todayTotal) }}</p>
@@ -24,7 +24,7 @@
 
         <!-- Filters -->
         <div class="bg-white rounded-lg shadow p-4">
-            <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('payments.date_from') }}</label>
                     <input type="date" name="from" value="{{ request('from') }}"
@@ -86,7 +86,8 @@
         </div>
 
         <!-- Payments Table -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow">
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -162,8 +163,10 @@
                 </tbody>
             </table>
 
+            </div>
+
             @if($payments->hasPages())
-            <div class="px-6 py-3 border-t border-gray-200">
+            <div class="px-4 sm:px-6 py-3 border-t border-gray-200">
                 {{ $payments->withQueryString()->links() }}
             </div>
             @endif

@@ -3,7 +3,7 @@
 
     <div class="space-y-6">
         <!-- Quick Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div class="bg-white rounded-lg shadow p-4">
                 <p class="text-sm text-gray-500">{{ __('reports.total_shops') }}</p>
                 <p class="text-2xl font-bold text-gray-900">{{ $totalShops }}</p>
@@ -253,7 +253,7 @@
         <!-- Recent Generated Reports -->
         @if($recentReports && $recentReports->count() > 0)
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('reports.recent_reports') }}</h3>
             </div>
             <div class="overflow-x-auto">

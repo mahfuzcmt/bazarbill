@@ -19,7 +19,8 @@
         </div>
 
         <!-- Invoices List -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-white rounded-lg shadow">
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -87,8 +88,10 @@
                 </tbody>
             </table>
 
+            </div>
+
             @if($invoices->hasPages())
-            <div class="px-6 py-3 border-t border-gray-200">
+            <div class="px-4 sm:px-6 py-3 border-t border-gray-200">
                 {{ $invoices->links() }}
             </div>
             @endif

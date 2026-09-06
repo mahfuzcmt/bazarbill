@@ -4,7 +4,7 @@
     <div class="space-y-4">
         @forelse($notices as $notice)
         <div class="bg-white rounded-lg shadow overflow-hidden {{ $notice->is_pinned ? 'ring-2 ring-indigo-500' : '' }}">
-            <div class="px-6 py-4">
+            <div class="px-4 sm:px-6 py-4">
                 <div class="flex items-start space-x-3">
                     @if($notice->is_pinned)
                     <svg class="w-5 h-5 text-indigo-600 mt-1" fill="currentColor" viewBox="0 0 20 20">

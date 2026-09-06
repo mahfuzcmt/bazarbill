@@ -8,14 +8,14 @@
             @csrf
             @method('PUT')
 
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('settings.market_info') }}</h3>
                 <p class="text-sm text-gray-500">{{ __('settings.market_info_desc') }}</p>
             </div>
 
-            <div class="px-6 py-4 space-y-6">
+            <div class="px-4 sm:px-6 py-4 space-y-6">
                 <!-- Logo -->
-                <div class="flex items-start space-x-6">
+                <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:space-x-6">
                     <div class="flex-shrink-0">
                         @if($market->logo)
                         <img src="{{ Storage::url($market->logo) }}" alt="{{ $market->name }}"
@@ -114,8 +114,8 @@
                 </div>
             </div>
 
-            <div class="px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -127,12 +127,12 @@
             @csrf
             @method('PUT')
 
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('settings.sms_settings') }}</h3>
                 <p class="text-sm text-gray-500">{{ __('settings.sms_settings_desc') }}</p>
             </div>
 
-            <div class="px-6 py-4 space-y-4">
+            <div class="px-4 sm:px-6 py-4 space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- SMS API Key -->
                     <div>
@@ -173,7 +173,7 @@
                 </div>
 
                 <!-- Test SMS -->
-                <div class="flex items-end space-x-3">
+                <div class="flex flex-col sm:flex-row sm:items-end gap-3">
                     <div class="flex-1">
                         <label for="test_phone" class="block text-sm font-medium text-gray-700">
                             {{ __('settings.test_sms') }}
@@ -182,14 +182,14 @@
                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
                     <button type="button" onclick="sendTestSms()"
-                            class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 transition">
+                            class="w-full sm:w-auto px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 transition">
                         {{ __('settings.send_test') }}
                     </button>
                 </div>
             </div>
 
-            <div class="px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -201,12 +201,12 @@
             @csrf
             @method('PUT')
 
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('settings.invoice_settings') }}</h3>
                 <p class="text-sm text-gray-500">{{ __('settings.invoice_settings_desc') }}</p>
             </div>
 
-            <div class="px-6 py-4 space-y-4">
+            <div class="px-4 sm:px-6 py-4 space-y-4">
                 @php
                     $settings = $market->settings ?? [];
                 @endphp
@@ -282,8 +282,8 @@
                 </div>
             </div>
 
-            <div class="px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -295,12 +295,12 @@
             @csrf
             @method('PUT')
 
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('settings.staff_permissions') }}</h3>
                 <p class="text-sm text-gray-500">{{ __('settings.staff_permissions_desc') }}</p>
             </div>
 
-            <div class="px-6 py-4 space-y-4">
+            <div class="px-4 sm:px-6 py-4 space-y-4">
                 @php
                     $permissions = $settings['staff_permissions'] ?? [];
                 @endphp
@@ -341,8 +341,8 @@
                 </label>
             </div>
 
-            <div class="px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -350,32 +350,32 @@
 
         <!-- Danger Zone -->
         <div class="bg-white rounded-lg shadow overflow-hidden border border-red-200">
-            <div class="px-6 py-4 border-b border-red-200 bg-red-50">
+            <div class="px-4 sm:px-6 py-4 border-b border-red-200 bg-red-50">
                 <h3 class="text-lg font-semibold text-red-800">{{ __('settings.danger_zone') }}</h3>
                 <p class="text-sm text-red-600">{{ __('settings.danger_zone_desc') }}</p>
             </div>
 
-            <div class="px-6 py-4 space-y-4">
-                <div class="flex items-center justify-between">
+            <div class="px-4 sm:px-6 py-4 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                         <p class="font-medium text-gray-900">{{ __('settings.export_data') }}</p>
                         <p class="text-sm text-gray-500">{{ __('settings.export_data_desc') }}</p>
                     </div>
                     <a href="{{ route('market-owner.settings.export') }}"
-                       class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                       class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
                         {{ __('settings.download_export') }}
                     </a>
                 </div>
 
                 <hr class="border-red-100">
 
-                <div class="flex items-center justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                         <p class="font-medium text-red-800">{{ __('settings.delete_market') }}</p>
                         <p class="text-sm text-red-600">{{ __('settings.delete_market_desc') }}</p>
                     </div>
                     <button type="button" onclick="confirmDeleteMarket()"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+                            class="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
                         {{ __('settings.delete_market') }}
                     </button>
                 </div>
