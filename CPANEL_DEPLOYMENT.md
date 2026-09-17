@@ -1,0 +1,280 @@
+# BazarBill cPanel Deployment Guide
+
+## Prerequisites
+
+- cPanel hosting with PHP 8.3+
+- MySQL 8.0+ database
+- SSH access (recommended) or File Manager
+- Composer available on server
+
+---
+
+## Step 1: Prepare Files Locally
+
+### 1.1 Build Frontend Assets
+```bash
+npm install
+npm run build
+```
+
+### 1.2 Install Production Dependencies
+```bash
+composer install --optimize-autoloader --no-dev
+```
+
+### 1.3 Create Deployment Package
+Create a ZIP of your project (exclude these):
+- `node_modules/`
+- `.git/`
+- `tests/`
+- `.env`
+- `storage/logs/*`
+
+---
+
+## Step 2: cPanel Database Setup
+
+### 2.1 Create MySQL Database
+1. Login to cPanel
+2. Go to **MySQL Databases**
+3. Create new database: `yourusername_bazarbill`
+4. Create new user with strong password
+5. Add user to database with **ALL PRIVILEGES**
+
+### 2.2 Import Database Schema
+1. Go to **phpMyAdmin**
+2. Select your new database
+3. Click **Import** tab
+4. Upload `database/bazarbill_init.sql`
+5. Click **Go**
+
+---
+
+## Step 3: Upload Files
+
+### Option A: File Manager (Simple)
+1. Go to **File Manager** in cPanel
+2. Navigate to `public_html` (or subdomain folder)
+3. Upload your ZIP file
+4. Extract the ZIP
+5. Move all contents to the root
+
+### Option B: SSH (Recommended)
+```bash
+# Connect via SSH
+ssh username@yourdomain.com
+
+# Navigate to public_html
+cd public_html
+
+# Upload via SCP from local machine
+scp bazarbill.zip username@yourdomain.com:~/public_html/
+
+# Extract
+unzip bazarbill.zip
+```
+
+---
+
+## Step 4: Configure Laravel
+
+### 4.1 Create .env File
+Create `.env` in your project root:
+
+```env
+APP_NAME=BazarBill
+APP_ENV=production
+APP_KEY=
+APP_DEBUG=false
+APP_URL=https://yourdomain.com
+
+APP_LOCALE=bn
+APP_FALLBACK_LOCALE=en
+
+LOG_CHANNEL=stack
+LOG_LEVEL=error
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=yourusername_bazarbill
+DB_USERNAME=yourusername_dbuser
+DB_PASSWORD=your_secure_password
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+
+CACHE_STORE=database
+QUEUE_CONNECTION=database
+```
+
+### 4.2 Generate Application Key
+Via SSH:
+```bash
+php artisan key:generate
+```
+
+Or manually generate and add to `.env`:
+```bash
+# Run locally
+php artisan key:generate --show
+# Copy the output to APP_KEY in .env
+```
+
+### 4.3 Set Permissions
+```bash
+chmod -R 755 .
+chmod -R 775 storage bootstrap/cache
+```
+
+---
+
+## Step 5: Configure Document Root
+
+### Option A: Subdomain/Addon Domain
+1. Go to **Subdomains** or **Addon Domains** in cPanel
+2. Set document root to: `/public_html/bazarbill/public`
+
+### Option B: Main Domain (.htaccess method)
+Create `.htaccess` in `public_html` root:
+
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+```
+
+### Option C: Move public folder contents (Alternative)
+1. Move contents of `public/` to `public_html/`
+2. Edit `public_html/index.php`:
+
+```php
+// Change these lines
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+// To (assuming app is in a folder like 'bazarbill')
+require __DIR__.'/../bazarbill/vendor/autoload.php';
+$app = require_once __DIR__.'/../bazarbill/bootstrap/app.php';
+```
+
+---
+
+## Step 6: Final Setup Commands
+
+Via SSH or Terminal in cPanel:
+
+```bash
+# Clear and cache config
+php artisan config:cache
+
+# Cache routes
+php artisan route:cache
+
+# Cache views
+php artisan view:cache
+
+# Create storage link
+php artisan storage:link
+
+# Optimize
+php artisan optimize
+```
+
+---
+
+## Step 7: Verify Installation
+
+### 7.1 Access Your Site
+Visit: `https://yourdomain.com`
+
+### 7.2 Login with Default Admin
+- **Email:** admin@bazarbill.com
+- **Password:** password
+
+**IMPORTANT:** Change the admin password immediately after first login!
+
+---
+
+## Troubleshooting
+
+### 500 Internal Server Error
+```bash
+# Check Laravel logs
+tail -f storage/logs/laravel.log
+
+# Fix permissions
+chmod -R 775 storage bootstrap/cache
+```
+
+### Blank Page
+- Ensure `APP_DEBUG=true` temporarily to see errors
+- Check PHP version: `php -v` (needs 8.3+)
+
+### Database Connection Error
+- Verify database credentials in `.env`
+- Check if database user has proper privileges
+- Try `localhost` vs `127.0.0.1` for DB_HOST
+
+### Storage Link Issues
+```bash
+php artisan storage:link --force
+```
+
+### Class Not Found Errors
+```bash
+composer dump-autoload
+php artisan clear-compiled
+```
+
+---
+
+## Cron Job Setup (Optional)
+
+For scheduled tasks, add to cPanel Cron Jobs:
+
+```
+* * * * * cd /home/username/public_html/bazarbill && php artisan schedule:run >> /dev/null 2>&1
+```
+
+---
+
+## Queue Worker Setup (Optional)
+
+If using queues, set up Supervisor or use cPanel's cron:
+
+```
+* * * * * cd /home/username/public_html/bazarbill && php artisan queue:work --stop-when-empty >> /dev/null 2>&1
+```
+
+---
+
+## Security Checklist
+
+- [ ] Change default admin password
+- [ ] Set `APP_DEBUG=false`
+- [ ] Ensure `.env` is not accessible via web
+- [ ] Enable HTTPS (SSL certificate)
+- [ ] Set proper file permissions (755 for folders, 644 for files)
+- [ ] Remove default `bazarbill_init.sql` from public access
+
+---
+
+## File Structure Reference
+
+```
+public_html/
+├── bazarbill/           # Laravel app root
+│   ├── app/
+│   ├── bootstrap/
+│   ├── config/
+│   ├── database/
+│   ├── public/          # Document root should point here
+│   ├── resources/
+│   ├── routes/
+│   ├── storage/
+│   ├── vendor/
+│   ├── .env
+│   └── artisan
+```
