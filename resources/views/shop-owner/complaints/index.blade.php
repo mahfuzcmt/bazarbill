@@ -5,7 +5,7 @@
         <!-- Actions -->
         <div class="flex justify-end">
             <a href="{{ route('shop-owner.complaints.create') }}"
-               class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+               class="inline-flex items-center px-4 py-2 btn-primary transition">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -16,7 +16,7 @@
         <!-- Complaints List -->
         <div class="space-y-4">
             @forelse($complaints as $complaint)
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="px-4 sm:px-6 py-4">
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                         <div>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             @empty
-            <div class="bg-white rounded-lg shadow p-12 text-center">
+            <div class="glass-card p-12 text-center">
                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                 </svg>

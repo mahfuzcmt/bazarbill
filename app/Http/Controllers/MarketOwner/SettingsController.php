@@ -140,7 +140,9 @@ class SettingsController extends Controller
 
             return response()->json([
                 'success' => $result,
-                'message' => $result ? __('settings.test_sms_sent') : __('settings.test_sms_failed'),
+                'message' => $result
+                    ? __('settings.test_sms_sent')
+                    : __('settings.test_sms_failed') . ($smsService->lastError ? ' (' . $smsService->lastError . ')' : ''),
             ]);
         } catch (\Exception $e) {
             return response()->json([

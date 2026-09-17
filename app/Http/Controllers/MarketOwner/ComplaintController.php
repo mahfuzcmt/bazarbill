@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MarketOwner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Complaint;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,14 +22,25 @@ class ComplaintController extends Controller
             $query->where('priority', $request->priority);
         }
 
-        $complaints = $query->orderBy('created_at', 'desc')->paginate(15);
+        if ($request->filled('shop')) {
+            $query->where('shop_id', $request->shop);
+        }
+
+        $complaints = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+
+        $shops = Shop::orderBy('shop_number')->get();
+        $openCount = Complaint::where('status', 'open')->count();
+        $inProgressCount = Complaint::where('status', 'in_progress')->count();
+        $resolvedCount = Complaint::whereIn('status', ['resolved', 'closed'])->count();
 
         $staff = User::where('market_id', auth()->user()->market_id)
             ->whereIn('role', ['market_owner', 'collector'])
             ->where('is_active', true)
             ->get();
 
-        return view('market-owner.complaints.index', compact('complaints', 'staff'));
+        return view('market-owner.complaints.index', compact(
+            'complaints', 'staff', 'shops', 'openCount', 'inProgressCount', 'resolvedCount'
+        ));
     }
 
     public function show(Complaint $complaint)

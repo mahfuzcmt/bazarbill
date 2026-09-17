@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('staff.edit_staff') }}</x-slot>
 
     <div class="max-w-2xl">
-        <form action="{{ route('market-owner.staff.update', $staff) }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('market-owner.staff.update', $staff) }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
             @method('PUT')
 
@@ -17,7 +17,7 @@
                             {{ __('staff.name') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="name" id="name" value="{{ old('name', $staff->name) }}" required
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('name')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -29,7 +29,7 @@
                             {{ __('staff.name_bn') }}
                         </label>
                         <input type="text" name="name_bn" id="name_bn" value="{{ old('name_bn', $staff->name_bn) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('name_bn')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -41,7 +41,7 @@
                             {{ __('staff.email') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" id="email" value="{{ old('email', $staff->email) }}" required
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('email')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -54,7 +54,7 @@
                         </label>
                         <input type="tel" name="phone" id="phone" value="{{ old('phone', $staff->phone) }}"
                                placeholder="01XXXXXXXXX"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('phone')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -73,7 +73,7 @@
                             {{ __('staff.new_password') }}
                         </label>
                         <input type="password" name="password" id="password"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('password')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -84,7 +84,7 @@
                             {{ __('staff.confirm_password') }}
                         </label>
                         <input type="password" name="password_confirmation" id="password_confirmation"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
                 </div>
             </div>
@@ -136,11 +136,11 @@
                 </button>
                 <div class="flex flex-col-reverse sm:flex-row gap-3">
                     <a href="{{ route('market-owner.staff.show', $staff) }}"
-                       class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                       class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                         {{ __('messages.cancel') }}
                     </a>
                     <button type="submit"
-                            class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                            class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                         {{ __('messages.save_changes') }}
                     </button>
                 </div>

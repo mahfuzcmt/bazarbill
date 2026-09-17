@@ -12,10 +12,13 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Plus Jakarta Sans', 'Figtree', ...defaultTheme.fontFamily.sans],
+                bengali: ['Hind Siliguri', ...defaultTheme.fontFamily.sans],
             },
         },
     },
+
+    safelist: ['border-l-emerald-500', 'border-l-rose-500', 'text-emerald-500', 'text-rose-500', 'text-emerald-800', 'text-rose-800'],
 
     plugins: [forms],
 };

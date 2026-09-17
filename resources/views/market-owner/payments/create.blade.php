@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('payments.record_payment') }}</x-slot>
 
     <div class="max-w-3xl">
-        <form action="{{ route('market-owner.payments.store') }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('market-owner.payments.store') }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -12,7 +12,7 @@
                         {{ __('invoices.invoice') }} <span class="text-red-500">*</span>
                     </label>
                     <select name="invoice_id" id="invoice_id" required
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500"
                             onchange="updateInvoiceDetails()">
                         <option value="">{{ __('payments.select_invoice') }}</option>
                         @foreach($invoices as $invoice)
@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- Invoice Details Preview -->
-                <div id="invoice-details" class="md:col-span-2 bg-gray-50 rounded-lg p-4 hidden">
+                <div id="invoice-details" class="md:col-span-2 bg-white/40 rounded-xl p-4 hidden">
                     <h4 class="text-sm font-medium text-gray-700 mb-2">{{ __('payments.invoice_details') }}</h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
@@ -60,7 +60,7 @@
                         {{ __('payments.amount') }} (৳) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" name="amount" id="amount" value="{{ old('amount') }}" required min="1" step="0.01"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('amount')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -73,7 +73,7 @@
                         {{ __('payments.date') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="date" name="payment_date" id="payment_date" value="{{ old('payment_date', now()->format('Y-m-d')) }}" required
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('payment_date')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -85,7 +85,7 @@
                         {{ __('payments.method') }} <span class="text-red-500">*</span>
                     </label>
                     <select name="payment_method" id="payment_method" required
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="cash" {{ old('payment_method', 'cash') === 'cash' ? 'selected' : '' }}>{{ __('payments.method_cash') }}</option>
                         <option value="bkash" {{ old('payment_method') === 'bkash' ? 'selected' : '' }}>{{ __('payments.method_bkash') }}</option>
                         <option value="nagad" {{ old('payment_method') === 'nagad' ? 'selected' : '' }}>{{ __('payments.method_nagad') }}</option>
@@ -102,7 +102,7 @@
                         {{ __('payments.collected_by') }}
                     </label>
                     <select name="collected_by" id="collected_by"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('payments.self_collected') }}</option>
                         @foreach($collectors as $collector)
                         <option value="{{ $collector->id }}" {{ old('collected_by') == $collector->id ? 'selected' : '' }}>
@@ -123,7 +123,7 @@
                 </label>
                 <input type="text" name="transaction_reference" id="transaction_reference" value="{{ old('transaction_reference') }}"
                        placeholder="{{ __('payments.trx_placeholder') }}"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                       class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
             </div>
 
             <!-- Notes -->
@@ -132,7 +132,7 @@
                     {{ __('payments.notes') }}
                 </label>
                 <textarea name="notes" id="notes" rows="2"
-                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes') }}</textarea>
+                          class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes') }}</textarea>
             </div>
 
             <!-- Send SMS -->
@@ -147,7 +147,7 @@
             <!-- Actions -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t">
                 <a href="{{ route('market-owner.payments.index') }}"
-                   class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                   class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                     {{ __('messages.cancel') }}
                 </a>
                 <button type="submit"

@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('invoices.generate_invoice') }}</x-slot>
 
     <div class="max-w-3xl">
-        <form action="{{ route('market-owner.invoices.store') }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('market-owner.invoices.store') }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
 
             <!-- Bulk or Single -->
@@ -29,7 +29,7 @@
                     {{ __('shops.shop') }} <span class="text-red-500">*</span>
                 </label>
                 <select name="shop_id" id="shop_id"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     <option value="">{{ __('invoices.select_shop') }}</option>
                     @foreach($shops as $shop)
                     <option value="{{ $shop->id }}" data-rent="{{ $shop->rent_amount }}" {{ old('shop_id') == $shop->id ? 'selected' : '' }}>
@@ -49,7 +49,7 @@
                         {{ __('invoices.billing_month') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="month" name="billing_month" id="billing_month" value="{{ old('billing_month', now()->format('Y-m')) }}" required
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('billing_month')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -61,7 +61,7 @@
                         {{ __('invoices.due_date') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="date" name="due_date" id="due_date" value="{{ old('due_date', now()->endOfMonth()->format('Y-m-d')) }}" required
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('due_date')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -76,7 +76,7 @@
                         {{ __('invoices.rent_amount') }} (৳)
                     </label>
                     <input type="number" name="rent_amount" id="rent_amount" value="{{ old('rent_amount') }}" min="0" step="0.01"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500"
                            onchange="calculateTotal()">
                     <p class="mt-1 text-xs text-gray-500">{{ __('invoices.leave_blank_default') }}</p>
                 </div>
@@ -87,7 +87,7 @@
                         {{ __('invoices.discount') }} (৳)
                     </label>
                     <input type="number" name="discount" id="discount" value="{{ old('discount', 0) }}" min="0" step="0.01"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500"
                            onchange="calculateTotal()">
                 </div>
 
@@ -97,13 +97,13 @@
                         {{ __('invoices.late_fee') }} (৳)
                     </label>
                     <input type="number" name="late_fee" id="late_fee" value="{{ old('late_fee', 0) }}" min="0" step="0.01"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500"
                            onchange="calculateTotal()">
                 </div>
             </div>
 
             <!-- Total Preview -->
-            <div id="total-preview" class="bg-gray-50 rounded-lg p-4">
+            <div id="total-preview" class="bg-white/40 rounded-xl p-4">
                 <div class="flex justify-between items-center">
                     <span class="text-sm font-medium text-gray-700">{{ __('invoices.estimated_total') }}:</span>
                     <span id="total-amount" class="text-lg font-bold text-indigo-600">৳0</span>
@@ -134,17 +134,17 @@
                     {{ __('invoices.notes') }}
                 </label>
                 <textarea name="notes" id="notes" rows="2"
-                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes') }}</textarea>
+                          class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes') }}</textarea>
             </div>
 
             <!-- Actions -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t">
                 <a href="{{ route('market-owner.invoices.index') }}"
-                   class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                   class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                     {{ __('messages.cancel') }}
                 </a>
                 <button type="submit"
-                        class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                        class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('invoices.generate_invoice') }}
                 </button>
             </div>

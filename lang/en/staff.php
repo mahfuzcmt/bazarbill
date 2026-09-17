@@ -51,4 +51,19 @@ return [
     'deactivated' => 'Staff member deactivated',
     'activated' => 'Staff member activated',
     'delete_confirmation' => 'Are you sure you want to delete this staff member? This will unassign all their shops.',
+
+    // Keys used by the Blade views
+    'active' => 'Active',
+    'add_first_staff' => 'Add your first staff member',
+    'assign_shops' => 'Assign Shops',
+    'assign_shops_hint' => 'Select the shops this collector will be responsible for.',
+    'collections_today' => 'Collections Today',
+    'collectors' => 'Collectors',
+    'contact' => 'Contact',
+    'create_staff' => 'Create Staff',
+    'inactive' => 'Inactive',
+    'password' => 'Password',
+    'password_hint' => 'Minimum 6 characters',
+    'staff_management' => 'Staff Management',
+    'total' => 'Total',
 ];

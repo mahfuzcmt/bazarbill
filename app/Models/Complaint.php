@@ -63,7 +63,7 @@ class Complaint extends Model
         return $this->status === 'closed';
     }
 
-    public function resolve(string $notes = null): void
+    public function resolve(?string $notes = null): void
     {
         $this->update([
             'status' => 'resolved',

@@ -4,40 +4,40 @@
     <div class="space-y-6">
         <!-- Summary Cards -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.today') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳{{ number_format($todayTotal) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.this_week') }}</p>
                 <p class="text-2xl font-bold text-blue-600">৳{{ number_format($weekTotal) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.this_month') }}</p>
                 <p class="text-2xl font-bold text-indigo-600">৳{{ number_format($monthTotal) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.total_collected') }}</p>
                 <p class="text-2xl font-bold text-gray-900">৳{{ number_format($allTimeTotal) }}</p>
             </div>
         </div>
 
         <!-- Filters -->
-        <div class="bg-white rounded-lg shadow p-4">
+        <div class="glass-card p-4">
             <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('payments.date_from') }}</label>
                     <input type="date" name="from" value="{{ request('from') }}"
-                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('payments.date_to') }}</label>
                     <input type="date" name="to" value="{{ request('to') }}"
-                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('shops.shop') }}</label>
-                    <select name="shop" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <select name="shop" class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('payments.all_shops') }}</option>
                         @foreach($shops as $shop)
                         <option value="{{ $shop->id }}" {{ request('shop') == $shop->id ? 'selected' : '' }}>
@@ -48,7 +48,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('payments.collector') }}</label>
-                    <select name="collector" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <select name="collector" class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('payments.all_collectors') }}</option>
                         @foreach($collectors as $collector)
                         <option value="{{ $collector->id }}" {{ request('collector') == $collector->id ? 'selected' : '' }}>
@@ -58,10 +58,10 @@
                     </select>
                 </div>
                 <div class="flex items-end space-x-2">
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                    <button type="submit" class="px-4 py-2 btn-primary transition">
                         {{ __('messages.filter') }}
                     </button>
-                    <a href="{{ route('market-owner.payments.index') }}" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition">
+                    <a href="{{ route('market-owner.payments.index') }}" class="px-4 py-2 btn-secondary transition">
                         {{ __('messages.reset') }}
                     </a>
                 </div>
@@ -86,10 +86,10 @@
         </div>
 
         <!-- Payments Table -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('payments.receipt_number') }}
@@ -117,9 +117,9 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($payments as $payment)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $payment->receipt_number }}
                         </td>

@@ -3,12 +3,12 @@
 
     <div class="space-y-6">
         <!-- Shop Info Card -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('shops.shop_information') }}</h3>
                 <div class="flex space-x-2">
                     <a href="{{ route('market-owner.shops.edit', $shop) }}"
-                       class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                       class="inline-flex items-center px-3 py-1.5 btn-secondary text-sm">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
@@ -61,7 +61,7 @@
         <!-- Owner & Collector Info -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Owner Card -->
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="glass-card p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('shops.owner_information') }}</h3>
                 @if($shop->shopOwner)
                 <div class="flex items-start space-x-4">
@@ -82,7 +82,7 @@
             </div>
 
             <!-- Collector Card -->
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="glass-card p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('shops.assigned_collector') }}</h3>
                 @if($shop->collector)
                 <div class="flex items-start space-x-4">
@@ -103,7 +103,7 @@
         </div>
 
         <!-- Financial Summary -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="glass-card p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('shops.financial_summary') }}</h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div class="text-center p-4 bg-gray-50 rounded-lg">
@@ -126,7 +126,7 @@
         </div>
 
         <!-- Recent Invoices -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('invoices.recent_invoices') }}</h3>
                 <a href="{{ route('market-owner.invoices.index', ['shop' => $shop->id]) }}" class="text-sm text-indigo-600 hover:text-indigo-900">
@@ -136,7 +136,7 @@
 
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.invoice_number') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.billing_month') }}</th>
@@ -145,9 +145,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.status') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($shop->invoices->take(5) as $invoice)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $invoice->invoice_number }}
                         </td>
@@ -187,7 +187,7 @@
         </div>
 
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.recent_payments') }}</h3>
                 <a href="{{ route('market-owner.payments.index', ['shop' => $shop->id]) }}" class="text-sm text-indigo-600 hover:text-indigo-900">
@@ -197,7 +197,7 @@
 
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt_number') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.date') }}</th>
@@ -205,9 +205,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.collected_by') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($shop->payments->take(5) as $payment)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $payment->receipt_number }}
                         </td>

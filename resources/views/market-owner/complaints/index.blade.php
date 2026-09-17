@@ -3,11 +3,11 @@
 
     <div class="space-y-6">
         <!-- Filters -->
-        <div class="bg-white rounded-lg shadow p-4">
+        <div class="glass-card p-4">
             <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('complaints.status') }}</label>
-                    <select name="status" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <select name="status" class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('complaints.all_status') }}</option>
                         <option value="open" {{ request('status') === 'open' ? 'selected' : '' }}>{{ __('complaints.status_open') }}</option>
                         <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>{{ __('complaints.status_in_progress') }}</option>
@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('complaints.priority') }}</label>
-                    <select name="priority" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <select name="priority" class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('complaints.all_priority') }}</option>
                         <option value="high" {{ request('priority') === 'high' ? 'selected' : '' }}>{{ __('complaints.priority_high') }}</option>
                         <option value="medium" {{ request('priority') === 'medium' ? 'selected' : '' }}>{{ __('complaints.priority_medium') }}</option>
@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('shops.shop') }}</label>
-                    <select name="shop" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <select name="shop" class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('complaints.all_shops') }}</option>
                         @foreach($shops as $shop)
                         <option value="{{ $shop->id }}" {{ request('shop') == $shop->id ? 'selected' : '' }}>
@@ -36,10 +36,10 @@
                     </select>
                 </div>
                 <div class="flex items-end space-x-2">
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                    <button type="submit" class="px-4 py-2 btn-primary transition">
                         {{ __('messages.filter') }}
                     </button>
-                    <a href="{{ route('market-owner.complaints.index') }}" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition">
+                    <a href="{{ route('market-owner.complaints.index') }}" class="px-4 py-2 btn-secondary transition">
                         {{ __('messages.reset') }}
                     </a>
                 </div>
@@ -48,29 +48,29 @@
 
         <!-- Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('complaints.status_open') }}</p>
                 <p class="text-2xl font-bold text-red-600">{{ $openCount }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('complaints.status_in_progress') }}</p>
                 <p class="text-2xl font-bold text-yellow-600">{{ $inProgressCount }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('complaints.status_resolved') }}</p>
                 <p class="text-2xl font-bold text-green-600">{{ $resolvedCount }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('complaints.total') }}</p>
                 <p class="text-2xl font-bold text-gray-900">{{ $complaints->total() }}</p>
             </div>
         </div>
 
         <!-- Complaints Table -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('complaints.subject') }}
@@ -95,9 +95,9 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($complaints as $complaint)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4">
                             <div class="text-sm font-medium text-gray-900">{{ Str::limit($complaint->subject, 40) }}</div>
                         </td>

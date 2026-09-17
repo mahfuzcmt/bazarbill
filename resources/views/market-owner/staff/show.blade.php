@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl space-y-6">
         <!-- Staff Info Card -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div class="flex items-center space-x-4">
@@ -22,7 +22,7 @@
                     </div>
                     <div>
                         <a href="{{ route('market-owner.staff.edit', $staff) }}"
-                           class="w-full sm:w-auto inline-flex justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                           class="w-full sm:w-auto inline-flex justify-center px-4 py-2 btn-primary transition">
                             {{ __('messages.edit') }}
                         </a>
                     </div>
@@ -53,32 +53,32 @@
 
         <!-- Performance Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('staff.assigned_shops') }}</p>
                 <p class="text-2xl font-bold text-gray-900">{{ $assignedShops->count() }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('staff.total_collections') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳ {{ number_format($totalCollections) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('staff.this_month') }}</p>
                 <p class="text-2xl font-bold text-indigo-600">৳ {{ number_format($thisMonthCollections) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('staff.pending_dues') }}</p>
                 <p class="text-2xl font-bold text-red-600">৳ {{ number_format($pendingDues) }}</p>
             </div>
         </div>
 
         <!-- Assigned Shops -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('staff.assigned_shops') }}</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="glass-thead">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.shop_number') }}</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.owner') }}</th>
@@ -88,7 +88,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('messages.actions') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-slate-200/70">
                         @forelse($assignedShops as $shop)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -130,13 +130,13 @@
         </div>
 
         <!-- Recent Collections -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('staff.recent_collections') }}</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="glass-thead">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt_number') }}</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.shop') }}</th>
@@ -144,7 +144,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.date') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-slate-200/70">
                         @forelse($recentPayments as $payment)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap font-mono text-sm">
@@ -175,7 +175,7 @@
         <!-- Back Button -->
         <div class="flex justify-start">
             <a href="{{ route('market-owner.staff.index') }}"
-               class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+               class="px-4 py-2 btn-secondary transition">
                 ← {{ __('messages.back_to_list') }}
             </a>
         </div>

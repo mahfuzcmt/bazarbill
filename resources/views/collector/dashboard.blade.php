@@ -4,7 +4,7 @@
     <div class="space-y-6">
         <!-- Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="glass-card p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-indigo-100">
                         <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="glass-card p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-red-100">
                         <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="glass-card p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-green-100">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow p-6">
+            <div class="glass-card p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-yellow-100">
                         <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,13 +81,13 @@
         </div>
 
         <!-- Shops with Pending Dues -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('shops.shops_with_dues') }}</h3>
             </div>
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.shop') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.owner') }}</th>
@@ -95,9 +95,9 @@
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('messages.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($shopsWithDues as $shop)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ $shop->shop_number }}</div>
                             <div class="text-xs text-gray-500">{{ $shop->floor }}</div>
@@ -129,7 +129,7 @@
         </div>
 
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.recent_payments') }}</h3>
                 <a href="{{ route('collector.payments.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">
@@ -138,7 +138,7 @@
             </div>
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.shop') }}</th>
@@ -146,9 +146,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.date') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($recentPayments as $payment)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $payment->receipt_number }}
                         </td>

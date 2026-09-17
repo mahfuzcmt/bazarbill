@@ -4,19 +4,19 @@
     <div class="space-y-6">
         <!-- Quick Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('reports.total_shops') }}</p>
                 <p class="text-2xl font-bold text-gray-900">{{ $totalShops }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('reports.total_billed') }}</p>
                 <p class="text-2xl font-bold text-indigo-600">৳ {{ number_format($totalBilled) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('reports.total_collected') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳ {{ number_format($totalCollected) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('reports.total_due') }}</p>
                 <p class="text-2xl font-bold text-red-600">৳ {{ number_format($totalDue) }}</p>
             </div>
@@ -25,7 +25,7 @@
         <!-- Report Types -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Collection Report -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -43,12 +43,12 @@
                             <div>
                                 <label class="block text-xs text-gray-500">{{ __('reports.from_date') }}</label>
                                 <input type="date" name="from_date" value="{{ now()->startOfMonth()->format('Y-m-d') }}"
-                                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                                       class="mt-1 block w-full glass-input text-sm">
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-500">{{ __('reports.to_date') }}</label>
                                 <input type="date" name="to_date" value="{{ now()->format('Y-m-d') }}"
-                                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                                       class="mt-1 block w-full glass-input text-sm">
                             </div>
                         </div>
                         <div class="flex space-x-2">
@@ -66,7 +66,7 @@
             </div>
 
             <!-- Due Report -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
@@ -82,7 +82,7 @@
                     <form action="{{ route('market-owner.reports.due') }}" method="GET" class="space-y-4">
                         <div>
                             <label class="block text-xs text-gray-500">{{ __('reports.filter_by') }}</label>
-                            <select name="filter" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                            <select name="filter" class="mt-1 block w-full glass-input text-sm">
                                 <option value="all">{{ __('reports.all_dues') }}</option>
                                 <option value="overdue">{{ __('reports.overdue_only') }}</option>
                                 <option value="pending">{{ __('reports.pending_only') }}</option>
@@ -103,7 +103,7 @@
             </div>
 
             <!-- Shop Report -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
@@ -119,7 +119,7 @@
                     <form action="{{ route('market-owner.reports.shops') }}" method="GET" class="space-y-4">
                         <div>
                             <label class="block text-xs text-gray-500">{{ __('reports.shop_status') }}</label>
-                            <select name="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                            <select name="status" class="mt-1 block w-full glass-input text-sm">
                                 <option value="all">{{ __('messages.all') }}</option>
                                 <option value="active">{{ __('shops.status_active') }}</option>
                                 <option value="vacant">{{ __('shops.status_vacant') }}</option>
@@ -141,7 +141,7 @@
             </div>
 
             <!-- Monthly Summary -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -158,7 +158,7 @@
                         <div>
                             <label class="block text-xs text-gray-500">{{ __('reports.select_month') }}</label>
                             <input type="month" name="month" value="{{ now()->format('Y-m') }}"
-                                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                                   class="mt-1 block w-full glass-input text-sm">
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
@@ -175,7 +175,7 @@
             </div>
 
             <!-- Staff Performance -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
@@ -193,12 +193,12 @@
                             <div>
                                 <label class="block text-xs text-gray-500">{{ __('reports.from_date') }}</label>
                                 <input type="date" name="from_date" value="{{ now()->startOfMonth()->format('Y-m-d') }}"
-                                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                                       class="mt-1 block w-full glass-input text-sm">
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-500">{{ __('reports.to_date') }}</label>
                                 <input type="date" name="to_date" value="{{ now()->format('Y-m-d') }}"
-                                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                                       class="mt-1 block w-full glass-input text-sm">
                             </div>
                         </div>
                         <div class="flex space-x-2">
@@ -216,7 +216,7 @@
             </div>
 
             <!-- Invoice Report -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-4">
                         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -233,7 +233,7 @@
                         <div>
                             <label class="block text-xs text-gray-500">{{ __('reports.billing_month') }}</label>
                             <input type="month" name="billing_month" value="{{ now()->format('Y-m') }}"
-                                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+                                   class="mt-1 block w-full glass-input text-sm">
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
@@ -252,13 +252,13 @@
 
         <!-- Recent Generated Reports -->
         @if($recentReports && $recentReports->count() > 0)
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('reports.recent_reports') }}</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="glass-thead">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('reports.report_type') }}</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('reports.generated_at') }}</th>
@@ -266,7 +266,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('messages.actions') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-slate-200/70">
                         @foreach($recentReports as $report)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $report->type }}</td>

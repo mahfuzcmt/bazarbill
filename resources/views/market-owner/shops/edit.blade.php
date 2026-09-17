@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('shops.edit_shop') }}: {{ $shop->shop_number }}</x-slot>
 
     <div class="max-w-3xl">
-        <form action="{{ route('market-owner.shops.update', $shop) }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('market-owner.shops.update', $shop) }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
             @method('PUT')
 
@@ -13,7 +13,7 @@
                         {{ __('shops.shop_number') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="shop_number" id="shop_number" value="{{ old('shop_number', $shop->shop_number) }}" required
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('shop_number')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -25,7 +25,7 @@
                         {{ __('shops.floor') }}
                     </label>
                     <input type="text" name="floor" id="floor" value="{{ old('floor', $shop->floor) }}"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('floor')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -37,7 +37,7 @@
                         {{ __('shops.shop_type') }} <span class="text-red-500">*</span>
                     </label>
                     <select name="shop_type" id="shop_type" required
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="general" {{ old('shop_type', $shop->shop_type) === 'general' ? 'selected' : '' }}>{{ __('shops.type_general') }}</option>
                         <option value="food" {{ old('shop_type', $shop->shop_type) === 'food' ? 'selected' : '' }}>{{ __('shops.type_food') }}</option>
                         <option value="clothing" {{ old('shop_type', $shop->shop_type) === 'clothing' ? 'selected' : '' }}>{{ __('shops.type_clothing') }}</option>
@@ -57,7 +57,7 @@
                         {{ __('shops.area_sqft') }}
                     </label>
                     <input type="number" name="area_sqft" id="area_sqft" value="{{ old('area_sqft', $shop->area_sqft) }}" min="0"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('area_sqft')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -69,7 +69,7 @@
                         {{ __('shops.rent_amount') }} (৳) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" name="rent_amount" id="rent_amount" value="{{ old('rent_amount', $shop->rent_amount) }}" required min="0" step="0.01"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('rent_amount')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -81,7 +81,7 @@
                         {{ __('shops.advance_deposit') }} (৳)
                     </label>
                     <input type="number" name="advance_deposit" id="advance_deposit" value="{{ old('advance_deposit', $shop->advance_deposit) }}" min="0" step="0.01"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('advance_deposit')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -93,7 +93,7 @@
                         {{ __('shops.owner') }}
                     </label>
                     <select name="shop_owner_id" id="shop_owner_id"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('shops.no_owner') }}</option>
                         @foreach($shopOwners as $owner)
                         <option value="{{ $owner->id }}" {{ old('shop_owner_id', $shop->shop_owner_id) == $owner->id ? 'selected' : '' }}>
@@ -112,7 +112,7 @@
                         {{ __('shops.assigned_collector') }}
                     </label>
                     <select name="collector_id" id="collector_id"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">{{ __('shops.select_collector') }}</option>
                         @foreach($collectors as $collector)
                         <option value="{{ $collector->id }}" {{ old('collector_id', $shop->collector_id) == $collector->id ? 'selected' : '' }}>
@@ -131,7 +131,7 @@
                         {{ __('shops.status') }}
                     </label>
                     <select name="status" id="status"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="active" {{ old('status', $shop->status) === 'active' ? 'selected' : '' }}>{{ __('shops.status_active') }}</option>
                         <option value="vacant" {{ old('status', $shop->status) === 'vacant' ? 'selected' : '' }}>{{ __('shops.status_vacant') }}</option>
                         <option value="suspended" {{ old('status', $shop->status) === 'suspended' ? 'selected' : '' }}>{{ __('shops.status_suspended') }}</option>
@@ -148,7 +148,7 @@
                     {{ __('shops.notes') }}
                 </label>
                 <textarea name="notes" id="notes" rows="3"
-                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes', $shop->notes) }}</textarea>
+                          class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes', $shop->notes) }}</textarea>
                 @error('notes')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -163,11 +163,11 @@
 
                 <div class="flex flex-col-reverse sm:flex-row gap-3">
                     <a href="{{ route('market-owner.shops.index') }}"
-                       class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                       class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                         {{ __('messages.cancel') }}
                     </a>
                     <button type="submit"
-                            class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                            class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                         {{ __('messages.save_changes') }}
                     </button>
                 </div>

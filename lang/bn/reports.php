@@ -34,4 +34,8 @@ return [
     'report_type' => 'রিপোর্ট ধরন',
     'generated_at' => 'তৈরির সময়',
     'generated_by' => 'তৈরি করেছেন',
+
+    // Keys used by the Blade views
+    'total_invoices' => 'মোট বিল সংখ্যা',
+    'total_rent' => 'মোট ভাড়া',
 ];

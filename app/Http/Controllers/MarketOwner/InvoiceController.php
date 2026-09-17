@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Shop;
 use App\Services\SmsService;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\PdfService;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -58,11 +58,17 @@ class InvoiceController extends Controller
 
     public function store(Request $request)
     {
+        // The create form offers single or bulk generation from one page.
+        if ($request->input('generation_type') === 'bulk') {
+            return $this->generateBulk($request);
+        }
+
         $validated = $request->validate([
             'shop_id' => 'required|exists:shops,id',
             'billing_month' => 'required|date_format:Y-m',
-            'rent_amount' => 'required|numeric|min:0',
+            'rent_amount' => 'nullable|numeric|min:0',
             'previous_due' => 'nullable|numeric|min:0',
+            'include_previous_due' => 'boolean',
             'discount' => 'nullable|numeric|min:0',
             'late_fee' => 'nullable|numeric|min:0',
             'due_date' => 'required|date',
@@ -81,16 +87,23 @@ class InvoiceController extends Controller
             return back()->withErrors(['billing_month' => __('invoices.already_exists')]);
         }
 
+        // Blank rent falls back to the shop's configured rent.
+        $rentAmount = $validated['rent_amount'] ?? $shop->rent_amount;
+
         $previousDue = $validated['previous_due'] ?? 0;
+        if ($request->boolean('include_previous_due') && !isset($validated['previous_due'])) {
+            $previousDue = $this->outstandingDueForShop($shop->id);
+        }
+
         $discount = $validated['discount'] ?? 0;
         $lateFee = $validated['late_fee'] ?? 0;
-        $totalAmount = $validated['rent_amount'] + $previousDue + $lateFee - $discount;
+        $totalAmount = $rentAmount + $previousDue + $lateFee - $discount;
 
         $invoice = Invoice::create([
             'market_id' => auth()->user()->market_id,
             'shop_id' => $validated['shop_id'],
             'billing_month' => $validated['billing_month'],
-            'rent_amount' => $validated['rent_amount'],
+            'rent_amount' => $rentAmount,
             'previous_due' => $previousDue,
             'discount' => $discount,
             'late_fee' => $lateFee,
@@ -141,22 +154,38 @@ class InvoiceController extends Controller
         }
 
         $validated = $request->validate([
+            'rent_amount' => 'nullable|numeric|min:0',
+            'previous_due' => 'nullable|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
             'late_fee' => 'nullable|numeric|min:0',
             'due_date' => 'required|date',
+            'status' => 'nullable|in:pending,partial,paid,overdue',
             'notes' => 'nullable|string|max:500',
         ]);
 
+        $rentAmount = $validated['rent_amount'] ?? $invoice->rent_amount;
+        $previousDue = $validated['previous_due'] ?? $invoice->previous_due;
         $discount = $validated['discount'] ?? $invoice->discount;
         $lateFee = $validated['late_fee'] ?? $invoice->late_fee;
-        $totalAmount = $invoice->rent_amount + $invoice->previous_due + $lateFee - $discount;
-        $dueAmount = $totalAmount - $invoice->paid_amount;
+        $totalAmount = $rentAmount + $previousDue + $lateFee - $discount;
+        $dueAmount = max(0, $totalAmount - $invoice->paid_amount);
+
+        // A chosen status must stay consistent with what has actually been paid.
+        $status = $validated['status'] ?? $invoice->status;
+        if ($dueAmount <= 0) {
+            $status = 'paid';
+        } elseif ($status === 'paid') {
+            $status = $invoice->paid_amount > 0 ? 'partial' : 'pending';
+        }
 
         $invoice->update([
+            'rent_amount' => $rentAmount,
+            'previous_due' => $previousDue,
             'discount' => $discount,
             'late_fee' => $lateFee,
             'total_amount' => $totalAmount,
-            'due_amount' => max(0, $dueAmount),
+            'due_amount' => $dueAmount,
+            'status' => $status,
             'due_date' => $validated['due_date'],
             'notes' => $validated['notes'],
         ]);
@@ -182,8 +211,12 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'billing_month' => 'required|date_format:Y-m',
             'due_date' => 'required|date',
+            'include_previous_due' => 'boolean',
             'send_sms' => 'boolean',
         ]);
+
+        // Bulk generation carries forward outstanding dues unless explicitly disabled.
+        $includePreviousDue = !$request->has('include_previous_due') || $request->boolean('include_previous_due');
 
         $market = auth()->user()->market;
         $shops = Shop::where('status', 'active')->with('shopOwner')->get();
@@ -201,10 +234,7 @@ class InvoiceController extends Controller
                 continue;
             }
 
-            // Get previous due
-            $previousDue = Invoice::where('shop_id', $shop->id)
-                ->where('status', '!=', 'paid')
-                ->sum('due_amount');
+            $previousDue = $includePreviousDue ? $this->outstandingDueForShop($shop->id) : 0;
 
             $totalAmount = $shop->rent_amount + $previousDue;
 
@@ -262,11 +292,21 @@ class InvoiceController extends Controller
         return back()->with('success', __('Reminder sent successfully'));
     }
 
+    /**
+     * Sum of unpaid balances on the shop's existing invoices.
+     */
+    private function outstandingDueForShop(int $shopId): float
+    {
+        return (float) Invoice::where('shop_id', $shopId)
+            ->where('status', '!=', 'paid')
+            ->sum('due_amount');
+    }
+
     public function downloadPdf(Invoice $invoice)
     {
         $invoice->load(['shop.shopOwner', 'market']);
 
-        $pdf = Pdf::loadView('market-owner.invoices.pdf', compact('invoice'));
+        $pdf = PdfService::fromView('market-owner.invoices.pdf', compact('invoice'));
 
         return $pdf->download("invoice-{$invoice->invoice_number}.pdf");
     }

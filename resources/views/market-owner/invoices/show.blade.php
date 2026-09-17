@@ -3,7 +3,7 @@
 
     <div class="space-y-6">
         <!-- Invoice Header -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">{{ $invoice->invoice_number }}</h3>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="flex flex-col sm:flex-row gap-2">
                     <a href="{{ route('market-owner.invoices.pdf', $invoice) }}"
-                       class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                       class="inline-flex items-center justify-center px-3 py-1.5 btn-secondary text-sm">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
@@ -33,7 +33,7 @@
                 <!-- Shop Info -->
                 <div>
                     <h4 class="text-sm font-medium text-gray-500 uppercase mb-3">{{ __('shops.shop_information') }}</h4>
-                    <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="bg-white/40 rounded-xl p-4">
                         <p class="text-lg font-semibold text-gray-900">{{ $invoice->shop->shop_number }}</p>
                         @if($invoice->shop->shopOwner)
                         <p class="text-sm text-gray-700 mt-1">{{ $invoice->shop->shopOwner->getLocalizedName() }}</p>
@@ -46,7 +46,7 @@
                 <!-- Invoice Status -->
                 <div>
                     <h4 class="text-sm font-medium text-gray-500 uppercase mb-3">{{ __('invoices.status') }}</h4>
-                    <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="bg-white/40 rounded-xl p-4">
                         @php
                             $statusColors = [
                                 'pending' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
@@ -75,7 +75,7 @@
         </div>
 
         <!-- Amount Breakdown -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('invoices.amount_breakdown') }}</h3>
             </div>
@@ -126,13 +126,13 @@
         </div>
 
         <!-- Payment History -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.payment_history') }}</h3>
             </div>
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt_number') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.date') }}</th>
@@ -141,9 +141,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.collected_by') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($invoice->payments as $payment)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $payment->receipt_number }}
                         </td>
@@ -174,7 +174,7 @@
 
         <!-- Notes -->
         @if($invoice->notes)
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="glass-card p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-2">{{ __('invoices.notes') }}</h3>
             <p class="text-gray-600">{{ $invoice->notes }}</p>
         </div>

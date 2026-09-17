@@ -18,6 +18,7 @@ class Payment extends Model
         'collected_by',
         'amount',
         'payment_method',
+        'transaction_reference',
         'receipt_number',
         'payment_date',
         'notes',

@@ -3,14 +3,14 @@
 
     <div class="space-y-6">
         <!-- Search -->
-        <div class="bg-white rounded-lg shadow p-4">
+        <div class="glass-card p-4">
             <form method="GET" class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div class="flex-1">
                     <input type="text" name="search" value="{{ request('search') }}"
                            placeholder="{{ __('shops.search_placeholder') }}"
-                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
-                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('messages.search') }}
                 </button>
             </form>
@@ -19,7 +19,7 @@
         <!-- Shops Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($shops as $shop)
-            <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">
+            <div class="glass-card overflow-hidden hover:shadow-lg transition">
                 <div class="p-4">
                     <div class="flex items-start justify-between">
                         <div>
@@ -71,7 +71,7 @@
                 </div>
             </div>
             @empty
-            <div class="col-span-full bg-white rounded-lg shadow p-12 text-center">
+            <div class="col-span-full glass-card p-12 text-center">
                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                 </svg>

@@ -138,6 +138,16 @@ class Invoice extends Model
         }
     }
 
+    /**
+     * Accessor used by views as $invoice->billing_month_formatted.
+     */
+    public function getBillingMonthFormattedAttribute(): string
+    {
+        return app()->getLocale() === 'bn'
+            ? $this->getBillingMonthFormattedBn()
+            : $this->getBillingMonthFormatted();
+    }
+
     public function getBillingMonthFormatted(): string
     {
         return Carbon::createFromFormat('Y-m', $this->billing_month)->format('F Y');

@@ -4,7 +4,7 @@
     <div class="max-w-4xl space-y-6">
         <!-- Market Information -->
         <form action="{{ route('market-owner.settings.update') }}" method="POST" enctype="multipart/form-data"
-              class="bg-white rounded-lg shadow overflow-hidden">
+              class="glass-card overflow-hidden">
             @csrf
             @method('PUT')
 
@@ -21,7 +21,7 @@
                         <img src="{{ Storage::url($market->logo) }}" alt="{{ $market->name }}"
                              class="w-24 h-24 object-cover rounded-lg">
                         @else
-                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <div class="w-24 h-24 bg-white/50 border border-white/70 rounded-xl flex items-center justify-center">
                             <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
@@ -46,7 +46,7 @@
                             {{ __('settings.market_name') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="name" id="name" value="{{ old('name', $market->name) }}" required
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('name')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -58,7 +58,7 @@
                             {{ __('settings.market_name_bn') }}
                         </label>
                         <input type="text" name="name_bn" id="name_bn" value="{{ old('name_bn', $market->name_bn) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('name_bn')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -70,7 +70,7 @@
                             {{ __('settings.contact_email') }}
                         </label>
                         <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email', $market->contact_email) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('contact_email')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -82,7 +82,7 @@
                             {{ __('settings.contact_phone') }}
                         </label>
                         <input type="tel" name="contact_phone" id="contact_phone" value="{{ old('contact_phone', $market->contact_phone) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('contact_phone')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -95,7 +95,7 @@
                         {{ __('settings.address') }}
                     </label>
                     <textarea name="address" id="address" rows="2"
-                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('address', $market->address) }}</textarea>
+                              class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('address', $market->address) }}</textarea>
                     @error('address')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -107,15 +107,15 @@
                         {{ __('settings.address_bn') }}
                     </label>
                     <textarea name="address_bn" id="address_bn" rows="2"
-                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('address_bn', $market->address_bn) }}</textarea>
+                              class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('address_bn', $market->address_bn) }}</textarea>
                     @error('address_bn')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
 
-            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-white/40 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -123,7 +123,7 @@
 
         <!-- SMS Settings -->
         <form action="{{ route('market-owner.settings.sms') }}" method="POST"
-              class="bg-white rounded-lg shadow overflow-hidden">
+              class="glass-card overflow-hidden">
             @csrf
             @method('PUT')
 
@@ -142,7 +142,7 @@
                         <input type="password" name="sms_api_key" id="sms_api_key"
                                value="{{ old('sms_api_key', $market->sms_api_key) }}"
                                placeholder="••••••••"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('sms_api_key')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -156,7 +156,7 @@
                         <input type="text" name="sms_sender_id" id="sms_sender_id"
                                value="{{ old('sms_sender_id', $market->sms_sender_id) }}"
                                placeholder="BAZARBILL"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('sms_sender_id')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -179,7 +179,7 @@
                             {{ __('settings.test_sms') }}
                         </label>
                         <input type="tel" id="test_phone" placeholder="01XXXXXXXXX"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
                     <button type="button" onclick="sendTestSms()"
                             class="w-full sm:w-auto px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 transition">
@@ -188,8 +188,8 @@
                 </div>
             </div>
 
-            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-white/40 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -197,7 +197,7 @@
 
         <!-- Invoice Settings -->
         <form action="{{ route('market-owner.settings.invoice') }}" method="POST"
-              class="bg-white rounded-lg shadow overflow-hidden">
+              class="glass-card overflow-hidden">
             @csrf
             @method('PUT')
 
@@ -219,7 +219,7 @@
                         </label>
                         <input type="text" name="settings[invoice_prefix]" id="invoice_prefix"
                                value="{{ old('settings.invoice_prefix', $settings['invoice_prefix'] ?? 'INV') }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
 
                     <!-- Due Days -->
@@ -229,7 +229,7 @@
                         </label>
                         <input type="number" name="settings[due_days]" id="due_days" min="1" max="30"
                                value="{{ old('settings.due_days', $settings['due_days'] ?? 7) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
 
                     <!-- Late Fee Percentage -->
@@ -255,7 +255,7 @@
                         </label>
                         <input type="number" name="settings[grace_days]" id="grace_days" min="0" max="15"
                                value="{{ old('settings.grace_days', $settings['grace_days'] ?? 3) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
                 </div>
 
@@ -282,8 +282,8 @@
                 </div>
             </div>
 
-            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-white/40 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
@@ -291,7 +291,7 @@
 
         <!-- Staff Permissions -->
         <form action="{{ route('market-owner.settings.permissions') }}" method="POST"
-              class="bg-white rounded-lg shadow overflow-hidden">
+              class="glass-card overflow-hidden">
             @csrf
             @method('PUT')
 
@@ -341,15 +341,15 @@
                 </label>
             </div>
 
-            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex justify-end">
-                <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+            <div class="px-4 sm:px-6 py-4 bg-white/40 flex justify-end">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('messages.save_changes') }}
                 </button>
             </div>
         </form>
 
         <!-- Danger Zone -->
-        <div class="bg-white rounded-lg shadow overflow-hidden border border-red-200">
+        <div class="glass-card overflow-hidden border border-red-200">
             <div class="px-4 sm:px-6 py-4 border-b border-red-200 bg-red-50">
                 <h3 class="text-lg font-semibold text-red-800">{{ __('settings.danger_zone') }}</h3>
                 <p class="text-sm text-red-600">{{ __('settings.danger_zone_desc') }}</p>
@@ -362,7 +362,7 @@
                         <p class="text-sm text-gray-500">{{ __('settings.export_data_desc') }}</p>
                     </div>
                     <a href="{{ route('market-owner.settings.export') }}"
-                       class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                       class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                         {{ __('settings.download_export') }}
                     </a>
                 </div>

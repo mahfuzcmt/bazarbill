@@ -73,4 +73,15 @@ return [
     'assign' => 'Assign',
     'resolve' => 'Resolve',
     'close' => 'Close',
+
+    // Keys used by the Blade views
+    'all_priority' => 'All Priorities',
+    'all_shops' => 'All Shops',
+    'all_status' => 'All Statuses',
+    'assign_to' => 'Assign To',
+    'complaints' => 'Complaints',
+    'date' => 'Date',
+    'total' => 'Total',
+    'unassigned' => 'Unassigned',
+    'update_status' => 'Update Status',
 ];

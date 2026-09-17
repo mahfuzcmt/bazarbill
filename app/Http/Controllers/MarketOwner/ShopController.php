@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class ShopController extends Controller
@@ -78,9 +79,31 @@ class ShopController extends Controller
             'shop_owner_id' => 'nullable|exists:users,id',
             'collector_id' => 'nullable|exists:users,id',
             'notes' => 'nullable|string|max:500',
+            'owner_name' => 'nullable|string|max:255|required_with:owner_phone,owner_email',
+            'owner_phone' => 'nullable|string|max:20|required_with:owner_name',
+            'owner_email' => 'nullable|email|max:255|unique:users,email',
         ]);
 
         $validated['market_id'] = auth()->user()->market_id;
+        $validated['advance_deposit'] = $validated['advance_deposit'] ?? 0;
+
+        // Create a shop owner login when owner details were supplied and no existing owner was picked.
+        if (empty($validated['shop_owner_id']) && !empty($validated['owner_name'])) {
+            $owner = User::create([
+                'market_id' => auth()->user()->market_id,
+                'name' => $validated['owner_name'],
+                'email' => ($validated['owner_email'] ?? null) ?: 'owner.' . preg_replace('/\D/', '', $validated['owner_phone']) . '@bazarbill.local',
+                'phone' => $validated['owner_phone'],
+                'password' => Hash::make($validated['owner_phone']),
+                'role' => 'shop_owner',
+                'is_active' => true,
+                'language_preference' => 'bn',
+            ]);
+            $owner->assignRole('shop_owner');
+            $validated['shop_owner_id'] = $owner->id;
+        }
+
+        unset($validated['owner_name'], $validated['owner_phone'], $validated['owner_email']);
 
         Shop::create($validated);
 
@@ -137,6 +160,8 @@ class ShopController extends Controller
             'collector_id' => 'nullable|exists:users,id',
             'notes' => 'nullable|string|max:500',
         ]);
+
+        $validated['advance_deposit'] = $validated['advance_deposit'] ?? 0;
 
         $shop->update($validated);
 

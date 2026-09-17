@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ShopOwner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\PdfService;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -22,7 +22,11 @@ class InvoiceController extends Controller
             ->orderBy('billing_month', 'desc')
             ->paginate(12);
 
-        return view('shop-owner.invoices.index', compact('invoices', 'shop'));
+        $totalBilled = Invoice::where('shop_id', $shop->id)->sum('total_amount');
+        $totalPaid = Invoice::where('shop_id', $shop->id)->sum('paid_amount');
+        $totalDue = Invoice::where('shop_id', $shop->id)->sum('due_amount');
+
+        return view('shop-owner.invoices.index', compact('invoices', 'shop', 'totalBilled', 'totalPaid', 'totalDue'));
     }
 
     public function show(Invoice $invoice)
@@ -50,7 +54,7 @@ class InvoiceController extends Controller
 
         $invoice->load(['shop.shopOwner', 'market']);
 
-        $pdf = Pdf::loadView('shop-owner.invoices.pdf', compact('invoice'));
+        $pdf = PdfService::fromView('shop-owner.invoices.pdf', compact('invoice'));
 
         return $pdf->download("invoice-{$invoice->invoice_number}.pdf");
     }

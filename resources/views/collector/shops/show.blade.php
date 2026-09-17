@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl space-y-6">
         <!-- Shop Info Card -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div>
@@ -75,15 +75,15 @@
 
         <!-- Financial Summary -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('invoices.total_due') }}</p>
                 <p class="text-2xl font-bold text-red-600">৳ {{ number_format($totalDue) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.total_paid') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳ {{ number_format($totalPaid) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('invoices.pending_invoices') }}</p>
                 <p class="text-2xl font-bold text-amber-600">{{ $pendingInvoices }}</p>
             </div>
@@ -97,20 +97,20 @@
                 <p class="text-indigo-600 text-sm">{{ __('collector.total_due') }}: ৳ {{ number_format($totalDue) }}</p>
             </div>
             <a href="{{ route('collector.payments.create', ['shop' => $shop->id]) }}"
-               class="w-full sm:w-auto text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+               class="w-full sm:w-auto text-center px-4 py-2 btn-primary transition">
                 {{ __('collector.collect_payment') }}
             </a>
         </div>
         @endif
 
         <!-- Pending Invoices -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('invoices.pending_invoices') }}</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="glass-thead">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.billing_month') }}</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.invoice_number') }}</th>
@@ -120,7 +120,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.status') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-slate-200/70">
                         @forelse($pendingInvoicesList as $invoice)
                         <tr class="{{ $invoice->status === 'overdue' ? 'bg-red-50' : '' }}">
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -164,13 +164,13 @@
         </div>
 
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('payments.recent_payments') }}</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="glass-thead">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.date') }}</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt_number') }}</th>
@@ -179,7 +179,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.collected_by') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-slate-200/70">
                         @forelse($recentPayments as $payment)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -213,7 +213,7 @@
         <!-- Back Button -->
         <div class="flex justify-start">
             <a href="{{ route('collector.shops.index') }}"
-               class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+               class="px-4 py-2 btn-secondary transition">
                 ← {{ __('messages.back_to_list') }}
             </a>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Shop;
+use App\Models\User;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 
@@ -15,12 +16,12 @@ class PaymentController extends Controller
     {
         $query = Payment::with(['shop', 'invoice', 'collector']);
 
-        if ($request->filled('shop_id')) {
-            $query->where('shop_id', $request->shop_id);
+        if ($request->filled('shop')) {
+            $query->where('shop_id', $request->shop);
         }
 
-        if ($request->filled('collector_id')) {
-            $query->where('collected_by', $request->collector_id);
+        if ($request->filled('collector')) {
+            $query->where('collected_by', $request->collector);
         }
 
         if ($request->filled('date_from')) {
@@ -34,8 +35,18 @@ class PaymentController extends Controller
         $payments = $query->orderBy('payment_date', 'desc')->paginate(15);
 
         $shops = Shop::orderBy('shop_number')->get();
+        $collectors = User::where('role', 'collector')->orderBy('name')->get();
 
-        return view('market-owner.payments.index', compact('payments', 'shops'));
+        $todayTotal = Payment::whereDate('payment_date', today())->sum('amount');
+        $weekTotal = Payment::whereBetween('payment_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount');
+        $monthTotal = Payment::whereYear('payment_date', now()->year)
+            ->whereMonth('payment_date', now()->month)
+            ->sum('amount');
+        $allTimeTotal = Payment::sum('amount');
+
+        return view('market-owner.payments.index', compact(
+            'payments', 'shops', 'collectors', 'todayTotal', 'weekTotal', 'monthTotal', 'allTimeTotal'
+        ));
     }
 
     public function create(Request $request)
@@ -49,7 +60,12 @@ class PaymentController extends Controller
             ? Invoice::with('shop.shopOwner')->find($request->invoice_id)
             : null;
 
-        return view('market-owner.payments.create', compact('invoices', 'selectedInvoice'));
+        $collectors = User::where('role', 'collector')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        return view('market-owner.payments.create', compact('invoices', 'selectedInvoice', 'collectors'));
     }
 
     public function store(Request $request)
@@ -58,6 +74,9 @@ class PaymentController extends Controller
             'invoice_id' => 'required|exists:invoices,id',
             'amount' => 'required|numeric|min:1',
             'payment_date' => 'required|date',
+            'payment_method' => 'nullable|in:cash,bkash,nagad,bank',
+            'transaction_reference' => 'nullable|string|max:100',
+            'collected_by' => 'nullable|exists:users,id',
             'notes' => 'nullable|string|max:500',
             'send_sms' => 'boolean',
         ]);
@@ -72,9 +91,10 @@ class PaymentController extends Controller
             'invoice_id' => $invoice->id,
             'market_id' => auth()->user()->market_id,
             'shop_id' => $invoice->shop_id,
-            'collected_by' => auth()->id(),
+            'collected_by' => $validated['collected_by'] ?? auth()->id(),
             'amount' => $validated['amount'],
-            'payment_method' => 'cash',
+            'payment_method' => $validated['payment_method'] ?? 'cash',
+            'transaction_reference' => $validated['transaction_reference'] ?? null,
             'payment_date' => $validated['payment_date'],
             'notes' => $validated['notes'],
         ]);

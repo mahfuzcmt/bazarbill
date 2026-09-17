@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\MarketController as AdminMarketController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\MarketOwner\DashboardController as MarketOwnerDashboard;
 use App\Http\Controllers\MarketOwner\ShopController as MarketOwnerShopController;
 use App\Http\Controllers\MarketOwner\StaffController;
@@ -133,6 +136,21 @@ Route::middleware(['auth', 'verified', 'market.active', 'role:collector'])
         Route::post('payments', [CollectorPaymentController::class, 'store'])->name('payments.store');
         Route::get('payments/{payment}', [CollectorPaymentController::class, 'show'])->name('payments.show');
         Route::get('payments/{payment}/receipt', [CollectorPaymentController::class, 'receipt'])->name('payments.receipt');
+    });
+
+// Super Admin Routes
+Route::middleware(['auth', 'verified', 'role:super_admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
+
+        // Markets Management
+        Route::resource('markets', AdminMarketController::class);
+
+        // Users Management
+        Route::resource('users', AdminUserController::class);
+        Route::post('users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle-status');
     });
 
 // Shop Owner Routes

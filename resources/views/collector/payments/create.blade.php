@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('payments.collect_payment') }}</x-slot>
 
     <div class="max-w-2xl">
-        <form action="{{ route('collector.payments.store') }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('collector.payments.store') }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
 
             <!-- Invoice Selection -->
@@ -11,7 +11,7 @@
                     {{ __('invoices.select_invoice') }} <span class="text-red-500">*</span>
                 </label>
                 <select name="invoice_id" id="invoice_id" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500"
                         onchange="updateInvoiceDetails()">
                     <option value="">{{ __('payments.select_invoice') }}</option>
                     @foreach($invoices as $invoice)
@@ -31,7 +31,7 @@
             </div>
 
             <!-- Invoice Details Preview -->
-            <div id="invoice-details" class="bg-gray-50 rounded-lg p-4 hidden">
+            <div id="invoice-details" class="bg-white/40 rounded-xl p-4 hidden">
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
                         <span class="text-gray-500">{{ __('shops.shop') }}:</span>
@@ -58,7 +58,7 @@
                     {{ __('payments.amount') }} (৳) <span class="text-red-500">*</span>
                 </label>
                 <input type="number" name="amount" id="amount" value="{{ old('amount') }}" required min="1" step="0.01"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg">
+                       class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500 text-lg">
                 @error('amount')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -71,7 +71,7 @@
                     {{ __('payments.notes') }}
                 </label>
                 <textarea name="notes" id="notes" rows="2"
-                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes') }}</textarea>
+                          class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('notes') }}</textarea>
             </div>
 
             <!-- Send SMS -->
@@ -86,7 +86,7 @@
             <!-- Actions -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t">
                 <a href="{{ route('collector.dashboard') }}"
-                   class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                   class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                     {{ __('messages.cancel') }}
                 </a>
                 <button type="submit"

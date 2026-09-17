@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl space-y-6">
         <!-- Invoice Card -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">{{ $invoice->invoice_number }}</h3>
@@ -22,7 +22,7 @@
                         {{ __('invoices.status_' . $invoice->status) }}
                     </span>
                     <a href="{{ route('shop-owner.invoices.pdf', $invoice) }}"
-                       class="inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                       class="inline-flex items-center justify-center px-3 py-1.5 btn-secondary text-sm">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
@@ -88,13 +88,13 @@
         </div>
 
         <!-- Payment History -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-medium text-gray-900">{{ __('payments.payment_history') }}</h3>
             </div>
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.date') }}</th>
@@ -102,9 +102,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.method') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($invoice->payments as $payment)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $payment->receipt_number }}
                         </td>
@@ -132,7 +132,7 @@
 
         <div class="flex justify-start">
             <a href="{{ route('shop-owner.invoices.index') }}"
-               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+               class="inline-flex items-center px-4 py-2 btn-secondary transition">
                 ← {{ __('messages.back_to_list') }}
             </a>
         </div>

@@ -91,4 +91,19 @@ return [
     'of' => 'এর মধ্যে',
     'results' => 'ফলাফল',
     'per_page' => 'প্রতি পেজে',
+
+    // Keys used by the Blade views
+    'active' => 'সক্রিয়',
+    'back_to_list' => 'তালিকায় ফিরে যান',
+    'close' => 'বন্ধ করুন',
+    'download' => 'ডাউনলোড',
+    'email' => 'ইমেইল',
+    'inactive' => 'নিষ্ক্রিয়',
+    'never' => 'কখনো না',
+    'not_available' => 'পাওয়া যায়নি',
+    'phone' => 'ফোন',
+    'reset' => 'রিসেট',
+    'save_changes' => 'পরিবর্তন সংরক্ষণ করুন',
+    'view_all' => 'সব দেখুন',
+    'view_details' => 'বিস্তারিত দেখুন',
 ];

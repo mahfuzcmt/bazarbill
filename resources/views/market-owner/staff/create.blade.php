@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('staff.add_staff') }}</x-slot>
 
     <div class="max-w-2xl">
-        <form action="{{ route('market-owner.staff.store') }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('market-owner.staff.store') }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -12,7 +12,7 @@
                         {{ __('staff.name') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}" required
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('name')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -25,7 +25,7 @@
                     </label>
                     <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" required
                            placeholder="01XXXXXXXXX"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('phone')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -37,7 +37,7 @@
                         {{ __('staff.email') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="email" name="email" id="email" value="{{ old('email') }}" required
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('email')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -49,7 +49,7 @@
                         {{ __('staff.password') }} <span class="text-red-500">*</span>
                     </label>
                     <input type="password" name="password" id="password" required minlength="6"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     @error('password')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -80,11 +80,11 @@
             <!-- Actions -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t">
                 <a href="{{ route('market-owner.staff.index') }}"
-                   class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                   class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                     {{ __('messages.cancel') }}
                 </a>
                 <button type="submit"
-                        class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                        class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('staff.create_staff') }}
                 </button>
             </div>

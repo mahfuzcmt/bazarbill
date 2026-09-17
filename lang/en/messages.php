@@ -91,4 +91,19 @@ return [
     'of' => 'of',
     'results' => 'results',
     'per_page' => 'Per page',
+
+    // Keys used by the Blade views
+    'active' => 'Active',
+    'back_to_list' => 'Back to List',
+    'close' => 'Close',
+    'download' => 'Download',
+    'email' => 'Email',
+    'inactive' => 'Inactive',
+    'never' => 'Never',
+    'not_available' => 'Not available',
+    'phone' => 'Phone',
+    'reset' => 'Reset',
+    'save_changes' => 'Save Changes',
+    'view_all' => 'View All',
+    'view_details' => 'View Details',
 ];

@@ -20,7 +20,14 @@ class PaymentController extends Controller
             ->orderBy('payment_date', 'desc')
             ->paginate(15);
 
-        return view('collector.payments.index', compact('payments'));
+        $base = Payment::where('collected_by', $user->id);
+        $todayTotal = (clone $base)->whereDate('payment_date', today())->sum('amount');
+        $weekTotal = (clone $base)->whereBetween('payment_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount');
+        $monthTotal = (clone $base)->whereYear('payment_date', now()->year)
+            ->whereMonth('payment_date', now()->month)
+            ->sum('amount');
+
+        return view('collector.payments.index', compact('payments', 'todayTotal', 'weekTotal', 'monthTotal'));
     }
 
     public function create(Request $request, ?Invoice $invoice = null)

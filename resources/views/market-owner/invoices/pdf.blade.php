@@ -4,16 +4,6 @@
     <meta charset="utf-8">
     <title>{{ __('invoices.invoice') }} - {{ $invoice->invoice_number }}</title>
     <style>
-        @font-face {
-            font-family: 'Hind Siliguri';
-            src: url('{{ public_path('fonts/HindSiliguri-Regular.ttf') }}') format('truetype');
-            font-weight: normal;
-        }
-        @font-face {
-            font-family: 'Hind Siliguri';
-            src: url('{{ public_path('fonts/HindSiliguri-Bold.ttf') }}') format('truetype');
-            font-weight: bold;
-        }
 
         * {
             margin: 0;
@@ -50,14 +40,12 @@
         }
 
         .invoice-info {
-            display: table;
             width: 100%;
             margin-bottom: 30px;
         }
 
         .invoice-info .left,
         .invoice-info .right {
-            display: table-cell;
             width: 50%;
             vertical-align: top;
         }
@@ -199,8 +187,8 @@
         </div>
 
         <!-- Invoice Info -->
-        <div class="invoice-info">
-            <div class="left">
+        <table class="invoice-info"><tr>
+            <td class="left">
                 <div class="invoice-title">{{ __('invoices.invoice') }}</div>
                 <div class="info-block">
                     <h3>{{ __('invoices.billed_to') }}</h3>
@@ -211,8 +199,8 @@
                     @endif
                     <p>{{ $invoice->shop->floor }}</p>
                 </div>
-            </div>
-            <div class="right">
+            </td>
+            <td class="right">
                 <div class="info-block">
                     <h3>{{ __('invoices.invoice_number') }}</h3>
                     <p><strong>{{ $invoice->invoice_number }}</strong></p>
@@ -235,8 +223,8 @@
                         {{ __('invoices.status_' . $invoice->status) }}
                     </span>
                 </div>
-            </div>
-        </div>
+            </td>
+        </tr></table>
 
         <!-- Items Table -->
         <table class="items">

@@ -3,7 +3,7 @@
 
     <div class="max-w-3xl space-y-6">
         <!-- Complaint Card -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                     <div>
@@ -128,7 +128,7 @@
 
         <!-- Feedback Section (if resolved) -->
         @if($complaint->status === 'resolved' && !$complaint->feedback_given)
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="glass-card overflow-hidden">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('complaints.give_feedback') }}</h3>
                 <p class="text-sm text-gray-500">{{ __('complaints.feedback_desc') }}</p>
@@ -156,11 +156,11 @@
                     <label for="feedback" class="block text-sm font-medium text-gray-700">{{ __('complaints.feedback_comment') }}</label>
                     <textarea name="feedback" id="feedback" rows="3"
                               placeholder="{{ __('complaints.feedback_placeholder') }}"
-                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                              class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                 </div>
 
                 <div class="flex justify-end">
-                    <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                    <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                         {{ __('complaints.submit_feedback') }}
                     </button>
                 </div>
@@ -195,7 +195,7 @@
         <!-- Back Button -->
         <div class="flex justify-start">
             <a href="{{ route('shop-owner.complaints.index') }}"
-               class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+               class="px-4 py-2 btn-secondary transition">
                 ← {{ __('messages.back_to_list') }}
             </a>
         </div>

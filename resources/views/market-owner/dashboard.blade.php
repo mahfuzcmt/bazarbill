@@ -6,7 +6,7 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         <!-- Total Shops -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="glass-card p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-indigo-100 text-indigo-600">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Monthly Collection -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="glass-card p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-green-100 text-green-600">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@
         </div>
 
         <!-- Total Due -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="glass-card p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-red-100 text-red-600">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@
         </div>
 
         <!-- Invoices Status -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="glass-card p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-blue-100 text-blue-600">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Recent Payments -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-medium text-gray-900">{{ __('Recent Payments') }}</h2>
             </div>
@@ -104,7 +104,7 @@
                 </div>
                 @endforelse
             </div>
-            <div class="px-6 py-3 bg-gray-50 border-t">
+            <div class="px-6 py-3 bg-white/40 border-t border-white/60">
                 <a href="{{ route('market-owner.payments.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('View All') }} →
                 </a>
@@ -112,7 +112,7 @@
         </div>
 
         <!-- Overdue Invoices -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-medium text-gray-900">{{ __('Overdue Invoices') }}</h2>
             </div>
@@ -134,7 +134,7 @@
                 </div>
                 @endforelse
             </div>
-            <div class="px-6 py-3 bg-gray-50 border-t">
+            <div class="px-6 py-3 bg-white/40 border-t border-white/60">
                 <a href="{{ route('market-owner.invoices.index', ['status' => 'overdue']) }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('View All') }} →
                 </a>
@@ -142,7 +142,7 @@
         </div>
 
         <!-- Pending Complaints -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-medium text-gray-900">{{ __('Pending Complaints') }}</h2>
             </div>
@@ -163,7 +163,7 @@
                 </div>
                 @endforelse
             </div>
-            <div class="px-6 py-3 bg-gray-50 border-t">
+            <div class="px-6 py-3 bg-white/40 border-t border-white/60">
                 <a href="{{ route('market-owner.complaints.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">
                     {{ __('View All') }} →
                 </a>
@@ -171,7 +171,7 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-medium text-gray-900">{{ __('Quick Actions') }}</h2>
             </div>

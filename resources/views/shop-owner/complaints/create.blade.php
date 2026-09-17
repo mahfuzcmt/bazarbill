@@ -2,7 +2,7 @@
     <x-slot name="header">{{ __('complaints.submit_complaint') }}</x-slot>
 
     <div class="max-w-2xl">
-        <form action="{{ route('shop-owner.complaints.store') }}" method="POST" class="bg-white rounded-lg shadow p-6 space-y-6">
+        <form action="{{ route('shop-owner.complaints.store') }}" method="POST" class="glass-card p-6 space-y-6">
             @csrf
 
             <!-- Subject -->
@@ -12,7 +12,7 @@
                 </label>
                 <input type="text" name="subject" id="subject" value="{{ old('subject') }}" required
                        placeholder="{{ __('complaints.subject_placeholder') }}"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                       class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                 @error('subject')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -24,7 +24,7 @@
                     {{ __('complaints.priority') }} <span class="text-red-500">*</span>
                 </label>
                 <select name="priority" id="priority" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                     <option value="low" {{ old('priority') === 'low' ? 'selected' : '' }}>{{ __('complaints.priority_low') }}</option>
                     <option value="medium" {{ old('priority', 'medium') === 'medium' ? 'selected' : '' }}>{{ __('complaints.priority_medium') }}</option>
                     <option value="high" {{ old('priority') === 'high' ? 'selected' : '' }}>{{ __('complaints.priority_high') }}</option>
@@ -41,7 +41,7 @@
                 </label>
                 <textarea name="description" id="description" rows="5" required
                           placeholder="{{ __('complaints.description_placeholder') }}"
-                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
+                          class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
                 @error('description')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -50,11 +50,11 @@
             <!-- Actions -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4 border-t">
                 <a href="{{ route('shop-owner.complaints.index') }}"
-                   class="w-full sm:w-auto text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                   class="w-full sm:w-auto text-center px-4 py-2 btn-secondary transition">
                     {{ __('messages.cancel') }}
                 </a>
                 <button type="submit"
-                        class="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                        class="w-full sm:w-auto px-4 py-2 btn-primary transition">
                     {{ __('complaints.submit') }}
                 </button>
             </div>

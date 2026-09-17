@@ -11,6 +11,9 @@ class SmsService
 {
     protected string $apiUrl = 'http://bulksmsbd.net/api/smsapi';
 
+    /** Error message from the last failed send, if any. */
+    public ?string $lastError = null;
+
     public function __construct(
         protected ?Market $market = null
     ) {}
@@ -32,7 +35,7 @@ class SmsService
             return false;
         }
 
-        // Normalize phone number
+        $this->lastError = null;
         $phone = $this->normalizePhone($phone);
 
         // Create SMS log
@@ -64,6 +67,7 @@ class SmsService
                 }
 
                 $smsLog->markAsFailed($responseBody);
+                $this->lastError = $responseData['error_message'] ?? $responseBody;
                 Log::error('SMS send failed', [
                     'market_id' => $this->market->id,
                     'phone' => $phone,
@@ -73,10 +77,12 @@ class SmsService
             }
 
             $smsLog->markAsFailed($responseBody);
+            $this->lastError = 'HTTP ' . $response->status();
             return false;
 
         } catch (\Exception $e) {
             $smsLog->markAsFailed($e->getMessage());
+            $this->lastError = $e->getMessage();
             Log::error('SMS send exception', [
                 'market_id' => $this->market->id,
                 'phone' => $phone,
@@ -124,23 +130,25 @@ class SmsService
         return $template;
     }
 
-    protected function normalizePhone(string $phone): string
+    /**
+     * Convert any common Bangladeshi mobile format to the gateway's 8801XXXXXXXXX form.
+     */
+    public function normalizePhone(string $phone): string
     {
-        // Remove all non-numeric characters
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
-        // If starts with 88, return as is
-        if (str_starts_with($phone, '88')) {
+        // Already international: 8801XXXXXXXXX
+        if (str_starts_with($phone, '880')) {
             return $phone;
         }
 
-        // If starts with 0, replace with 88
+        // Local format 01XXXXXXXXX keeps its leading zero after the country code.
         if (str_starts_with($phone, '0')) {
-            return '88' . substr($phone, 1);
+            return '88' . $phone;
         }
 
-        // Otherwise, prepend 88
-        return '88' . $phone;
+        // Bare subscriber number 1XXXXXXXXX
+        return '880' . $phone;
     }
 
     public function getBalance(): ?float

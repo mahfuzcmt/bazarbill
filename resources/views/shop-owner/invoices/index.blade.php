@@ -4,25 +4,25 @@
     <div class="space-y-6">
         <!-- Summary -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('invoices.total_billed') }}</p>
                 <p class="text-2xl font-bold text-gray-900">৳{{ number_format($totalBilled) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('invoices.total_paid') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳{{ number_format($totalPaid) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('invoices.total_due') }}</p>
                 <p class="text-2xl font-bold {{ $totalDue > 0 ? 'text-red-600' : 'text-green-600' }}">৳{{ number_format($totalDue) }}</p>
             </div>
         </div>
 
         <!-- Invoices List -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.invoice_number') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.billing_month') }}</th>
@@ -33,9 +33,9 @@
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('messages.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($invoices as $invoice)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $invoice->invoice_number }}
                         </td>

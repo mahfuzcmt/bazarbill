@@ -4,15 +4,15 @@
     <div class="space-y-6">
         <!-- Stats -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.today') }}</p>
                 <p class="text-2xl font-bold text-green-600">৳{{ number_format($todayTotal) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.this_week') }}</p>
                 <p class="text-2xl font-bold text-blue-600">৳{{ number_format($weekTotal) }}</p>
             </div>
-            <div class="bg-white rounded-lg shadow p-4">
+            <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('payments.this_month') }}</p>
                 <p class="text-2xl font-bold text-indigo-600">৳{{ number_format($monthTotal) }}</p>
             </div>
@@ -30,10 +30,10 @@
         </div>
 
         <!-- Payments Table -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="glass-card">
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('payments.receipt') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('shops.shop') }}</th>
@@ -43,9 +43,9 @@
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('messages.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-200/70">
                     @forelse($payments as $payment)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $payment->receipt_number }}
                         </td>

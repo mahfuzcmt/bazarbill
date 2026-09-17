@@ -26,7 +26,12 @@ class StaffController extends Controller
 
     public function create()
     {
-        return view('market-owner.staff.create');
+        $shops = Shop::with('shopOwner')
+            ->whereNull('collector_id')
+            ->orderBy('shop_number')
+            ->get();
+
+        return view('market-owner.staff.create', compact('shops'));
     }
 
     public function store(Request $request)
@@ -37,6 +42,8 @@ class StaffController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:20',
             'password' => 'required|string|min:6|confirmed',
+            'shop_ids' => 'nullable|array',
+            'shop_ids.*' => 'exists:shops,id',
         ]);
 
         $user = User::create([
@@ -52,6 +59,11 @@ class StaffController extends Controller
         ]);
 
         $user->assignRole('collector');
+
+        if (!empty($validated['shop_ids'])) {
+            Shop::whereIn('id', $validated['shop_ids'])
+                ->update(['collector_id' => $user->id]);
+        }
 
         return redirect()->route('market-owner.staff.index')
             ->with('success', __('staff.created'));
