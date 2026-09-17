@@ -67,14 +67,13 @@ class DashboardController extends Controller
             ->get();
 
         // Monthly collection trend (last 6 months)
-        $collectionTrend = Payment::select(
-                DB::raw("strftime('%Y-%m', payment_date) as month"),
-                DB::raw('SUM(amount) as total')
-            )
-            ->where('payment_date', '>=', now()->subMonths(6))
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+        // Grouped in PHP so the query stays portable between SQLite and MySQL.
+        $collectionTrend = Payment::where('payment_date', '>=', now()->subMonths(6)->startOfMonth())
+            ->get(['payment_date', 'amount'])
+            ->groupBy(fn ($payment) => $payment->payment_date->format('Y-m'))
+            ->map(fn ($group, $month) => (object) ['month' => $month, 'total' => $group->sum('amount')])
+            ->sortKeys()
+            ->values();
 
         return view('market-owner.dashboard', compact(
             'shopStats',

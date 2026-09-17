@@ -19,7 +19,7 @@ class ComplaintController extends Controller
 
         $complaints = Complaint::where('shop_id', $shop->id)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)->withQueryString();
 
         return view('shop-owner.complaints.index', compact('complaints'));
     }

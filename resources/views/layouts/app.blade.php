@@ -128,6 +128,19 @@
                 @endif
                 @endforeach
 
+                @if($errors->any())
+                <div class="mx-4 sm:mx-6 lg:mx-8 mt-4">
+                    <div class="glass-card border-l-4 border-l-rose-500 px-4 py-3">
+                        <p class="text-sm font-medium text-rose-800">{{ __('messages.error') }}</p>
+                        <ul class="mt-1 list-disc pl-5 text-sm text-rose-700">
+                            @foreach($errors->all() as $message)
+                            <li>{{ $message }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endif
+
                 <!-- Page Content -->
                 <main class="p-4 sm:p-6 lg:p-8">
                     {{ $slot }}

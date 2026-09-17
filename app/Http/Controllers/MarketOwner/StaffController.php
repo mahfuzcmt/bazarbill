@@ -19,7 +19,7 @@ class StaffController extends Controller
             ->where('role', 'collector')
             ->withCount('assignedShops')
             ->orderBy('name')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         return view('market-owner.staff.index', compact('staff'));
     }
@@ -43,7 +43,7 @@ class StaffController extends Controller
             'phone' => 'required|string|max:20',
             'password' => 'required|string|min:6|confirmed',
             'shop_ids' => 'nullable|array',
-            'shop_ids.*' => 'exists:shops,id',
+            'shop_ids.*' => [Rule::exists('shops', 'id')->where('market_id', auth()->user()->market_id)],
         ]);
 
         $user = User::create([
@@ -71,6 +71,8 @@ class StaffController extends Controller
 
     public function show(User $staff)
     {
+        $this->ensureOwnStaff($staff);
+
         // Load assigned shops with their invoices
         $assignedShops = Shop::where('collector_id', $staff->id)
             ->with(['shopOwner', 'invoices' => function ($q) {
@@ -112,6 +114,8 @@ class StaffController extends Controller
 
     public function edit(User $staff)
     {
+        $this->ensureOwnStaff($staff);
+
         $marketId = auth()->user()->market_id;
 
         // All shops in the market for assignment
@@ -130,6 +134,8 @@ class StaffController extends Controller
 
     public function update(Request $request, User $staff)
     {
+        $this->ensureOwnStaff($staff);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'name_bn' => 'nullable|string|max:255',
@@ -137,7 +143,7 @@ class StaffController extends Controller
             'phone' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:6|confirmed',
             'shop_ids' => 'nullable|array',
-            'shop_ids.*' => 'exists:shops,id',
+            'shop_ids.*' => [Rule::exists('shops', 'id')->where('market_id', auth()->user()->market_id)],
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -174,6 +180,8 @@ class StaffController extends Controller
 
     public function destroy(User $staff)
     {
+        $this->ensureOwnStaff($staff);
+
         // Unassign from all shops
         $staff->assignedShops()->update(['collector_id' => null]);
 
@@ -185,10 +193,23 @@ class StaffController extends Controller
 
     public function toggleStatus(User $user)
     {
+        $this->ensureOwnStaff($user);
+
         $user->update(['is_active' => !$user->is_active]);
 
         $message = $user->is_active ? __('staff.activated') : __('staff.deactivated');
 
         return back()->with('success', $message);
+    }
+
+    /**
+     * Staff routes bind any user id, so confirm it is a collector in this owner's market.
+     */
+    private function ensureOwnStaff(User $user): void
+    {
+        abort_unless(
+            $user->role === 'collector' && $user->market_id === auth()->user()->market_id,
+            404
+        );
     }
 }

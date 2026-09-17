@@ -4,7 +4,7 @@
     <div class="space-y-6">
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <form method="GET" class="flex-1 max-w-md">
+            <form id="filter-form" method="GET" class="flex-1 max-w-md">
                 <div class="relative">
                     <input type="text" name="search" value="{{ request('search') }}"
                            placeholder="{{ __('shops.search_placeholder') }}"
@@ -17,7 +17,7 @@
 
             <div class="flex flex-col sm:flex-row gap-2 sm:space-x-3 w-full sm:w-auto">
                 <select name="status" onchange="this.form.submit()" form="filter-form"
-                        class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 w-full sm:w-auto">
+                        class="glass-input px-3 py-2 pr-9 w-full sm:w-auto">
                     <option value="">{{ __('shops.all_status') }}</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>{{ __('shops.status_active') }}</option>
                     <option value="vacant" {{ request('status') === 'vacant' ? 'selected' : '' }}>{{ __('shops.status_vacant') }}</option>

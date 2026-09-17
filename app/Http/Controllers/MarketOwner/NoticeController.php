@@ -12,7 +12,7 @@ class NoticeController extends Controller
     {
         $notices = Notice::orderBy('is_pinned', 'desc')
             ->orderBy('created_at', 'desc')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         return view('market-owner.notices.index', compact('notices'));
     }

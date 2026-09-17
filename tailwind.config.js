@@ -18,7 +18,7 @@ export default {
         },
     },
 
-    safelist: ['border-l-emerald-500', 'border-l-rose-500', 'text-emerald-500', 'text-rose-500', 'text-emerald-800', 'text-rose-800'],
+    safelist: ['border-l-emerald-500', 'border-l-rose-500', 'text-emerald-500', 'text-rose-500', 'text-emerald-800', 'text-rose-800', 'text-rose-700'],
 
     plugins: [forms],
 };

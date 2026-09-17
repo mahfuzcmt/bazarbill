@@ -74,7 +74,7 @@ class DashboardController extends Controller
             ->forRole('shop_owner')
             ->orderBy('is_pinned', 'desc')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)->withQueryString();
 
         return view('shop-owner.notices.index', compact('notices'));
     }

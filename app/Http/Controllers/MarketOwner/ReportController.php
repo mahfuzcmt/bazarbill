@@ -46,10 +46,20 @@ class ReportController extends Controller
 
     public function monthlyCollection(Request $request)
     {
-        $month = $request->get('month', now()->format('Y-m'));
+        // The reports page sends a date range; the report page itself sends a month.
+        if ($request->filled('from_date') || $request->filled('to_date')) {
+            $fromDate = $request->input('from_date', now()->startOfMonth()->toDateString());
+            $toDate = $request->input('to_date', now()->toDateString());
+            $month = substr($fromDate, 0, 7);
+            $periodLabel = \Carbon\Carbon::parse($fromDate)->format('d M Y') . ' - ' . \Carbon\Carbon::parse($toDate)->format('d M Y');
+        } else {
+            $month = $request->input('month', now()->format('Y-m'));
+            [$fromDate, $toDate] = $this->monthRange($month);
+            $periodLabel = \Carbon\Carbon::parse($fromDate)->format('F Y');
+        }
 
         $payments = Payment::with(['shop', 'collector', 'invoice'])
-            ->whereRaw("strftime('%Y-%m', payment_date) = ?", [$month])
+            ->whereBetween('payment_date', [$fromDate, $toDate])
             ->orderBy('payment_date')
             ->get();
 
@@ -62,28 +72,99 @@ class ReportController extends Controller
         });
 
         $grandTotal = $payments->sum('amount');
+        $format = $request->input('format', 'view');
 
-        return view('market-owner.reports.monthly-collection', compact('payments', 'totals', 'grandTotal', 'month'));
+        if ($format === 'pdf') {
+            return PdfService::fromView('market-owner.reports.pdf.collection', compact('payments', 'totals', 'grandTotal', 'periodLabel'))
+                ->download("collection-report-{$fromDate}-to-{$toDate}.pdf");
+        }
+
+        if ($format === 'excel') {
+            return $this->csvDownload(
+                "collection-report-{$fromDate}-to-{$toDate}.csv",
+                ['Date', 'Receipt', 'Shop', 'Invoice', 'Method', 'Collector', 'Amount'],
+                $payments->map(fn ($payment) => [
+                    $payment->payment_date->format('Y-m-d'),
+                    $payment->receipt_number,
+                    $payment->shop?->shop_number,
+                    $payment->invoice?->invoice_number,
+                    $payment->payment_method,
+                    $payment->collector?->name ?? '-',
+                    $payment->amount,
+                ])->push(['', '', '', '', '', 'Total', $grandTotal])
+            );
+        }
+
+        return view('market-owner.reports.monthly-collection', compact(
+            'payments', 'totals', 'grandTotal', 'month', 'fromDate', 'toDate', 'periodLabel'
+        ));
     }
 
     public function dueReport(Request $request)
     {
-        $shops = Shop::with(['shopOwner', 'invoices' => function ($q) {
-            $q->whereIn('status', ['pending', 'partial', 'overdue']);
+        $filter = $request->input('filter', 'all');
+        $statuses = match ($filter) {
+            'overdue' => ['overdue'],
+            'pending' => ['pending', 'partial'],
+            default => ['pending', 'partial', 'overdue'],
+        };
+
+        $shops = Shop::with(['shopOwner', 'invoices' => function ($q) use ($statuses) {
+            $q->whereIn('status', $statuses);
         }])
-        ->whereHas('invoices', function ($q) {
-            $q->whereIn('status', ['pending', 'partial', 'overdue']);
+        ->whereHas('invoices', function ($q) use ($statuses) {
+            $q->whereIn('status', $statuses);
         })
         ->get()
         ->map(function ($shop) {
             $shop->total_due = $shop->invoices->sum('due_amount');
             return $shop;
         })
-        ->sortByDesc('total_due');
+        ->sortByDesc('total_due')
+        ->values();
 
         $grandTotal = $shops->sum('total_due');
+        $format = $request->input('format', 'view');
+        $date = now()->toDateString();
 
-        return view('market-owner.reports.due-report', compact('shops', 'grandTotal'));
+        if ($format === 'pdf') {
+            return PdfService::fromView('market-owner.reports.pdf.due', compact('shops', 'grandTotal', 'filter'))
+                ->download("due-report-{$filter}-{$date}.pdf");
+        }
+
+        if ($format === 'excel') {
+            return $this->csvDownload(
+                "due-report-{$filter}-{$date}.csv",
+                ['Shop', 'Floor', 'Owner', 'Phone', 'Unpaid Invoices', 'Oldest Due Date', 'Total Due'],
+                $shops->map(fn ($shop) => [
+                    $shop->shop_number,
+                    $shop->floor ?? '-',
+                    $shop->shopOwner?->name ?? '-',
+                    $shop->shopOwner?->phone ?? '-',
+                    $shop->invoices->count(),
+                    optional($shop->invoices->min('due_date'))->format('Y-m-d'),
+                    $shop->total_due,
+                ])->push(['Total', '', '', '', $shops->sum(fn ($shop) => $shop->invoices->count()), '', $grandTotal])
+            );
+        }
+
+        return view('market-owner.reports.due-report', compact('shops', 'grandTotal', 'filter'));
+    }
+
+    /**
+     * Stream rows as a CSV that Excel opens with Bengali text intact.
+     */
+    private function csvDownload(string $filename, array $header, iterable $rows)
+    {
+        return response()->streamDownload(function () use ($header, $rows) {
+            $file = fopen('php://output', 'w');
+            fwrite($file, "\xEF\xBB\xBF");
+            fputcsv($file, $header);
+            foreach ($rows as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        }, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 
     public function export(Request $request)
@@ -95,7 +176,7 @@ class ReportController extends Controller
         // Basic export - can be enhanced with proper Excel exports
         if ($type === 'payments') {
             $data = Payment::with(['shop', 'collector', 'invoice'])
-                ->whereRaw("strftime('%Y-%m', payment_date) = ?", [$month])
+                ->whereBetween('payment_date', $this->monthRange($month))
                 ->orderBy('payment_date')
                 ->get();
 
@@ -183,7 +264,7 @@ class ReportController extends Controller
 
         // Payments for the month
         $payments = Payment::where('market_id', $marketId)
-            ->whereRaw("strftime('%Y-%m', payment_date) = ?", [$month])
+            ->whereBetween('payment_date', $this->monthRange($month))
             ->get();
 
         $summary = [
@@ -312,6 +393,16 @@ class ReportController extends Controller
         }
 
         return view('market-owner.reports.invoice-report', compact('invoices', 'summary', 'billingMonth'));
+    }
+
+    /**
+     * First and last day of a YYYY-MM month. Works on SQLite and MySQL alike.
+     */
+    private function monthRange(string $month): array
+    {
+        $start = \Carbon\Carbon::createFromFormat('Y-m-d', $month . '-01')->startOfDay();
+
+        return [$start->toDateString(), $start->copy()->endOfMonth()->toDateString()];
     }
 
     private function calculateDailyAvg($payments, $fromDate, $toDate)

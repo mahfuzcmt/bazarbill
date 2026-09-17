@@ -8,6 +8,7 @@ use App\Models\Shop;
 use App\Services\SmsService;
 use App\Services\PdfService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InvoiceController extends Controller
 {
@@ -19,12 +20,14 @@ class InvoiceController extends Controller
             $query->where('status', $request->status);
         }
 
-        if ($request->filled('billing_month')) {
-            $query->where('billing_month', $request->billing_month);
+        $month = $request->input('month', $request->input('billing_month'));
+        if (filled($month)) {
+            $query->where('billing_month', $month);
         }
 
-        if ($request->filled('shop_id')) {
-            $query->where('shop_id', $request->shop_id);
+        $shopId = $request->input('shop', $request->input('shop_id'));
+        if (filled($shopId)) {
+            $query->where('shop_id', $shopId);
         }
 
         if ($request->filled('search')) {
@@ -37,9 +40,10 @@ class InvoiceController extends Controller
             });
         }
 
-        $invoices = $query->orderBy('created_at', 'desc')->paginate(15);
+        $invoices = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
 
-        $shops = Shop::where('status', 'active')->orderBy('shop_number')->get();
+        // Every shop can have invoices, including ones now vacant or suspended.
+        $shops = Shop::orderBy('shop_number')->get();
 
         return view('market-owner.invoices.index', compact('invoices', 'shops'));
     }
@@ -64,7 +68,7 @@ class InvoiceController extends Controller
         }
 
         $validated = $request->validate([
-            'shop_id' => 'required|exists:shops,id',
+            'shop_id' => ['required', Rule::exists('shops', 'id')->where('market_id', auth()->user()->market_id)],
             'billing_month' => 'required|date_format:Y-m',
             'rent_amount' => 'nullable|numeric|min:0',
             'previous_due' => 'nullable|numeric|min:0',

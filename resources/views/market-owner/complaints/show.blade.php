@@ -76,7 +76,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="status" class="block text-sm font-medium text-gray-700">{{ __('complaints.status') }}</label>
                         <select name="status" id="status"
@@ -85,6 +85,16 @@
                             <option value="in_progress" {{ $complaint->status === 'in_progress' ? 'selected' : '' }}>{{ __('complaints.status_in_progress') }}</option>
                             <option value="resolved" {{ $complaint->status === 'resolved' ? 'selected' : '' }}>{{ __('complaints.status_resolved') }}</option>
                             <option value="closed" {{ $complaint->status === 'closed' ? 'selected' : '' }}>{{ __('complaints.status_closed') }}</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="priority" class="block text-sm font-medium text-gray-700">{{ __('complaints.priority') }}</label>
+                        <select name="priority" id="priority"
+                                class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
+                            @foreach(['low', 'medium', 'high'] as $level)
+                            <option value="{{ $level }}" {{ old('priority', $complaint->priority) === $level ? 'selected' : '' }}>{{ __('complaints.priority_' . $level) }}</option>
+                            @endforeach
                         </select>
                     </div>
 

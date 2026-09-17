@@ -9,6 +9,7 @@ use App\Models\Shop;
 use App\Models\User;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PaymentController extends Controller
 {
@@ -24,18 +25,21 @@ class PaymentController extends Controller
             $query->where('collected_by', $request->collector);
         }
 
-        if ($request->filled('date_from')) {
-            $query->where('payment_date', '>=', $request->date_from);
+        $from = $request->input('from', $request->input('date_from'));
+        if (filled($from)) {
+            $query->whereDate('payment_date', '>=', $from);
         }
 
-        if ($request->filled('date_to')) {
-            $query->where('payment_date', '<=', $request->date_to);
+        $to = $request->input('to', $request->input('date_to'));
+        if (filled($to)) {
+            $query->whereDate('payment_date', '<=', $to);
         }
 
-        $payments = $query->orderBy('payment_date', 'desc')->paginate(15);
+        $payments = $query->orderBy('payment_date', 'desc')->paginate(15)->withQueryString();
 
         $shops = Shop::orderBy('shop_number')->get();
-        $collectors = User::where('role', 'collector')->orderBy('name')->get();
+        $collectors = User::where('market_id', auth()->user()->market_id)
+            ->where('role', 'collector')->orderBy('name')->get();
 
         $todayTotal = Payment::whereDate('payment_date', today())->sum('amount');
         $weekTotal = Payment::whereBetween('payment_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount');
@@ -60,7 +64,8 @@ class PaymentController extends Controller
             ? Invoice::with('shop.shopOwner')->find($request->invoice_id)
             : null;
 
-        $collectors = User::where('role', 'collector')
+        $collectors = User::where('market_id', auth()->user()->market_id)
+            ->where('role', 'collector')
             ->where('is_active', true)
             ->orderBy('name')
             ->get();
@@ -71,12 +76,12 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'invoice_id' => 'required|exists:invoices,id',
+            'invoice_id' => ['required', Rule::exists('invoices', 'id')->where('market_id', auth()->user()->market_id)],
             'amount' => 'required|numeric|min:1',
             'payment_date' => 'required|date',
             'payment_method' => 'nullable|in:cash,bkash,nagad,bank',
             'transaction_reference' => 'nullable|string|max:100',
-            'collected_by' => 'nullable|exists:users,id',
+            'collected_by' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
             'notes' => 'nullable|string|max:500',
             'send_sms' => 'boolean',
         ]);

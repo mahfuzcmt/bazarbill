@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\Shop;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PaymentController extends Controller
 {
@@ -18,7 +19,7 @@ class PaymentController extends Controller
         $payments = Payment::where('collected_by', $user->id)
             ->with(['shop', 'invoice'])
             ->orderBy('payment_date', 'desc')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $base = Payment::where('collected_by', $user->id);
         $todayTotal = (clone $base)->whereDate('payment_date', today())->sum('amount');
@@ -54,7 +55,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'invoice_id' => 'required|exists:invoices,id',
+            'invoice_id' => ['required', Rule::exists('invoices', 'id')->where('market_id', auth()->user()->market_id)],
             'amount' => 'required|numeric|min:1',
             'notes' => 'nullable|string|max:500',
             'send_sms' => 'boolean',

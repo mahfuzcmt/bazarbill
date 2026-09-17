@@ -20,7 +20,7 @@ class InvoiceController extends Controller
 
         $invoices = Invoice::where('shop_id', $shop->id)
             ->orderBy('billing_month', 'desc')
-            ->paginate(12);
+            ->paginate(12)->withQueryString();
 
         $totalBilled = Invoice::where('shop_id', $shop->id)->sum('total_amount');
         $totalPaid = Invoice::where('shop_id', $shop->id)->sum('paid_amount');

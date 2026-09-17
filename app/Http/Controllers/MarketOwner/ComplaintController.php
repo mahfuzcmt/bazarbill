@@ -7,6 +7,7 @@ use App\Models\Complaint;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ComplaintController extends Controller
 {
@@ -59,12 +60,17 @@ class ComplaintController extends Controller
     {
         $validated = $request->validate([
             'status' => 'required|in:open,in_progress,resolved,closed',
-            'priority' => 'required|in:low,medium,high',
+            'priority' => 'nullable|in:low,medium,high',
+            'assigned_to' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
             'resolution_notes' => 'nullable|string|max:1000',
         ]);
 
-        if ($validated['status'] === 'resolved' && $complaint->status !== 'resolved') {
+        $validated['priority'] = $validated['priority'] ?? $complaint->priority;
+
+        if (in_array($validated['status'], ['resolved', 'closed'], true) && !$complaint->resolved_at) {
             $validated['resolved_at'] = now();
+        } elseif (in_array($validated['status'], ['open', 'in_progress'], true)) {
+            $validated['resolved_at'] = null;
         }
 
         $complaint->update($validated);
@@ -75,7 +81,7 @@ class ComplaintController extends Controller
     public function assign(Request $request, Complaint $complaint)
     {
         $validated = $request->validate([
-            'assigned_to' => 'required|exists:users,id',
+            'assigned_to' => ['required', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
         ]);
 
         $complaint->assignTo($validated['assigned_to']);

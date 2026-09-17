@@ -34,7 +34,7 @@ class ShopController extends Controller
             });
         }
 
-        $shops = $query->orderBy('shop_number')->paginate(15);
+        $shops = $query->orderBy('shop_number')->paginate(15)->withQueryString();
 
         $floors = Shop::distinct()->pluck('floor')->filter()->sort();
         $collectors = User::where('market_id', auth()->user()->market_id)
@@ -76,8 +76,8 @@ class ShopController extends Controller
             'advance_deposit' => 'nullable|numeric|min:0',
             'shop_type' => 'required|in:general,food,clothing,electronics,jewelry,pharmacy,other',
             'status' => 'required|in:active,vacant,suspended',
-            'shop_owner_id' => 'nullable|exists:users,id',
-            'collector_id' => 'nullable|exists:users,id',
+            'shop_owner_id' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
+            'collector_id' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
             'notes' => 'nullable|string|max:500',
             'owner_name' => 'nullable|string|max:255|required_with:owner_phone,owner_email',
             'owner_phone' => 'nullable|string|max:20|required_with:owner_name',
@@ -156,8 +156,8 @@ class ShopController extends Controller
             'advance_deposit' => 'nullable|numeric|min:0',
             'shop_type' => 'required|in:general,food,clothing,electronics,jewelry,pharmacy,other',
             'status' => 'required|in:active,vacant,suspended',
-            'shop_owner_id' => 'nullable|exists:users,id',
-            'collector_id' => 'nullable|exists:users,id',
+            'shop_owner_id' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
+            'collector_id' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
             'notes' => 'nullable|string|max:500',
         ]);
 
@@ -185,7 +185,7 @@ class ShopController extends Controller
     public function assignCollector(Request $request, Shop $shop)
     {
         $validated = $request->validate([
-            'collector_id' => 'nullable|exists:users,id',
+            'collector_id' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
         ]);
 
         $shop->update(['collector_id' => $validated['collector_id']]);
@@ -196,7 +196,7 @@ class ShopController extends Controller
     public function assignOwner(Request $request, Shop $shop)
     {
         $validated = $request->validate([
-            'shop_owner_id' => 'nullable|exists:users,id',
+            'shop_owner_id' => ['nullable', Rule::exists('users', 'id')->where('market_id', auth()->user()->market_id)],
         ]);
 
         $shop->update(['shop_owner_id' => $validated['shop_owner_id']]);
