@@ -2,6 +2,45 @@
     <x-slot name="header">{{ __('settings.settings') }}</x-slot>
 
     <div class="max-w-4xl space-y-6">
+        <!-- Subscription -->
+        @if($market->plan)
+        <div class="glass-card overflow-hidden">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900">{{ __('settings.subscription') }}</h3>
+                <p class="text-sm text-gray-500">{{ __('settings.subscription_desc') }}</p>
+            </div>
+            <div class="px-4 sm:px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div>
+                    <p class="text-xs text-gray-500">{{ __('settings.plan') }}</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ $market->plan->getLocalizedName() }}</p>
+                    <p class="text-xs text-gray-500">{{ $market->isOnTrial() ? __('settings.on_trial') : __('settings.status_' . ($market->subscription_status ?? 'active')) }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500">{{ __('settings.valid_until') }}</p>
+                    @if($market->subscription_ends_at)
+                        @php $days = $market->subscriptionDaysRemaining(); @endphp
+                        <p class="text-lg font-semibold {{ $days <= 7 ? 'text-red-600' : 'text-gray-900' }}">{{ $market->subscription_ends_at->format('d M Y') }}</p>
+                        <p class="text-xs text-gray-500">{{ __('settings.days_left', ['days' => $days]) }}</p>
+                    @else
+                        <p class="text-lg font-semibold text-gray-900">—</p>
+                    @endif
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500">{{ __('settings.shops_used') }}</p>
+                    <p class="text-lg font-semibold text-gray-900">{{ $shopCount }} / {{ $market->shopLimit() ?? '∞' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500">{{ __('settings.sms_credit_balance') }}</p>
+                    <p class="text-lg font-semibold text-indigo-600">{{ number_format($market->sms_credits) }}</p>
+                </div>
+            </div>
+            <div class="px-4 sm:px-6 py-3 bg-indigo-50 text-sm text-indigo-800">
+                {{ __('settings.renew_hint') }}
+                @if(config('services.support.phone'))<strong>{{ config('services.support.phone') }}</strong>@endif
+            </div>
+        </div>
+        @endif
+
         <!-- Market Information -->
         <form action="{{ route('market-owner.settings.update') }}" method="POST" enctype="multipart/form-data"
               class="glass-card overflow-hidden">
@@ -129,7 +168,7 @@
 
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-lg font-semibold text-gray-900">{{ __('settings.sms_settings') }}</h3>
-                <p class="text-sm text-gray-500">{{ __('settings.sms_settings_desc') }}</p>
+                <p class="text-sm text-gray-500">{{ __('settings.sms_settings_desc') }} {{ __('settings.sms_gateway_choice') }}</p>
             </div>
 
             <div class="px-4 sm:px-6 py-4 space-y-4">
@@ -163,14 +202,34 @@
                     </div>
                 </div>
 
+                @if($market->usesPlatformSms())
+                <div class="p-4 rounded-lg {{ $market->hasLowSmsCredits() ? 'bg-red-50' : 'bg-indigo-50' }}">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                            <p class="text-sm {{ $market->hasLowSmsCredits() ? 'text-red-800' : 'text-indigo-800' }}">
+                                <strong>{{ __('settings.sms_credit_balance') }}:</strong>
+                                <span class="text-lg font-bold">{{ number_format($market->sms_credits) }}</span>
+                            </p>
+                            <p class="text-xs {{ $market->hasLowSmsCredits() ? 'text-red-700' : 'text-indigo-700' }} mt-1">
+                                {{ $market->hasLowSmsCredits() ? __('settings.sms_credits_low') : __('settings.sms_credits_hint') }}
+                            </p>
+                        </div>
+                        <a href="{{ route('market-owner.settings.sms-credits') }}"
+                           class="text-sm font-medium text-indigo-700 hover:underline whitespace-nowrap">
+                            {{ __('settings.sms_credit_history') }} &rarr;
+                        </a>
+                    </div>
+                </div>
+                @else
                 <div class="p-4 bg-blue-50 rounded-lg">
                     <p class="text-sm text-blue-800">
-                        <strong>{{ __('settings.sms_provider') }}:</strong> bulksmsbd.net
+                        <strong>{{ __('settings.sms_provider') }}:</strong> bulksmsbd.net ({{ __('settings.sms_own_gateway') }})
                     </p>
                     <p class="text-xs text-blue-600 mt-1">
-                        {{ __('settings.sms_provider_hint') }}
+                        {{ __('settings.sms_own_gateway_hint') }}
                     </p>
                 </div>
+                @endif
 
                 <!-- Test SMS -->
                 <div class="flex flex-col sm:flex-row sm:items-end gap-3">
@@ -279,6 +338,31 @@
                         <span class="text-sm font-medium text-gray-700">{{ __('settings.sms_on_invoice') }}</span>
                     </label>
                     <p class="text-xs text-gray-500 ml-7">{{ __('settings.sms_on_invoice_hint') }}</p>
+                </div>
+
+                <!-- Automatic reminders -->
+                <div class="space-y-3">
+                    <label class="flex items-center space-x-3">
+                        <input type="checkbox" name="settings[auto_reminder]" value="1"
+                               {{ ($settings['auto_reminder'] ?? false) ? 'checked' : '' }}
+                               class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                        <span class="text-sm font-medium text-gray-700">{{ __('settings.auto_reminder') }}</span>
+                    </label>
+                    <p class="text-xs text-gray-500 ml-7">{{ __('settings.auto_reminder_hint') }}</p>
+                    <div class="ml-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="reminder_days_before" class="block text-sm font-medium text-gray-700">{{ __('settings.reminder_days_before') }}</label>
+                            <input type="number" name="settings[reminder_days_before]" id="reminder_days_before" min="0" max="15"
+                                   value="{{ old('settings.reminder_days_before', $settings['reminder_days_before'] ?? 3) }}"
+                                   class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label for="reminder_repeat_days" class="block text-sm font-medium text-gray-700">{{ __('settings.reminder_repeat_days') }}</label>
+                            <input type="number" name="settings[reminder_repeat_days]" id="reminder_repeat_days" min="1" max="30"
+                                   value="{{ old('settings.reminder_repeat_days', $settings['reminder_repeat_days'] ?? 7) }}"
+                                   class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                    </div>
                 </div>
             </div>
 

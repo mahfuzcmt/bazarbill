@@ -11,9 +11,10 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $market = auth()->user()->market;
+        $market = auth()->user()->market->load('plan');
+        $shopCount = $market->shops()->count();
 
-        return view('market-owner.settings.index', compact('market'));
+        return view('market-owner.settings.index', compact('market', 'shopCount'));
     }
 
     public function update(Request $request)
@@ -70,6 +71,9 @@ class SettingsController extends Controller
             'settings.grace_days' => 'nullable|integer|min:0|max:15',
             'settings.auto_generate' => 'nullable|boolean',
             'settings.sms_on_invoice' => 'nullable|boolean',
+            'settings.auto_reminder' => 'nullable|boolean',
+            'settings.reminder_days_before' => 'nullable|integer|min:0|max:15',
+            'settings.reminder_repeat_days' => 'nullable|integer|min:1|max:30',
         ]);
 
         $market = auth()->user()->market;
@@ -82,6 +86,9 @@ class SettingsController extends Controller
             'grace_days' => (int) ($validated['settings']['grace_days'] ?? 3),
             'auto_generate' => $request->has('settings.auto_generate'),
             'sms_on_invoice' => $request->has('settings.sms_on_invoice'),
+            'auto_reminder' => $request->has('settings.auto_reminder'),
+            'reminder_days_before' => (int) ($validated['settings']['reminder_days_before'] ?? 3),
+            'reminder_repeat_days' => (int) ($validated['settings']['reminder_repeat_days'] ?? 7),
         ]);
 
         $market->update(['settings' => $newSettings]);
@@ -123,8 +130,9 @@ class SettingsController extends Controller
         ]);
 
         $market = auth()->user()->market;
+        $smsService = new SmsService($market);
 
-        if (!$market->sms_api_key) {
+        if (!$smsService->isConfigured()) {
             return response()->json([
                 'success' => false,
                 'message' => __('settings.sms_not_configured'),
@@ -132,7 +140,6 @@ class SettingsController extends Controller
         }
 
         try {
-            $smsService = new SmsService($market);
             $result = $smsService->send(
                 $request->phone,
                 __('settings.test_sms_message', ['market' => $market->name])
@@ -150,6 +157,24 @@ class SettingsController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function smsCredits(Request $request)
+    {
+        $market = auth()->user()->market;
+
+        $transactions = $market->smsCreditTransactions()
+            ->when($request->filled('type'), fn ($q) => $q->where('type', $request->type))
+            ->latest('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        $usedThisMonth = (int) $market->smsLogs()
+            ->where('status', 'sent')
+            ->where('created_at', '>=', now()->startOfMonth())
+            ->sum('credits_used');
+
+        return view('market-owner.settings.sms-credits', compact('market', 'transactions', 'usedThisMonth'));
     }
 
     public function export()

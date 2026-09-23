@@ -2,26 +2,95 @@
 
 namespace App\Services;
 
+use App\Exceptions\InsufficientSmsCreditsException;
 use App\Models\Market;
+use App\Models\SmsCreditTransaction;
 use App\Models\SmsLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class SmsService
 {
-    protected string $apiUrl = 'http://bulksmsbd.net/api/smsapi';
+    public const GATEWAY_PLATFORM = 'platform';
+    public const GATEWAY_OWN = 'own';
 
     /** Error message from the last failed send, if any. */
     public ?string $lastError = null;
 
+    /** True when the last failure was caused by an empty credit balance. */
+    public bool $lastFailedForCredits = false;
+
     public function __construct(
-        protected ?Market $market = null
-    ) {}
+        protected ?Market $market = null,
+        protected ?SmsCreditService $credits = null,
+    ) {
+        $this->credits ??= new SmsCreditService();
+    }
 
     public function setMarket(Market $market): self
     {
         $this->market = $market;
         return $this;
+    }
+
+    /**
+     * Which gateway this market sends through.
+     */
+    public function gateway(): string
+    {
+        return $this->market?->usesPlatformSms() ? self::GATEWAY_PLATFORM : self::GATEWAY_OWN;
+    }
+
+    public function usesPlatformGateway(): bool
+    {
+        return $this->gateway() === self::GATEWAY_PLATFORM;
+    }
+
+    /**
+     * Whether an API key exists for the gateway this market uses.
+     */
+    public function isConfigured(): bool
+    {
+        return $this->market !== null && $this->apiKey() !== null;
+    }
+
+    protected function apiKey(): ?string
+    {
+        return $this->usesPlatformGateway()
+            ? (config('services.sms.api_key') ?: null)
+            : $this->market->sms_api_key;
+    }
+
+    protected function senderId(): string
+    {
+        if ($this->usesPlatformGateway()) {
+            // Branded sender IDs on the platform gateway are a paid plan feature.
+            if ($this->market->sms_sender_id && $this->market->planAllows('masking_sms')) {
+                return $this->market->sms_sender_id;
+            }
+
+            return config('services.sms.sender_id', '8809617642636');
+        }
+
+        return $this->market->sms_sender_id ?: config('services.sms.sender_id', '8809617642636');
+    }
+
+    /**
+     * Number of SMS segments the gateway will bill for this message.
+     * Unicode (Bangla) messages fit 70 chars in one part, 67 per part after that.
+     * Plain GSM text fits 160 chars in one part, 153 per part after that.
+     */
+    public static function calculateSegments(string $message, bool $isUnicode = true): int
+    {
+        $length = mb_strlen($message);
+
+        if ($length === 0) {
+            return 1;
+        }
+
+        [$single, $multi] = $isUnicode ? [70, 67] : [160, 153];
+
+        return $length <= $single ? 1 : (int) ceil($length / $multi);
     }
 
     public function send(string $phone, string $message, bool $isUnicode = true): bool
@@ -30,26 +99,57 @@ class SmsService
             throw new \RuntimeException('Market not set for SMS service');
         }
 
-        if (!$this->market->sms_api_key) {
-            Log::warning('SMS API key not configured for market', ['market_id' => $this->market->id]);
+        $this->lastError = null;
+        $this->lastFailedForCredits = false;
+
+        if (!$this->isConfigured()) {
+            $this->lastError = 'SMS gateway not configured';
+            Log::warning('SMS gateway not configured for market', [
+                'market_id' => $this->market->id,
+                'gateway' => $this->gateway(),
+            ]);
             return false;
         }
 
-        $this->lastError = null;
         $phone = $this->normalizePhone($phone);
+        $platform = $this->usesPlatformGateway();
+        $segments = self::calculateSegments($message, $isUnicode);
 
-        // Create SMS log
         $smsLog = SmsLog::create([
             'market_id' => $this->market->id,
             'recipient_phone' => $phone,
             'message' => $message,
             'status' => 'pending',
+            'gateway' => $this->gateway(),
+            'credits_used' => $platform ? $segments : 0,
         ]);
 
+        // Reserve credits before talking to the gateway so concurrent sends
+        // can never overdraw the balance. Failed sends are refunded below.
+        if ($platform) {
+            try {
+                $this->credits->debit($this->market, $segments, SmsCreditTransaction::TYPE_USAGE, [
+                    'sms_log_id' => $smsLog->id,
+                    'note' => 'SMS to ' . $phone,
+                ]);
+            } catch (InsufficientSmsCreditsException $e) {
+                $smsLog->update(['credits_used' => 0]);
+                $smsLog->markAsFailed($e->getMessage());
+                $this->lastError = $e->getMessage();
+                $this->lastFailedForCredits = true;
+                Log::warning('SMS blocked: insufficient credits', [
+                    'market_id' => $this->market->id,
+                    'required' => $segments,
+                    'available' => $e->available,
+                ]);
+                return false;
+            }
+        }
+
         try {
-            $response = Http::timeout(30)->get($this->apiUrl, [
-                'api_key' => $this->market->sms_api_key,
-                'senderid' => $this->market->sms_sender_id ?? '8809617642636',
+            $response = Http::timeout(30)->get(config('services.sms.url', 'http://bulksmsbd.net/api/smsapi'), [
+                'api_key' => $this->apiKey(),
+                'senderid' => $this->senderId(),
                 'number' => $phone,
                 'message' => $message,
                 'type' => $isUnicode ? 'unicode' : 'text',
@@ -58,7 +158,7 @@ class SmsService
             $responseBody = $response->body();
 
             if ($response->successful()) {
-                // Parse response - bulksmsbd.net returns JSON with response_code
+                // bulksmsbd.net returns JSON with response_code 202 on success
                 $responseData = json_decode($responseBody, true);
 
                 if (isset($responseData['response_code']) && $responseData['response_code'] == 202) {
@@ -66,29 +166,41 @@ class SmsService
                     return true;
                 }
 
-                $smsLog->markAsFailed($responseBody);
                 $this->lastError = $responseData['error_message'] ?? $responseBody;
                 Log::error('SMS send failed', [
                     'market_id' => $this->market->id,
                     'phone' => $phone,
                     'response' => $responseBody,
                 ]);
-                return false;
+            } else {
+                $this->lastError = 'HTTP ' . $response->status();
             }
 
-            $smsLog->markAsFailed($responseBody);
-            $this->lastError = 'HTTP ' . $response->status();
+            $this->fail($smsLog, $responseBody, $platform, $segments);
             return false;
 
         } catch (\Exception $e) {
-            $smsLog->markAsFailed($e->getMessage());
             $this->lastError = $e->getMessage();
             Log::error('SMS send exception', [
                 'market_id' => $this->market->id,
                 'phone' => $phone,
                 'error' => $e->getMessage(),
             ]);
+            $this->fail($smsLog, $e->getMessage(), $platform, $segments);
             return false;
+        }
+    }
+
+    protected function fail(SmsLog $smsLog, ?string $response, bool $platform, int $segments): void
+    {
+        $smsLog->markAsFailed($response);
+
+        if ($platform) {
+            $smsLog->update(['credits_used' => 0]);
+            $this->credits->refund($this->market, $segments, [
+                'sms_log_id' => $smsLog->id,
+                'note' => 'Refund for failed SMS',
+            ]);
         }
     }
 
@@ -151,14 +263,18 @@ class SmsService
         return '880' . $phone;
     }
 
+    /**
+     * Gateway account balance (in Taka) for the market's own API key.
+     * Platform-gateway markets use prepaid credits instead; see Market::$sms_credits.
+     */
     public function getBalance(): ?float
     {
-        if (!$this->market || !$this->market->sms_api_key) {
+        if (!$this->market || $this->usesPlatformGateway() || !$this->market->sms_api_key) {
             return null;
         }
 
         try {
-            $response = Http::timeout(10)->get('http://bulksmsbd.net/api/getBalanceApi', [
+            $response = Http::timeout(10)->get(config('services.sms.balance_url', 'http://bulksmsbd.net/api/getBalanceApi'), [
                 'api_key' => $this->market->sms_api_key,
             ]);
 

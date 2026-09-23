@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MarketOwner;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Shop;
+use App\Services\InvoiceGenerationService;
 use App\Services\SmsService;
 use App\Services\PdfService;
 use Illuminate\Http\Request;
@@ -223,56 +224,25 @@ class InvoiceController extends Controller
         $includePreviousDue = !$request->has('include_previous_due') || $request->boolean('include_previous_due');
 
         $market = auth()->user()->market;
-        $shops = Shop::where('status', 'active')->with('shopOwner')->get();
 
-        $count = 0;
-        $smsService = $request->boolean('send_sms') ? new SmsService($market) : null;
+        $result = app(InvoiceGenerationService::class)->generateForMarket(
+            $market,
+            $validated['billing_month'],
+            \Carbon\Carbon::parse($validated['due_date']),
+            $includePreviousDue,
+            $request->boolean('send_sms'),
+        );
 
-        foreach ($shops as $shop) {
-            // Skip if invoice already exists
-            $exists = Invoice::where('shop_id', $shop->id)
-                ->where('billing_month', $validated['billing_month'])
-                ->exists();
+        $redirect = redirect()->route('market-owner.invoices.index')
+            ->with('success', __('invoices.bulk_created', ['count' => $result['created']]));
 
-            if ($exists) {
-                continue;
-            }
-
-            $previousDue = $includePreviousDue ? $this->outstandingDueForShop($shop->id) : 0;
-
-            $totalAmount = $shop->rent_amount + $previousDue;
-
-            $invoice = Invoice::create([
-                'market_id' => $market->id,
-                'shop_id' => $shop->id,
-                'billing_month' => $validated['billing_month'],
-                'rent_amount' => $shop->rent_amount,
-                'previous_due' => $previousDue,
-                'discount' => 0,
-                'late_fee' => 0,
-                'total_amount' => $totalAmount,
-                'paid_amount' => 0,
-                'due_amount' => $totalAmount,
-                'status' => 'pending',
-                'due_date' => $validated['due_date'],
-            ]);
-
-            $count++;
-
-            // Send SMS if requested
-            if ($smsService && $shop->shopOwner?->phone) {
-                $smsService->sendInvoiceNotification([
-                    'phone' => $shop->shopOwner->phone,
-                    'shop_owner' => $shop->shopOwner->getLocalizedName(),
-                    'month' => $invoice->getBillingMonthFormattedBn(),
-                    'amount' => number_format($invoice->total_amount),
-                    'invoice_no' => $invoice->invoice_number,
-                ]);
-            }
+        if ($result['sms_failed'] > 0) {
+            $redirect->with('error', $result['sms_blocked_for_credits']
+                ? __('settings.sms_insufficient_credits', ['count' => $result['sms_failed']])
+                : __('settings.sms_send_failed_count', ['count' => $result['sms_failed']]));
         }
 
-        return redirect()->route('market-owner.invoices.index')
-            ->with('success', __('invoices.bulk_created', ['count' => $count]));
+        return $redirect;
     }
 
     public function sendReminder(Invoice $invoice)
@@ -287,11 +257,17 @@ class InvoiceController extends Controller
         }
 
         $smsService = new SmsService(auth()->user()->market);
-        $smsService->sendPaymentReminder([
+        $sent = $smsService->sendPaymentReminder([
             'phone' => $shop->shopOwner->phone,
             'shop_owner' => $shop->shopOwner->getLocalizedName(),
             'amount' => number_format($invoice->due_amount),
         ]);
+
+        if (!$sent) {
+            return back()->with('error', $smsService->lastFailedForCredits
+                ? __('settings.sms_insufficient_credits', ['count' => 1])
+                : __('settings.sms_send_failed') . ($smsService->lastError ? ' (' . $smsService->lastError . ')' : ''));
+        }
 
         return back()->with('success', __('Reminder sent successfully'));
     }

@@ -3,6 +3,32 @@
         {{ __('messages.dashboard') }}
     </x-slot>
 
+    @php $mkt = auth()->user()->market; $daysLeft = $mkt?->subscriptionDaysRemaining(); @endphp
+    @if($mkt && $daysLeft !== null && $daysLeft <= 7)
+    <div class="mb-6 p-4 {{ $mkt->isOnTrial() ? 'bg-blue-50 border-blue-200' : 'bg-yellow-50 border-yellow-200' }} border rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <p class="text-sm {{ $mkt->isOnTrial() ? 'text-blue-800' : 'text-yellow-800' }}">
+            <strong>{{ $mkt->isOnTrial() ? __('settings.trial_ending', ['days' => $daysLeft]) : __('settings.subscription_ending', ['days' => $daysLeft]) }}</strong>
+            {{ __('settings.renew_hint') }}
+            @if(config('services.support.phone'))<strong>{{ config('services.support.phone') }}</strong>@endif
+        </p>
+        <a href="{{ route('market-owner.settings.index') }}" class="text-sm font-medium {{ $mkt->isOnTrial() ? 'text-blue-700' : 'text-yellow-700' }} hover:underline whitespace-nowrap">
+            {{ __('settings.subscription') }} &rarr;
+        </a>
+    </div>
+    @endif
+
+    @if(auth()->user()->market?->hasLowSmsCredits())
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <p class="text-sm text-red-800">
+            <strong>{{ __('settings.sms_credit_balance') }}: {{ number_format(auth()->user()->market->sms_credits) }}</strong>
+            &mdash; {{ __('settings.sms_credits_low') }}
+        </p>
+        <a href="{{ route('market-owner.settings.sms-credits') }}" class="text-sm font-medium text-red-700 hover:underline whitespace-nowrap">
+            {{ __('settings.sms_credit_history') }} &rarr;
+        </a>
+    </div>
+    @endif
+
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         <!-- Total Shops -->

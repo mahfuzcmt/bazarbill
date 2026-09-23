@@ -57,6 +57,18 @@ return [
         'login_button' => 'Sign In',
         'invalid_credentials' => 'Invalid email or password',
         'account_inactive' => 'Your account is inactive. Please contact administrator.',
+        'register_title' => 'Create your market account',
+        'register_trial_hint' => 'Start with a free :days-day trial of the :plan plan. No payment needed.',
+        'market_name' => 'Market name',
+        'market_name_bn' => 'Market name (Bangla)',
+        'owner_name' => 'Your name',
+        'phone' => 'Mobile number',
+        'confirm_password' => 'Confirm password',
+        'already_registered' => 'Already have an account?',
+        'start_trial' => 'Start free trial',
+        'invalid_bd_phone' => 'Enter a valid Bangladeshi mobile number (01XXXXXXXXX).',
+        'signup_unavailable' => 'Self-service signup is not available right now. Please contact support.',
+        'trial_started' => 'Welcome! Your :days-day free trial has started.',
     ],
 
     // Market
@@ -73,6 +85,16 @@ return [
 
     // Status messages
     'market_inactive' => 'Your market is currently inactive. Please contact support.',
+    'subscription' => [
+        'trial_ended_title' => 'Your free trial has ended',
+        'expired_title' => 'Your subscription has expired',
+        'expired_body' => 'Access to :market is paused until the subscription is renewed. Your data is safe.',
+        'plan' => 'Plan',
+        'ended_on' => 'Ended on',
+        'monthly_price' => 'Monthly price',
+        'how_to_renew' => 'To renew, pay via bKash / Nagad / bank and contact BazarBill support with your transaction ID. Access is restored as soon as the payment is recorded.',
+        'my_profile' => 'My profile',
+    ],
     'created_success' => ':item created successfully',
     'updated_success' => ':item updated successfully',
     'deleted_success' => ':item deleted successfully',

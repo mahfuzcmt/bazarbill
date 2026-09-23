@@ -23,6 +23,13 @@ class DashboardController extends Controller
             'total_payments' => Payment::count(),
             'total_collection' => Payment::sum('amount'),
             'total_due' => Invoice::sum('due_amount'),
+            'paying_markets' => Market::where('subscription_status', 'active')->count(),
+            'trial_markets' => Market::where('subscription_status', 'trial')->count(),
+            'expiring_markets' => Market::whereIn('subscription_status', ['trial', 'active'])
+                ->whereBetween('subscription_ends_at', [today(), today()->addDays(7)])->count(),
+            'mrr' => (float) Market::where('subscription_status', 'active')
+                ->join('plans', 'plans.id', '=', 'markets.plan_id')
+                ->sum('plans.monthly_price'),
         ];
 
         $recentMarkets = Market::latest()->take(5)->get();

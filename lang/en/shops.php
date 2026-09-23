@@ -41,6 +41,7 @@ return [
 
     // Messages
     'created' => 'Shop created successfully',
+    'limit_reached' => 'Your plan allows up to :limit shops. Upgrade your plan to add more.',
     'updated' => 'Shop updated successfully',
     'deleted' => 'Shop deleted successfully',
     'no_shops' => 'No shops found',

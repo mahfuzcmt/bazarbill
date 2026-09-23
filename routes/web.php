@@ -5,6 +5,10 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\MarketController as AdminMarketController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\SmsCreditController as AdminSmsCreditController;
+use App\Http\Controllers\Admin\PlanController as AdminPlanController;
+use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptionController;
+use App\Http\Controllers\SubscriptionExpiredController;
 use App\Http\Controllers\MarketOwner\DashboardController as MarketOwnerDashboard;
 use App\Http\Controllers\MarketOwner\ShopController as MarketOwnerShopController;
 use App\Http\Controllers\MarketOwner\StaffController;
@@ -55,6 +59,11 @@ Route::get('/dashboard', function () {
 
     return view('dashboard');
 })->middleware(['auth', 'verified', 'market.active'])->name('dashboard');
+
+// Shown to market users whose subscription has lapsed
+Route::get('/subscription-expired', SubscriptionExpiredController::class)
+    ->middleware('auth')
+    ->name('subscription.expired');
 
 // Profile routes
 Route::middleware('auth')->group(function () {
@@ -114,6 +123,7 @@ Route::middleware(['auth', 'verified', 'market.active', 'role:market_owner'])
         Route::put('settings/invoice', [SettingsController::class, 'updateInvoice'])->name('settings.invoice');
         Route::put('settings/permissions', [SettingsController::class, 'updatePermissions'])->name('settings.permissions');
         Route::post('settings/test-sms', [SettingsController::class, 'testSms'])->name('settings.test-sms');
+        Route::get('settings/sms-credits', [SettingsController::class, 'smsCredits'])->name('settings.sms-credits');
         Route::get('settings/export', [SettingsController::class, 'export'])->name('settings.export');
         Route::get('settings/destroy', [SettingsController::class, 'destroy'])->name('settings.destroy');
     });
@@ -147,6 +157,19 @@ Route::middleware(['auth', 'verified', 'role:super_admin'])
 
         // Markets Management
         Route::resource('markets', AdminMarketController::class);
+
+        // SMS Credits (prepaid balance sold to markets)
+        Route::get('sms-credits', [AdminSmsCreditController::class, 'index'])->name('sms-credits.index');
+        Route::get('markets/{market}/sms-credits', [AdminSmsCreditController::class, 'show'])->name('markets.sms-credits');
+        Route::post('markets/{market}/sms-credits', [AdminSmsCreditController::class, 'store'])->name('markets.sms-credits.store');
+
+        // Plans & Subscriptions
+        Route::resource('plans', AdminPlanController::class)->except(['show']);
+        Route::get('subscriptions', [AdminSubscriptionController::class, 'index'])->name('subscriptions.index');
+        Route::get('markets/{market}/subscription', [AdminSubscriptionController::class, 'show'])->name('markets.subscription');
+        Route::post('markets/{market}/subscription', [AdminSubscriptionController::class, 'store'])->name('markets.subscription.store');
+        Route::post('markets/{market}/subscription/trial', [AdminSubscriptionController::class, 'trial'])->name('markets.subscription.trial');
+        Route::post('markets/{market}/subscription/cancel', [AdminSubscriptionController::class, 'cancel'])->name('markets.subscription.cancel');
 
         // Users Management
         Route::resource('users', AdminUserController::class);

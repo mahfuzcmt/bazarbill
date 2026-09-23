@@ -23,8 +23,7 @@ class DemoDataSeeder extends Seeder
             'address_bn' => '১২৩ মার্কেট রোড, ঢাকা ১০০০',
             'phone' => '01700000000',
             'email' => 'info@dhakacentralmarket.com',
-            'sms_api_key' => 'demo_api_key',
-            'sms_sender_id' => '8809617642636',
+            // No own API key: the demo market sends through the platform gateway on prepaid credits.
             'sms_templates' => [
                 'invoice_generated' => 'প্রিয় {shop_owner}, আপনার {month} মাসের ভাড়া {amount} টাকা। বিল নং: {invoice_no}',
                 'payment_reminder' => 'প্রিয় {shop_owner}, আপনার {amount} টাকা বকেয়া আছে। অনুগ্রহ করে পরিশোধ করুন।',
@@ -50,6 +49,16 @@ class DemoDataSeeder extends Seeder
             'language_preference' => 'en',
         ]);
         $superAdmin->assignRole('super_admin');
+
+        // Put the demo market on a paid Standard plan (SMS allowance is credited automatically).
+        $standard = \App\Models\Plan::where('slug', 'standard')->first() ?? \App\Models\Plan::default();
+        if ($standard) {
+            app(\App\Services\SubscriptionService::class)->activate($market, $standard, 'monthly', [
+                'payment_method' => 'bkash',
+                'payment_reference' => 'DEMO-TRX-001',
+                'notes' => 'Demo subscription',
+            ], $superAdmin->id);
+        }
 
         // Create market owner
         $marketOwner = User::create([

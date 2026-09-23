@@ -87,6 +87,10 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->market->canAddShop()) {
+            return back()->withInput()->with('error', __('shops.limit_reached', ['limit' => auth()->user()->market->shopLimit()]));
+        }
+
         $validated = $request->validate([
             'shop_number' => [
                 'required',

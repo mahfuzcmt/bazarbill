@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\BelongsToMarket;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SmsLog extends Model
 {
@@ -15,13 +16,21 @@ class SmsLog extends Model
         'recipient_phone',
         'message',
         'status',
+        'gateway',
+        'credits_used',
         'api_response',
         'sent_at',
     ];
 
     protected $casts = [
         'sent_at' => 'datetime',
+        'credits_used' => 'integer',
     ];
+
+    public function creditTransactions(): HasMany
+    {
+        return $this->hasMany(SmsCreditTransaction::class);
+    }
 
     public function markAsSent(string $response = null): void
     {

@@ -81,6 +81,32 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <!-- Plan -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="plan_id" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Subscription plan') }}</label>
+                            <select name="plan_id" id="plan_id" class="w-full glass-input">
+                                <option value="">{{ __('No plan (unrestricted, legacy)') }}</option>
+                                @foreach($plans as $plan)
+                                    <option value="{{ $plan->id }}" {{ old('plan_id', $plan->is_default ? $plan->id : null) == $plan->id ? 'selected' : '' }}>
+                                        {{ $plan->name }} — ৳{{ number_format($plan->monthly_price) }}/{{ __('mo') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('plan_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="subscription_start" class="block text-sm font-medium text-gray-700 mb-1">{{ __('Start with') }}</label>
+                            <select name="subscription_start" id="subscription_start" class="w-full glass-input">
+                                <option value="trial" {{ old('subscription_start', 'trial') === 'trial' ? 'selected' : '' }}>{{ __('Free trial') }}</option>
+                                <option value="none" {{ old('subscription_start') === 'none' ? 'selected' : '' }}>{{ __('Plan only, record payment next') }}</option>
+                            </select>
+                            <p class="mt-1 text-xs text-gray-500">{{ __('Paid activations are recorded on the market\'s Subscription page.') }}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mt-6 flex items-center justify-end gap-4">

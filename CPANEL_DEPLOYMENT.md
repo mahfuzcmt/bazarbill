@@ -106,6 +106,16 @@ SESSION_LIFETIME=120
 
 CACHE_STORE=database
 QUEUE_CONNECTION=database
+
+# Platform SMS gateway (your bulksmsbd.net account). Markets without their own
+# key send through this account and consume the SMS credits you assign them.
+SMS_API_KEY=your_bulksmsbd_api_key
+SMS_SENDER_ID=8809617642636
+SMS_LOW_CREDIT_THRESHOLD=20
+
+# Shown to market owners on the "subscription expired" and renewal screens
+SUPPORT_PHONE=01XXXXXXXXX
+SUPPORT_EMAIL=support@yourdomain.com
 ```
 
 ### 4.2 Generate Application Key
@@ -166,6 +176,12 @@ $app = require_once __DIR__.'/../bazarbill/bootstrap/app.php';
 Via SSH or Terminal in cPanel:
 
 ```bash
+# Apply any new migrations (SMS credits, plans, subscriptions, reminder tracking)
+php artisan migrate --force
+
+# Seed the three starter subscription plans (safe to re-run; edit them in Admin → Plans)
+php artisan db:seed --class=PlanSeeder --force
+
 # Clear and cache config
 php artisan config:cache
 
@@ -184,6 +200,39 @@ php artisan optimize
 
 ---
 
+## Step 6b: Cron Job for Scheduled Tasks (REQUIRED)
+
+BazarBill runs four background jobs through Laravel's scheduler:
+
+| Job | When | What it does |
+|-----|------|--------------|
+| `subscriptions:process` | daily 00:10 | Expires finished trials/subscriptions, activates pre-paid renewals, allocates monthly SMS credits on yearly plans |
+| `invoices:mark-overdue` | daily 00:20 | Flags unpaid invoices past their due date |
+| `invoices:generate-monthly` | 1st of month 06:00 | Creates rent invoices for markets with "auto-generate" enabled |
+| `invoices:send-reminders` | daily 10:00 | SMS payment reminders for markets with "automatic reminders" enabled |
+
+None of these run unless cron calls the scheduler every minute.
+
+1. In cPanel go to **Advanced → Cron Jobs**.
+2. Add a new cron job with **Common Settings: Once Per Minute** (`* * * * *`).
+3. Command (adjust the path and PHP binary for your account):
+
+```bash
+cd /home/USERNAME/public_html/bazarbill && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1
+```
+
+Find your PHP binary with `which php` over SSH, or use cPanel's **MultiPHP Manager** path such as `/opt/cpanel/ea-php83/root/usr/bin/php`.
+
+4. Verify from SSH:
+
+```bash
+php artisan schedule:list
+```
+
+If the server timezone differs from Bangladesh, set `APP_TIMEZONE=Asia/Dhaka` in `.env` (and `'timezone' => env('APP_TIMEZONE', 'UTC')` in `config/app.php`) so the 10:00 reminder actually goes out at 10:00 local time.
+
+---
+
 ## Step 7: Verify Installation
 
 ### 7.1 Access Your Site
@@ -194,6 +243,12 @@ Visit: `https://yourdomain.com`
 - **Password:** password
 
 **IMPORTANT:** Change the admin password immediately after first login!
+
+### 7.3 SaaS Checklist
+- **Admin → Plans**: review prices, shop limits, SMS allowance and which plan is the default for signups.
+- **Admin → SMS Credits**: after a market pays for a recharge (bKash / Nagad / cash), add the credits here with the TrxID as reference.
+- **Admin → Subscriptions**: record paid activations and renewals; the market is locked out automatically when the period ends.
+- **Public signup** is at `/register`: it creates the market, the owner login and a free trial on the default plan.
 
 ---
 

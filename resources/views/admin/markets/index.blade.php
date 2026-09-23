@@ -28,6 +28,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Contact') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.nav.shops') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Users') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('SMS Credits') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Status') }}</th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Actions') }}</th>
                     </tr>
@@ -51,6 +52,15 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 {{ $market->users_count }}
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                @if($market->usesPlatformSms())
+                                    <a href="{{ route('admin.markets.sms-credits', $market) }}" class="font-semibold {{ $market->hasLowSmsCredits() ? 'text-red-600' : 'text-gray-900' }} hover:underline">
+                                        {{ number_format($market->sms_credits) }}
+                                    </a>
+                                @else
+                                    <span class="text-gray-500">{{ __('Own key') }}</span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs rounded-full {{ $market->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ ucfirst($market->status) }}
@@ -68,7 +78,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                            <td colspan="7" class="px-6 py-12 text-center text-gray-500">
                                 {{ __('No markets found.') }}
                                 <a href="{{ route('admin.markets.create') }}" class="text-indigo-600 hover:underline ml-1">{{ __('Create one?') }}</a>
                             </td>

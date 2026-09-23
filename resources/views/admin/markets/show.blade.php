@@ -37,6 +37,12 @@
                 <a href="{{ route('admin.markets.edit', $market) }}" class="px-4 py-2 btn-primary transition">
                     {{ __('Edit Market') }}
                 </a>
+                <a href="{{ route('admin.markets.subscription', $market) }}" class="px-4 py-2 btn-secondary transition">
+                    {{ __('Subscription') }}
+                </a>
+                <a href="{{ route('admin.markets.sms-credits', $market) }}" class="px-4 py-2 btn-secondary transition">
+                    {{ __('SMS Credits') }}
+                </a>
                 <a href="{{ route('admin.markets.index') }}" class="px-4 py-2 btn-secondary transition">
                     {{ __('Back to List') }}
                 </a>
@@ -44,7 +50,28 @@
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+            <div class="glass-card p-4">
+                <p class="text-sm text-gray-500">{{ __('Plan') }}</p>
+                <p class="text-xl font-bold text-gray-800">{{ $market->plan?->name ?? __('None') }}</p>
+                @if($market->subscription_ends_at)
+                    <p class="text-sm {{ $market->hasActiveSubscription() ? 'text-gray-500' : 'text-red-600' }}">
+                        {{ ucfirst($market->subscription_status) }} · {{ $market->subscription_ends_at->format('d M Y') }}
+                    </p>
+                @else
+                    <a href="{{ route('admin.markets.subscription', $market) }}" class="text-sm text-indigo-600 hover:underline">{{ __('Assign') }}</a>
+                @endif
+            </div>
+            <div class="glass-card p-4">
+                <p class="text-sm text-gray-500">{{ __('SMS Credits') }}</p>
+                @if($market->usesPlatformSms())
+                    <p class="text-2xl font-bold {{ $market->hasLowSmsCredits() ? 'text-red-600' : 'text-indigo-600' }}">{{ number_format($market->sms_credits) }}</p>
+                    <a href="{{ route('admin.markets.sms-credits', $market) }}" class="text-sm text-indigo-600 hover:underline">{{ __('Manage') }}</a>
+                @else
+                    <p class="text-2xl font-bold text-gray-500">—</p>
+                    <p class="text-sm text-gray-500">{{ __('Own API key') }}</p>
+                @endif
+            </div>
             <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('Total Shops') }}</p>
                 <p class="text-2xl font-bold text-gray-800">{{ $stats['total_shops'] }}</p>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Market;
+use App\Models\Plan;
 use App\Models\User;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -20,9 +22,13 @@ class MarketController extends Controller
         return view('admin.markets.index', compact('markets'));
     }
 
+    public function __construct(protected SubscriptionService $subscriptions) {}
+
     public function create()
     {
-        return view('admin.markets.create');
+        $plans = Plan::where('is_active', true)->orderBy('sort_order')->orderBy('monthly_price')->get();
+
+        return view('admin.markets.create', compact('plans'));
     }
 
     public function store(Request $request)
@@ -35,11 +41,24 @@ class MarketController extends Controller
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
             'status' => 'required|in:active,inactive',
+            'plan_id' => ['nullable', Rule::exists('plans', 'id')->where('is_active', true)],
+            'subscription_start' => 'nullable|in:trial,none',
         ]);
+
+        $planId = $validated['plan_id'] ?? null;
+        $start = $validated['subscription_start'] ?? 'trial';
+        unset($validated['plan_id'], $validated['subscription_start']);
 
         $validated['slug'] = Str::slug($validated['name']) . '-' . Str::random(5);
 
         $market = Market::create($validated);
+
+        if ($planId && $start === 'trial') {
+            $this->subscriptions->startTrial($market, Plan::findOrFail($planId), auth()->id());
+        } elseif ($planId) {
+            // Plan assigned without a period: the admin records the paid activation next.
+            $market->forceFill(['plan_id' => $planId])->save();
+        }
 
         return redirect()->route('admin.markets.index')
             ->with('success', __('Market created successfully.'));
@@ -47,7 +66,7 @@ class MarketController extends Controller
 
     public function show(Market $market)
     {
-        $market->load(['shops', 'users']);
+        $market->load(['shops', 'users', 'plan']);
 
         $stats = [
             'total_shops' => $market->shops()->count(),

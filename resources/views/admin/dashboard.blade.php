@@ -69,6 +69,26 @@
         </div>
     </div>
 
+    <!-- Subscription overview -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+        <a href="{{ route('admin.subscriptions.index', ['status' => 'active']) }}" class="glass-card p-4 hover:bg-white/60 transition">
+            <p class="text-sm text-gray-500">{{ __('Paying markets') }}</p>
+            <p class="text-2xl font-bold text-green-600">{{ $stats['paying_markets'] }}</p>
+        </a>
+        <a href="{{ route('admin.subscriptions.index', ['status' => 'trial']) }}" class="glass-card p-4 hover:bg-white/60 transition">
+            <p class="text-sm text-gray-500">{{ __('On trial') }}</p>
+            <p class="text-2xl font-bold text-blue-600">{{ $stats['trial_markets'] }}</p>
+        </a>
+        <a href="{{ route('admin.subscriptions.index', ['status' => 'expiring']) }}" class="glass-card p-4 hover:bg-white/60 transition">
+            <p class="text-sm text-gray-500">{{ __('Expiring in 7 days') }}</p>
+            <p class="text-2xl font-bold {{ $stats['expiring_markets'] ? 'text-yellow-600' : 'text-gray-800' }}">{{ $stats['expiring_markets'] }}</p>
+        </a>
+        <div class="glass-card p-4">
+            <p class="text-sm text-gray-500">{{ __('Monthly recurring revenue') }}</p>
+            <p class="text-2xl font-bold text-gray-800">৳ {{ number_format($stats['mrr']) }}</p>
+        </div>
+    </div>
+
     <!-- Quick Actions -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="glass-card p-6">
