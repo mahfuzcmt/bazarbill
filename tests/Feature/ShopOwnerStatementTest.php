@@ -39,7 +39,7 @@ class ShopOwnerStatementTest extends TestCase
             ->assertSee('No payment yet')       // the other shop's invoice
             ->assertSee('৳6,000');              // total due across both shops
 
-        $this->actingAs($owner)->get(route('shop-owner.invoices.index', ['shop_id' => $b->id]))->assertOk()->assertDontSee('A-1');
+        $this->actingAs($owner)->get(route('shop-owner.invoices.index', ['shop_id' => $b->id]))->assertOk()->assertDontSee($invA->invoice_number)->assertSee('B-2');
         $this->actingAs($owner)->get(route('shop-owner.dashboard'))->assertOk()->assertSee('A-1, B-2')->assertSee('৳8,000');
         $this->actingAs($owner)->get(route('shop-owner.invoices.show', $foreign))->assertForbidden();
         $this->actingAs($owner)->get(route('shop-owner.invoices.show', $invA))->assertOk();
