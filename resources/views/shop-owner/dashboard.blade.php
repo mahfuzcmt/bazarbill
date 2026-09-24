@@ -17,12 +17,17 @@
         <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-lg p-4 sm:p-6 text-white">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                    <h2 class="text-xl sm:text-2xl font-bold">{{ $shop->shop_number }}</h2>
-                    <p class="text-indigo-100 text-sm sm:text-base">{{ $shop->floor ?? '' }} • {{ __('shops.type_' . $shop->shop_type) }}</p>
+                    @if($shops->count() > 1)
+                        <h2 class="text-xl sm:text-2xl font-bold">{{ $shops->pluck('shop_number')->join(', ') }}</h2>
+                        <p class="text-indigo-100 text-sm sm:text-base">{{ $shops->count() }} {{ __('shops.shops') }}</p>
+                    @else
+                        <h2 class="text-xl sm:text-2xl font-bold">{{ $shop->shop_number }}</h2>
+                        <p class="text-indigo-100 text-sm sm:text-base">{{ $shop->floor ?? '' }} • {{ __('shops.type_' . $shop->shop_type) }}</p>
+                    @endif
                 </div>
                 <div class="sm:text-right">
                     <p class="text-sm text-indigo-100">{{ __('shops.monthly_rent') }}</p>
-                    <p class="text-2xl sm:text-3xl font-bold">৳{{ number_format($shop->rent_amount) }}</p>
+                    <p class="text-2xl sm:text-3xl font-bold">৳{{ number_format($shops->sum('rent_amount')) }}</p>
                 </div>
             </div>
         </div>
@@ -72,11 +77,11 @@
             </div>
         </div>
 
-        <!-- Current Invoice -->
-        @if($currentInvoice)
+        <!-- Current Invoice(s) -->
+        @foreach($currentInvoices as $currentInvoice)
         <div class="glass-card overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h3 class="text-lg font-medium text-gray-900">{{ __('invoices.current_invoice') }}</h3>
+                <h3 class="text-lg font-medium text-gray-900">{{ __('invoices.current_invoice') }}@if($shops->count() > 1) — {{ $currentInvoice->shop->shop_number }}@endif</h3>
             </div>
             <div class="p-6">
                 <div class="flex items-center justify-between">
@@ -124,7 +129,7 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endforeach
 
         <!-- Recent Invoices -->
         <div class="glass-card">
@@ -138,7 +143,7 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="glass-thead">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.month') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.month') }}@if($shops->count() > 1) / {{ __('invoices.shop') }}@endif</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.amount') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.status') }}</th>
                     </tr>
@@ -147,7 +152,7 @@
                     @forelse($recentInvoices as $invoice)
                     <tr class="hover:bg-white/50 transition">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {{ $invoice->billing_month_formatted }}
+                            {{ $invoice->billing_month_formatted }}@if($shops->count() > 1) <span class="text-gray-500">· {{ $invoice->shop->shop_number }}</span>@endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             ৳{{ number_format($invoice->total_amount) }}

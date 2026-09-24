@@ -13,37 +13,44 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $shop = $user->shop;
+        $shops = $user->ownedShops()->orderBy('shop_number')->get();
+        $shop = $shops->first();
 
         if (!$shop) {
             return view('shop-owner.dashboard', ['shop' => null]);
         }
 
-        // Current invoice
-        $currentInvoice = Invoice::where('shop_id', $shop->id)
-            ->where('billing_month', now()->format('Y-m'))
-            ->first();
+        $shopIds = $shops->pluck('id');
 
-        // Total due
-        $totalDue = Invoice::where('shop_id', $shop->id)
+        // This month's invoice for each shop
+        $currentInvoices = Invoice::whereIn('shop_id', $shopIds)
+            ->with('shop')
+            ->where('billing_month', now()->format('Y-m'))
+            ->orderBy('shop_id')
+            ->get();
+        $currentInvoice = $currentInvoices->first();
+
+        // Total due across all shops
+        $totalDue = Invoice::whereIn('shop_id', $shopIds)
             ->whereIn('status', ['pending', 'partial', 'overdue'])
             ->sum('due_amount');
 
         // Total paid
-        $totalPaid = Payment::where('shop_id', $shop->id)->sum('amount');
+        $totalPaid = Payment::whereIn('shop_id', $shopIds)->sum('amount');
 
         // Total invoices
-        $totalInvoices = Invoice::where('shop_id', $shop->id)->count();
+        $totalInvoices = Invoice::whereIn('shop_id', $shopIds)->count();
 
         // Recent invoices
-        $recentInvoices = Invoice::where('shop_id', $shop->id)
+        $recentInvoices = Invoice::whereIn('shop_id', $shopIds)
+            ->with('shop')
             ->orderBy('billing_month', 'desc')
             ->limit(6)
             ->get();
 
         // Recent payments
-        $recentPayments = Payment::where('shop_id', $shop->id)
-            ->with('collector')
+        $recentPayments = Payment::whereIn('shop_id', $shopIds)
+            ->with(['collector', 'shop'])
             ->orderBy('payment_date', 'desc')
             ->limit(5)
             ->get();
@@ -58,6 +65,8 @@ class DashboardController extends Controller
 
         return view('shop-owner.dashboard', compact(
             'shop',
+            'shops',
+            'currentInvoices',
             'currentInvoice',
             'totalDue',
             'totalPaid',

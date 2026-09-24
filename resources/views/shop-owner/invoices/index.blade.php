@@ -20,14 +20,39 @@
 
         <!-- Invoices List -->
         <div class="glass-card">
+            <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <p class="text-sm text-gray-600">{{ __('invoices.statement_hint') }}</p>
+                <form method="GET" class="flex gap-2">
+                    @if($shops->count() > 1)
+                    <select name="shop_id" class="glass-input text-sm" onchange="this.form.submit()">
+                        <option value="">{{ __('invoices.all_shops') }}</option>
+                        @foreach($shops as $s)
+                            <option value="{{ $s->id }}" @selected(request('shop_id') == $s->id)>{{ $s->shop_number }}</option>
+                        @endforeach
+                    </select>
+                    @endif
+                    @if(count($years) > 1)
+                    <select name="year" class="glass-input text-sm" onchange="this.form.submit()">
+                        <option value="">{{ __('invoices.all_years') }}</option>
+                        @foreach($years as $y)
+                            <option value="{{ $y }}" @selected($year === $y)>{{ $y }}</option>
+                        @endforeach
+                    </select>
+                    @endif
+                </form>
+            </div>
             <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="glass-thead">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.invoice_number') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.billing_month') }}</th>
+                        @if($shops->count() > 1)
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.shop') }}</th>
+                        @endif
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.total') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.paid') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.paid_on') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.due') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('invoices.status') }}</th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('messages.actions') }}</th>
@@ -42,11 +67,21 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {{ $invoice->billing_month_formatted }}
                         </td>
+                        @if($shops->count() > 1)
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $invoice->shop->shop_number }}</td>
+                        @endif
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             ৳{{ number_format($invoice->total_amount) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">
                             ৳{{ number_format($invoice->paid_amount) }}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-700">
+                            @forelse($invoice->payments as $p)
+                                <div class="whitespace-nowrap">{{ $p->payment_date->format('d M Y') }} <span class="text-gray-400">·</span> ৳{{ number_format($p->amount) }}</div>
+                            @empty
+                                <span class="text-gray-400">{{ __('invoices.no_payment_yet') }}</span>
+                            @endforelse
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium {{ $invoice->due_amount > 0 ? 'text-red-600' : 'text-green-600' }}">
                             ৳{{ number_format($invoice->due_amount) }}
@@ -77,7 +112,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                        <td colspan="{{ $shops->count() > 1 ? 9 : 8 }}" class="px-6 py-12 text-center text-gray-500">
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>

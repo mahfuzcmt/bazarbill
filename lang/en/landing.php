@@ -23,7 +23,7 @@ return [
 
     'stat_1_label' => 'minute to bill the whole market',
     'stat_1_value' => '1',
-    'stat_2_label' => 'of shopkeepers get an automatic SMS',
+    'stat_2_label' => 'of shopkeepers get an SMS and their own account view',
     'stat_2_value' => '100%',
     'stat_3_label' => 'view of outstanding dues',
     'stat_3_value' => 'Live',
@@ -33,7 +33,7 @@ return [
     'why' => [
         ['t' => 'Dues get lost', 'd' => 'Which shop owes how many months, who paid part — finding it in a ledger takes hours and still goes wrong.'],
         ['t' => 'Collector accounts never reconcile', 'd' => 'Who collected what and handed over to whom leaves no trail. DueTap stamps every payment with a receipt and the collector\'s name.'],
-        ['t' => '"Nobody told me"', 'd' => 'A Bangla SMS reaches the shopkeeper the moment an invoice is created and again when it is overdue. No excuses.'],
+        ['t' => '"Nobody told me"', 'd' => 'A Bangla SMS reaches the shopkeeper when an invoice is created and when it is overdue, and their own app shows the month-by-month account. No excuses.'],
         ['t' => 'The committee wants reports', 'd' => 'Monthly collection, due list, shop-wise statements — one click to PDF. Bring it to the meeting.'],
         ['t' => 'Complaints and notices scattered', 'd' => 'Shopkeepers raise complaints in the app, the committee posts notices — all on record.'],
         ['t' => 'Everything depends on one person', 'd' => 'Work continues when the accountant is away. Owner, collectors and shopkeepers each have their own login.'],
@@ -52,6 +52,7 @@ return [
     'features_title' => 'Everything included',
     'features_sub' => 'From a small bazar to a large market complex',
     'features' => [
+        ['t' => 'The shopkeeper\'s own app', 'd' => 'Shopkeepers log in and see, for every month, the bill, what they paid and when, and what is still due — anytime, anywhere. Invoices and receipts as PDF.'],
         ['t' => 'Shops and shopkeepers', 'd' => 'Floor, type, rent, deposit, status. One shopkeeper can hold several shops.'],
         ['t' => 'Invoices and dues', 'd' => 'Bulk billing, carried-forward dues, discounts, late fees, partial payments, overdue tracking.'],
         ['t' => 'Bangla SMS', 'd' => 'Invoice, reminder and payment confirmation. Edit your own templates. Prepaid credits or your own gateway.'],
@@ -59,7 +60,6 @@ return [
         ['t' => 'Receipts and PDFs', 'd' => 'Invoices and receipts with your market\'s logo, in Bangla fonts, print-ready.'],
         ['t' => 'Reports', 'd' => 'Monthly collection, dues, shops, collector performance, invoice report. PDF and Excel.'],
         ['t' => 'Complaints and notices', 'd' => 'Shopkeepers raise complaints, the committee resolves them and posts notices. All on record.'],
-        ['t' => 'Role-based logins', 'd' => 'Owner, collector, shopkeeper — each sees only their part. Log in with a mobile number.'],
         ['t' => 'Bangla and English', 'd' => 'The whole system in both languages. Switch with one click.'],
     ],
 
