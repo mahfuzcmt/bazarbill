@@ -1,8 +1,7 @@
 -- BazarBill — MySQL schema + base data for cPanel
--- Generated 2026-09-23 18:33 from Laravel migrations (includes SMS credits, plans, subscriptions).
+-- Generated 2026-09-24 18:31 from Laravel migrations (SMS credits, plans, subscriptions, settings).
 -- Import into an EMPTY database via phpMyAdmin. Contains: all tables, migrations ledger,
 -- roles/permissions, 3 subscription plans, super admin login admin@bazarbill.com / password.
--- After import, future updates are applied with: php artisan migrate --force
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS=0;
 /*M!999999\- enable the sandbox mode */ 
@@ -345,6 +344,16 @@ CREATE TABLE `sessions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `settings` (
+  `key` varchar(100) NOT NULL,
+  `value` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shops` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `market_id` bigint(20) unsigned NOT NULL,
@@ -487,43 +496,44 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'0001_01_01_0000
 (16,'2026_09_23_000002_create_sms_credit_transactions_table',1),
 (17,'2026_09_23_000003_create_plans_table',1),
 (18,'2026_09_23_000004_create_subscriptions_table',1),
-(19,'2026_09_23_000005_add_reminder_tracking_to_invoices_table',1);
+(19,'2026_09_23_000005_add_reminder_tracking_to_invoices_table',1),
+(20,'2026_09_24_000001_create_settings_table',1);
 commit;
 set autocommit=0;
-INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'manage markets','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(2,'view shops','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(3,'create shops','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(4,'edit shops','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(5,'delete shops','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(6,'view staff','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(7,'create staff','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(8,'edit staff','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(9,'delete staff','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(10,'view invoices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(11,'create invoices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(12,'edit invoices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(13,'delete invoices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(14,'view payments','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(15,'collect payments','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(16,'delete payments','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(17,'view reports','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(18,'export reports','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(19,'view complaints','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(20,'create complaints','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(21,'manage complaints','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(22,'view notices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(23,'create notices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(24,'edit notices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(25,'delete notices','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(26,'manage settings','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(27,'send sms','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(28,'view sms logs','web','2026-09-23 06:33:59','2026-09-23 06:33:59');
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'manage markets','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(2,'view shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(3,'create shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(4,'edit shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(5,'delete shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(6,'view staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(7,'create staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(8,'edit staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(9,'delete staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(10,'view invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(11,'create invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(12,'edit invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(13,'delete invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(14,'view payments','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(15,'collect payments','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(16,'delete payments','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(17,'view reports','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(18,'export reports','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(19,'view complaints','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(20,'create complaints','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(21,'manage complaints','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(22,'view notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(23,'create notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(24,'edit notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(25,'delete notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(26,'manage settings','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(27,'send sms','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(28,'view sms logs','web','2026-09-24 06:31:20','2026-09-24 06:31:20');
 commit;
 set autocommit=0;
-INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'super_admin','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(2,'market_owner','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(3,'collector','web','2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(4,'shop_owner','web','2026-09-23 06:33:59','2026-09-23 06:33:59');
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'super_admin','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(2,'market_owner','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(3,'collector','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
+(4,'shop_owner','web','2026-09-24 06:31:20','2026-09-24 06:31:20');
 commit;
 set autocommit=0;
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES (1,1),
@@ -595,12 +605,12 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES (1,1),
 (22,4);
 commit;
 set autocommit=0;
-INSERT INTO `plans` (`id`, `name`, `name_bn`, `slug`, `description`, `monthly_price`, `yearly_price`, `shop_limit`, `sms_credits_per_month`, `trial_days`, `trial_sms_credits`, `features`, `is_default`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES (1,'Starter','স্টার্টার','starter','For small markets and single buildings.',1000.00,10000.00,50,200,14,20,'{\"masking_sms\":false,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',1,1,1,'2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(2,'Standard','স্ট্যান্ডার্ড','standard','For mid-size markets with several collectors.',2500.00,25000.00,200,1000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,2,'2026-09-23 06:33:59','2026-09-23 06:33:59'),
-(3,'Enterprise','এন্টারপ্রাইজ','enterprise','Unlimited shops for large markets and market committees.',5000.00,50000.00,NULL,3000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,3,'2026-09-23 06:33:59','2026-09-23 06:33:59');
+INSERT INTO `plans` (`id`, `name`, `name_bn`, `slug`, `description`, `monthly_price`, `yearly_price`, `shop_limit`, `sms_credits_per_month`, `trial_days`, `trial_sms_credits`, `features`, `is_default`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES (1,'Starter','স্টার্টার','starter','For small markets and single buildings.',1000.00,10000.00,50,200,14,20,'{\"masking_sms\":false,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',1,1,1,'2026-09-24 06:31:21','2026-09-24 06:31:21'),
+(2,'Standard','স্ট্যান্ডার্ড','standard','For mid-size markets with several collectors.',2500.00,25000.00,200,1000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,2,'2026-09-24 06:31:21','2026-09-24 06:31:21'),
+(3,'Enterprise','এন্টারপ্রাইজ','enterprise','Unlimited shops for large markets and market committees.',5000.00,50000.00,NULL,3000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,3,'2026-09-24 06:31:21','2026-09-24 06:31:21');
 commit;
 set autocommit=0;
-INSERT INTO `users` (`id`, `market_id`, `name`, `name_bn`, `email`, `phone`, `role`, `avatar`, `is_active`, `language_preference`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1,NULL,'Super Admin','সুপার এডমিন','admin@bazarbill.com','01800000000','super_admin',NULL,1,'en',NULL,'$2y$12$zt8sDUBZXb8zIYqS21ckzuKPp.oV1aGWG4lt6agE1ATCFbwK.1cjS',NULL,'2026-09-23 06:33:59','2026-09-23 06:33:59');
+INSERT INTO `users` (`id`, `market_id`, `name`, `name_bn`, `email`, `phone`, `role`, `avatar`, `is_active`, `language_preference`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1,NULL,'Super Admin','সুপার এডমিন','admin@bazarbill.com','01800000000','super_admin',NULL,1,'en',NULL,'$2y$12$RyyTVUIU4r57sggxaGBo/.nsWF9Yg.k0wbZNOad8fv3feHDsduOYW',NULL,'2026-09-24 06:31:21','2026-09-24 06:31:21');
 commit;
 set autocommit=0;
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES (1,'App\\Models\\User',1);
