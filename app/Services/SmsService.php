@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\InsufficientSmsCreditsException;
 use App\Models\Market;
+use App\Models\Setting;
 use App\Models\SmsCreditTransaction;
 use App\Models\SmsLog;
 use Illuminate\Support\Facades\Http;
@@ -57,7 +58,7 @@ class SmsService
     protected function apiKey(): ?string
     {
         return $this->usesPlatformGateway()
-            ? (config('services.sms.api_key') ?: null)
+            ? Setting::smsApiKey()
             : $this->market->sms_api_key;
     }
 
@@ -69,10 +70,10 @@ class SmsService
                 return $this->market->sms_sender_id;
             }
 
-            return config('services.sms.sender_id', '8809617642636');
+            return Setting::smsSenderId();
         }
 
-        return $this->market->sms_sender_id ?: config('services.sms.sender_id', '8809617642636');
+        return $this->market->sms_sender_id ?: Setting::smsSenderId();
     }
 
     /**
@@ -261,6 +262,69 @@ class SmsService
 
         // Bare subscriber number 1XXXXXXXXX
         return '880' . $phone;
+    }
+
+    /**
+     * Send one SMS with the platform credentials, outside any market:
+     * no log, no credits. Used by the super admin "test gateway" button.
+     *
+     * @return array{ok:bool, error:?string, response:?string}
+     */
+    public static function platformTest(string $phone, string $message): array
+    {
+        $service = new static();
+        $phone = $service->normalizePhone($phone);
+
+        try {
+            $response = Http::timeout(30)->get(config('services.sms.url', 'http://bulksmsbd.net/api/smsapi'), [
+                'api_key' => Setting::smsApiKey(),
+                'senderid' => Setting::smsSenderId(),
+                'number' => $phone,
+                'message' => $message,
+                'type' => 'text',
+            ]);
+
+            $body = $response->body();
+            $data = json_decode($body, true);
+
+            if ($response->successful() && isset($data['response_code']) && $data['response_code'] == 202) {
+                return ['ok' => true, 'error' => null, 'response' => $body];
+            }
+
+            return [
+                'ok' => false,
+                'error' => $data['error_message'] ?? ('HTTP ' . $response->status() . ' ' . $body),
+                'response' => $body,
+            ];
+        } catch (\Exception $e) {
+            return ['ok' => false, 'error' => $e->getMessage(), 'response' => null];
+        }
+    }
+
+    /**
+     * Balance (in Taka) of the platform gateway account, or null if unavailable.
+     */
+    public static function platformBalance(): ?float
+    {
+        $key = Setting::smsApiKey();
+        if (!$key) {
+            return null;
+        }
+
+        try {
+            $response = Http::timeout(10)->get(config('services.sms.balance_url', 'http://bulksmsbd.net/api/getBalanceApi'), [
+                'api_key' => $key,
+            ]);
+
+            if ($response->successful()) {
+                $data = json_decode($response->body(), true);
+                return isset($data['balance']) ? (float) $data['balance'] : null;
+            }
+        } catch (\Exception $e) {
+            Log::error('Platform SMS balance check failed', ['error' => $e->getMessage()]);
+        }
+
+        return null;
     }
 
     /**

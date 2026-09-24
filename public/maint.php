@@ -111,7 +111,8 @@ switch ($action) {
         echo "APP_ENV: " . config('app.env') . "   APP_DEBUG: " . (config('app.debug') ? 'true (turn off in production)' : 'false') . "\n";
         echo "APP_URL: " . config('app.url') . "   timezone: " . config('app.timezone') . "\n";
         echo "APP_KEY: " . (config('app.key') ? 'set' : 'MISSING') . "\n";
-        echo "SMS_API_KEY: " . (config('services.sms.api_key') ? 'set' : 'not set (platform SMS disabled)') . "\n";
+        $smsKey = class_exists(App\Models\Setting::class) ? App\Models\Setting::smsApiKey() : config('services.sms.api_key');
+        echo "Platform SMS key: " . ($smsKey ? 'set' : 'NOT SET - Admin > SMS Gateway') . "\n";
         echo "DB: " . config('database.default') . " " . config('database.connections.' . config('database.default') . '.database') . "\n";
         try {
             $pdo = Illuminate\Support\Facades\DB::connection()->getPdo();

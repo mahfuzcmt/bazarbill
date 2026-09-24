@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MarketController as AdminMarketController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\SmsCreditController as AdminSmsCreditController;
 use App\Http\Controllers\Admin\PlanController as AdminPlanController;
+use App\Http\Controllers\Admin\SmsSettingsController as AdminSmsSettingsController;
 use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptionController;
 use App\Http\Controllers\SubscriptionExpiredController;
 use App\Http\Controllers\MarketOwner\DashboardController as MarketOwnerDashboard;
@@ -167,6 +168,12 @@ Route::middleware(['auth', 'verified', 'role:super_admin'])
         Route::get('sms-credits', [AdminSmsCreditController::class, 'index'])->name('sms-credits.index');
         Route::get('markets/{market}/sms-credits', [AdminSmsCreditController::class, 'show'])->name('markets.sms-credits');
         Route::post('markets/{market}/sms-credits', [AdminSmsCreditController::class, 'store'])->name('markets.sms-credits.store');
+
+        // Platform SMS gateway
+        Route::get('sms-settings', [AdminSmsSettingsController::class, 'index'])->name('sms-settings.index');
+        Route::put('sms-settings', [AdminSmsSettingsController::class, 'update'])->name('sms-settings.update');
+        Route::post('sms-settings/test', [AdminSmsSettingsController::class, 'test'])->name('sms-settings.test');
+        Route::get('sms-logs', [AdminSmsSettingsController::class, 'logs'])->name('sms-logs.index');
 
         // Plans & Subscriptions
         Route::resource('plans', AdminPlanController::class)->except(['show']);

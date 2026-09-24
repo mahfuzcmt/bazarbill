@@ -18,7 +18,7 @@
             <div class="glass-card p-4">
                 <p class="text-sm text-gray-500">{{ __('Markets running low') }}</p>
                 <p class="text-2xl font-bold {{ $totals['low_markets'] ? 'text-red-600' : 'text-gray-800' }}">{{ $totals['low_markets'] }}</p>
-                <p class="text-xs text-gray-500">{{ __('at or below :n credits', ['n' => config('services.sms.low_credit_threshold', 20)]) }}</p>
+                <p class="text-xs text-gray-500">{{ __('at or below :n credits', ['n' => \App\Models\Setting::smsLowCreditThreshold()]) }}</p>
             </div>
         </div>
 

@@ -171,7 +171,7 @@ class Market extends Model
     public function hasLowSmsCredits(): bool
     {
         return $this->usesPlatformSms()
-            && $this->sms_credits <= (int) config('services.sms.low_credit_threshold', 20);
+            && $this->sms_credits <= Setting::smsLowCreditThreshold();
     }
 
     public function isActive(): bool

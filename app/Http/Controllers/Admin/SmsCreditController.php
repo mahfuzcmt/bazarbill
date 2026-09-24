@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\InsufficientSmsCreditsException;
 use App\Http\Controllers\Controller;
 use App\Models\Market;
+use App\Models\Setting;
 use App\Models\SmsCreditTransaction;
 use App\Services\SmsCreditService;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class SmsCreditController extends Controller
                 ? $q->whereNotNull('sms_api_key')->where('sms_api_key', '!=', '')
                 : $q->where(fn ($q) => $q->whereNull('sms_api_key')->orWhere('sms_api_key', '')))
             ->when($request->boolean('low_only'), fn ($q) => $q
-                ->where('sms_credits', '<=', (int) config('services.sms.low_credit_threshold', 20)))
+                ->where('sms_credits', '<=', Setting::smsLowCreditThreshold()))
             ->orderBy('sms_credits')
             ->paginate(20)
             ->withQueryString();
@@ -48,7 +49,7 @@ class SmsCreditController extends Controller
                 ->where('created_at', '>=', $monthStart)
                 ->sum('credits_used'),
             'low_markets' => Market::where(fn ($q) => $q->whereNull('sms_api_key')->orWhere('sms_api_key', ''))
-                ->where('sms_credits', '<=', (int) config('services.sms.low_credit_threshold', 20))
+                ->where('sms_credits', '<=', Setting::smsLowCreditThreshold())
                 ->count(),
         ];
 
