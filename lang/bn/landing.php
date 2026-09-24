@@ -120,6 +120,7 @@ return [
 
     'footer_tagline' => 'মার্কেটের দোকান ভাড়া ও বকেয়া আদায়, সহজে।',
     'footer_product' => 'পণ্য',
+    'nav_manual' => 'ব্যবহার সহায়িকা',
     'footer_contact' => 'যোগাযোগ',
     'footer_rights' => 'সর্বস্বত্ব সংরক্ষিত।',
     'wa_float' => 'হোয়াটসঅ্যাপ',

@@ -52,6 +52,7 @@ return [
         'notices' => 'Notices',
         'settings' => 'Settings',
         'sms_logs' => 'SMS Logs',
+        'manual' => 'User Guide',
     ],
 
     // Auth

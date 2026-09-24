@@ -38,6 +38,10 @@ Route::get('/storage/{path}', function (string $path) {
     return response()->file($disk->path($path), ['Cache-Control' => 'public, max-age=86400']);
 })->where('path', '.*')->name('storage.file');
 
+// User guide (Bangla) — public, plus PDF download
+Route::get('/manual', [\App\Http\Controllers\ManualController::class, 'index'])->name('manual');
+Route::get('/manual/pdf', [\App\Http\Controllers\ManualController::class, 'pdf'])->name('manual.pdf');
+
 // Public landing page (guests); signed-in users go to their dashboard
 Route::get('/', \App\Http\Controllers\LandingController::class)->name('landing');
 

@@ -120,6 +120,7 @@ return [
 
     'footer_tagline' => 'Market rent and due collection, made simple.',
     'footer_product' => 'Product',
+    'nav_manual' => 'User guide',
     'footer_contact' => 'Contact',
     'footer_rights' => 'All rights reserved.',
     'wa_float' => 'WhatsApp',

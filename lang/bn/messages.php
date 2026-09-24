@@ -52,6 +52,7 @@ return [
         'notices' => 'নোটিশ',
         'settings' => 'সেটিংস',
         'sms_logs' => 'এসএমএস লগ',
+        'manual' => 'ব্যবহার সহায়িকা',
     ],
 
     // Auth

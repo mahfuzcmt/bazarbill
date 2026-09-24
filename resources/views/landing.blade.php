@@ -340,6 +340,7 @@
                     <li><a href="#features" class="hover:text-indigo-600">{{ __('landing.nav_features') }}</a></li>
                     <li><a href="#pricing" class="hover:text-indigo-600">{{ __('landing.nav_pricing') }}</a></li>
                     <li><a href="#faq" class="hover:text-indigo-600">{{ __('landing.nav_faq') }}</a></li>
+                    <li><a href="{{ route('manual') }}" class="hover:text-indigo-600">{{ __('landing.nav_manual') }}</a></li>
                     <li><a href="{{ route('login') }}" class="hover:text-indigo-600">{{ __('landing.nav_login') }}</a></li>
                     <li><a href="{{ route('register') }}" class="hover:text-indigo-600">{{ __('landing.hero_trial') }}</a></li>
                 </ul>
