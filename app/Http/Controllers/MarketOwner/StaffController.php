@@ -49,7 +49,7 @@ class StaffController extends Controller
         $user = User::create([
             'market_id' => auth()->user()->market_id,
             'name' => $validated['name'],
-            'name_bn' => $validated['name_bn'],
+            'name_bn' => $validated['name_bn'] ?? null,
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'password' => Hash::make($validated['password']),
@@ -149,7 +149,7 @@ class StaffController extends Controller
 
         $staff->update([
             'name' => $validated['name'],
-            'name_bn' => $validated['name_bn'],
+            'name_bn' => $validated['name_bn'] ?? null,
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'is_active' => $request->has('is_active'),

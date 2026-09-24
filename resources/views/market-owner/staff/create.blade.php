@@ -55,6 +55,15 @@
                     @enderror
                     <p class="mt-1 text-xs text-gray-500">{{ __('staff.password_hint') }}</p>
                 </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+                        {{ __('staff.confirm_password') }} <span class="text-red-500">*</span>
+                    </label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" required minlength="6"
+                           class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
             </div>
 
             <!-- Assign Shops -->

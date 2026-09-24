@@ -101,6 +101,9 @@
                                 </form>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                @if($user->role === 'market_owner' && $user->market_id)
+                                    <a href="{{ route('admin.markets.sms-credits', $user->market_id) }}" class="text-emerald-600 hover:text-emerald-900 mr-3">{{ __('SMS Credits') }}</a>
+                                @endif
                                 <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:text-blue-900 mr-3">{{ __('View') }}</a>
                                 <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">{{ __('Edit') }}</a>
                                 @if($user->id !== auth()->id())

@@ -41,7 +41,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <h4 class="text-sm font-medium text-gray-500">{{ __('Market') }}</h4>
-                        <p class="text-gray-800">{{ $user->market->name ?? __('No Market Assigned') }}</p>
+                        @if($user->market)
+                            <p class="text-gray-800">
+                                <a href="{{ route('admin.markets.show', $user->market) }}" class="text-indigo-600 hover:underline">{{ $user->market->name }}</a>
+                            </p>
+                        @else
+                            <p class="text-gray-800">{{ __('No Market Assigned') }}</p>
+                        @endif
                     </div>
                     <div>
                         <h4 class="text-sm font-medium text-gray-500">{{ __('Language') }}</h4>
@@ -60,6 +66,29 @@
                     </div>
                 </div>
             </div>
+
+            @if($user->market && $user->role === 'market_owner')
+                <div class="mt-6 pt-6 border-t">
+                    <h3 class="text-sm font-medium text-gray-500 mb-3">{{ __('Market account') }}: {{ $user->market->name }}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-lg bg-indigo-50">
+                            <p class="text-xs text-indigo-700">{{ __('SMS credit balance') }}</p>
+                            <p class="text-2xl font-bold text-indigo-800">{{ number_format($user->market->sms_credits) }}</p>
+                            <a href="{{ route('admin.markets.sms-credits', $user->market) }}" class="text-sm font-medium text-indigo-700 hover:underline">{{ __('Add / deduct credits') }} &rarr;</a>
+                        </div>
+                        <div class="p-4 rounded-lg bg-green-50">
+                            <p class="text-xs text-green-700">{{ __('Plan') }}</p>
+                            <p class="text-2xl font-bold text-green-800">{{ $user->market->plan?->name ?? __('None') }}</p>
+                            <a href="{{ route('admin.markets.subscription', $user->market) }}" class="text-sm font-medium text-green-700 hover:underline">{{ __('Manage subscription') }} &rarr;</a>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-50">
+                            <p class="text-xs text-gray-600">{{ __('Access until') }}</p>
+                            <p class="text-2xl font-bold text-gray-800">{{ $user->market->subscription_ends_at?->format('d M Y') ?? '—' }}</p>
+                            <span class="text-sm text-gray-600">{{ $user->market->subscription_status ? ucfirst($user->market->subscription_status) : __('No plan') }}</span>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <div class="mt-6 pt-6 border-t flex items-center gap-4">
                 <a href="{{ route('admin.users.edit', $user) }}" class="px-4 py-2 btn-primary transition">
