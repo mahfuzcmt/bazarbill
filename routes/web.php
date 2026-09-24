@@ -28,13 +28,8 @@ use App\Http\Controllers\ShopOwner\InvoiceController as ShopOwnerInvoiceControll
 use App\Http\Controllers\ShopOwner\ComplaintController as ShopOwnerComplaintController;
 use Illuminate\Support\Facades\Route;
 
-// Welcome page - redirect to login or dashboard
-Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('login');
-});
+// Public landing page (guests); signed-in users go to their dashboard
+Route::get('/', \App\Http\Controllers\LandingController::class)->name('landing');
 
 // Language switch
 Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');

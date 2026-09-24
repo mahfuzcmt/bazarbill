@@ -1,0 +1,87 @@
+<?php
+
+return [
+    'meta_title' => 'DueTap — Market rent & due collection software for Bangladesh',
+    'meta_description' => 'Shop rent collection for bazars, markets and commercial buildings: invoices, Bangla SMS reminders, collectors, receipts and reports in one place. Call or WhatsApp 01805995662.',
+
+    'nav_features' => 'Features',
+    'nav_workflow' => 'How it works',
+    'nav_pricing' => 'Pricing',
+    'nav_contact' => 'Contact',
+    'nav_login' => 'Log in',
+    'nav_trial' => 'Free trial',
+    'lang_switch' => 'বাংলা',
+
+    'hero_kicker' => 'For bazar committees and market owners',
+    'hero_title' => 'Collect shop rent <span class="brand-mark">without the ledger</span>',
+    'hero_sub' => 'Monthly invoices, SMS to shopkeepers, collector payments with receipts, and a live picture of who owes what — in one mobile-friendly system built for Bangladesh, in Bangla.',
+    'hero_call' => 'Call us',
+    'hero_whatsapp' => 'WhatsApp us',
+    'hero_trial' => '14-day free trial',
+    'hero_note' => 'No card, no upfront payment. Subscribe by bKash or Nagad.',
+    'whatsapp_prefill' => 'Hello, I would like to know more about DueTap.',
+
+    'stat_1_label' => 'minute to bill the whole market',
+    'stat_1_value' => '1',
+    'stat_2_label' => 'of shopkeepers get an automatic SMS',
+    'stat_2_value' => '100%',
+    'stat_3_label' => 'view of outstanding dues',
+    'stat_3_value' => 'Live',
+
+    'why_title' => 'Why you need DueTap',
+    'why_sub' => 'The problems that come back every month with ledgers and spreadsheets',
+    'why' => [
+        ['t' => 'Dues get lost', 'd' => 'Which shop owes how many months, who paid part — finding it in a ledger takes hours and still goes wrong.'],
+        ['t' => 'Collector accounts never reconcile', 'd' => 'Who collected what and handed over to whom leaves no trail. DueTap stamps every payment with a receipt and the collector\'s name.'],
+        ['t' => '"Nobody told me"', 'd' => 'A Bangla SMS reaches the shopkeeper the moment an invoice is created and again when it is overdue. No excuses.'],
+        ['t' => 'The committee wants reports', 'd' => 'Monthly collection, due list, shop-wise statements — one click to PDF. Bring it to the meeting.'],
+        ['t' => 'Complaints and notices scattered', 'd' => 'Shopkeepers raise complaints in the app, the committee posts notices — all on record.'],
+        ['t' => 'Everything depends on one person', 'd' => 'Work continues when the accountant is away. Owner, collectors and shopkeepers each have their own login.'],
+    ],
+
+    'workflow_title' => 'How it works',
+    'workflow_sub' => 'Five steps. You\'ll be comfortable within the first month.',
+    'workflow' => [
+        ['t' => 'Add your market and shops', 'd' => 'Shop number, floor, rent, shopkeeper\'s mobile. Assign which collector looks after which shops.'],
+        ['t' => 'Generate the month\'s invoices in one click', 'd' => 'Every active shop is billed at once and previous dues carry forward automatically. Or let it run on the 1st of each month.'],
+        ['t' => 'Shopkeepers get an SMS', 'd' => 'On invoice, before the due date and when overdue — in Bangla. Shopkeepers can also log in and see their bills.'],
+        ['t' => 'Collectors collect, receipts are issued', 'd' => 'The collector records the payment from a phone, a receipt number is generated, and the shopkeeper receives a confirmation SMS.'],
+        ['t' => 'The owner watches the reports', 'd' => 'Today\'s collection, monthly total, dues and collector performance on the dashboard. Export to PDF and Excel.'],
+    ],
+
+    'features_title' => 'Everything included',
+    'features_sub' => 'From a small bazar to a large market complex',
+    'features' => [
+        ['t' => 'Shops and shopkeepers', 'd' => 'Floor, type, rent, deposit, status. One shopkeeper can hold several shops.'],
+        ['t' => 'Invoices and dues', 'd' => 'Bulk billing, carried-forward dues, discounts, late fees, partial payments, overdue tracking.'],
+        ['t' => 'Bangla SMS', 'd' => 'Invoice, reminder and payment confirmation. Edit your own templates. Prepaid credits or your own gateway.'],
+        ['t' => 'Collector app', 'd' => 'Collect from a phone, see only assigned shops, print receipts. The owner decides what collectors may do.'],
+        ['t' => 'Receipts and PDFs', 'd' => 'Invoices and receipts with your market\'s logo, in Bangla fonts, print-ready.'],
+        ['t' => 'Reports', 'd' => 'Monthly collection, dues, shops, collector performance, invoice report. PDF and Excel.'],
+        ['t' => 'Complaints and notices', 'd' => 'Shopkeepers raise complaints, the committee resolves them and posts notices. All on record.'],
+        ['t' => 'Role-based logins', 'd' => 'Owner, collector, shopkeeper — each sees only their part. Log in with a mobile number.'],
+        ['t' => 'Bangla and English', 'd' => 'The whole system in both languages. Switch with one click.'],
+    ],
+
+    'pricing_title' => 'Simple pricing',
+    'pricing_sub' => 'Monthly or yearly. Pay by bKash, Nagad or bank and let us know — your account is activated.',
+    'per_month' => '/ month',
+    'per_year' => 'Tk :price per year',
+    'shops_upto' => 'Up to :n shops',
+    'shops_unlimited' => 'Unlimited shops',
+    'sms_per_month' => ':n SMS credits per month',
+    'trial_days' => ':n-day free trial',
+    'popular' => 'Popular',
+    'choose' => 'Talk to us about this plan',
+    'pricing_note' => 'Custom packages for large or multiple markets. Give us a call.',
+
+    'contact_title' => 'Talk to us, see a demo',
+    'contact_sub' => 'Tell us how many shops your market has, by phone or WhatsApp. We\'ll show you a demo and help with the first month\'s setup.',
+    'contact_phone_label' => 'Mobile & WhatsApp',
+    'contact_hours' => '10 AM – 9 PM, every day',
+    'contact_or' => 'Or start on your own',
+
+    'footer_tagline' => 'Market rent & due collection, made simple.',
+    'footer_rights' => 'All rights reserved.',
+    'wa_float' => 'WhatsApp',
+];
