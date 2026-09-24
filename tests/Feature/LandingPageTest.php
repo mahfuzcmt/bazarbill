@@ -18,7 +18,7 @@ class LandingPageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('lang="bn"', false)
-            ->assertSee('কেন ডিউট্যাপ দরকার')
+            ->assertSee('যেভাবে কাজ করে')->assertSee('font-bengali')->assertSee('সাধারণ জিজ্ঞাসা')
             ->assertSee('tel:+8801805995662')
             ->assertSee('wa.me/8801805995662')
             ->assertSee('০১৮০৫৯৯৫৬৬২')
@@ -31,7 +31,7 @@ class LandingPageTest extends TestCase
         $this->withSession(['locale' => 'en'])->get('/')
             ->assertOk()
             ->assertSee('lang="en"', false)
-            ->assertSee('Why you need DueTap')
+            ->assertSee('How it works')->assertSee('Frequently asked questions')
             ->assertSee('01805995662');
     }
 
