@@ -34,7 +34,7 @@
 <body class="font-sans antialiased glass-bg text-slate-800">
 
     <!-- Top bar -->
-    <header class="sticky top-0 z-40 glass-topbar">
+    <header class="sticky top-0 z-40 glass-header">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
             <a href="{{ url('/') }}" class="flex items-center gap-2">
                 <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-500/30">
