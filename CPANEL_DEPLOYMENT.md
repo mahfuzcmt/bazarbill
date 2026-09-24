@@ -145,15 +145,31 @@ chmod -R 775 storage bootstrap/cache
 1. Go to **Subdomains** or **Addon Domains** in cPanel
 2. Set document root to: `/public_html/bazarbill/public`
 
-### Option B: Main Domain (.htaccess method)
-Create `.htaccess` in `public_html` root:
+### Option B: Document root is the app folder (.htaccess method)
+Create `.htaccess` in the app folder (next to `artisan`). This version routes everything itself and works on LiteSpeed hosts where `public/.htaccess` is ignored after a forward:
 
 ```apache
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Already inside public/ (after an internal rewrite): stop here
+    RewriteRule ^public/ - [L]
+
+    # Existing file or folder inside public/ (assets, uploads, maint.php): serve it
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -d
     RewriteRule ^(.*)$ public/$1 [L]
+
+    # Everything else: Laravel front controller
+    RewriteRule ^ public/index.php [L]
 </IfModule>
+
+<FilesMatch "^(\.env|composer\.(json|lock)|artisan|package(-lock)?\.json|vite\.config\.js|tailwind\.config\.js|postcss\.config\.js)$">
+    Require all denied
+</FilesMatch>
 ```
+
+Symptom this fixes: `/` redirects to `/login` but `/login` shows the server's own 404 page, while `/public/index.php/login` works.
 
 ### Option C: Move public folder contents (Alternative)
 1. Move contents of `public/` to `public_html/`

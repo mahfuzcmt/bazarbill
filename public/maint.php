@@ -68,7 +68,21 @@ if ($action === 'check') {
         $p = "$base/$dir";
         echo str_pad("{$dir}:", 28) . (is_dir($p) ? (is_writable($p) ? "writable" : "NOT WRITABLE (chmod 775)") : "MISSING") . "\n";
     }
-    echo str_pad("public/storage link:", 28) . (is_link("$base/public/storage") || is_dir("$base/public/storage") ? "present" : "missing (run action=storage-link)") . "\n\n";
+    echo str_pad("public/storage link:", 28) . (is_link("$base/public/storage") || is_dir("$base/public/storage") ? "present" : "missing (run action=storage-link)") . "\n";
+    echo str_pad("public/.htaccess:", 28) . (is_file("$base/public/.htaccess") ? "present" : "MISSING") . "\n";
+    echo str_pad("root .htaccess:", 28) . (is_file("$base/.htaccess") ? "present" : "none (fine if document root is /public)") . "\n";
+    // Live routing test: does a pretty URL reach Laravel?
+    if (function_exists('curl_init')) {
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $probe = $scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . '/login';
+        $ch = curl_init($probe);
+        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_NOBODY => true, CURLOPT_TIMEOUT => 10, CURLOPT_SSL_VERIFYPEER => false]);
+        curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+        echo str_pad("URL rewriting (/login):", 28) . ($code === 200 ? "OK" : "FAILING (HTTP {$code}) - see CPANEL_DEPLOYMENT.md, Step 5 Option B") . "\n";
+    }
+    echo "\n";
 }
 
 // --- boot Laravel
