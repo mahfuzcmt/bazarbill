@@ -57,7 +57,7 @@
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">{{ $owner->getLocalizedName() }}</div>
                                         <div class="text-xs text-gray-500">
-                                            {{ __('shop_owners.login_id') }}: {{ str_ends_with($owner->email, '@bazarbill.local') ? $owner->phone : $owner->email }}
+                                            {{ __('shop_owners.login_id') }}: {{ $owner->loginIdentifier() }}
                                         </div>
                                     </div>
                                 </div>

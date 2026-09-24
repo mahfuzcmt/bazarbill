@@ -25,7 +25,7 @@
     <div>
         <label for="email" class="block text-sm font-medium text-gray-700">{{ __('shop_owners.email') }}</label>
         <input type="email" name="email" id="email"
-               value="{{ old('email', ($editing && !str_ends_with($shopOwner->email, '@bazarbill.local')) ? $shopOwner->email : '') }}"
+               value="{{ old('email', ($editing && !$shopOwner->hasPlaceholderEmail()) ? $shopOwner->email : '') }}"
                class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
         @error('email')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
         <p class="mt-1 text-xs text-gray-500">{{ __('shop_owners.email_hint') }}</p>

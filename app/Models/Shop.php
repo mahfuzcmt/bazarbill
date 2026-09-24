@@ -32,6 +32,29 @@ class Shop extends Model
         'area_sqft' => 'decimal:2',
     ];
 
+    /**
+     * Make $owner the owner of exactly $shopIds within the market: shops of theirs
+     * not in the list are released; listed shops are taken only if unowned or already theirs.
+     */
+    public static function syncOwner(User $owner, array $shopIds, int $marketId): void
+    {
+        $shopIds = array_values(array_filter(array_map('intval', $shopIds)));
+
+        static::withoutGlobalScopes()
+            ->where('market_id', $marketId)
+            ->where('shop_owner_id', $owner->id)
+            ->whereNotIn('id', $shopIds ?: [0])
+            ->update(['shop_owner_id' => null]);
+
+        if ($shopIds) {
+            static::withoutGlobalScopes()
+                ->where('market_id', $marketId)
+                ->whereIn('id', $shopIds)
+                ->where(fn ($q) => $q->whereNull('shop_owner_id')->orWhere('shop_owner_id', $owner->id))
+                ->update(['shop_owner_id' => $owner->id]);
+        }
+    }
+
     public function shopOwner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'shop_owner_id');

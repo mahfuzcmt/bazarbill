@@ -84,6 +84,40 @@ class User extends Authenticatable
         return $this->hasMany(Notice::class, 'created_by');
     }
 
+    /**
+     * Login placeholder for accounts created without an email. Includes the
+     * market id so the same phone can exist in two different markets.
+     */
+    public static function placeholderEmail(string $phone, int $marketId): string
+    {
+        return 'm' . $marketId . '.' . preg_replace('/\D/', '', $phone) . '@bazarbill.local';
+    }
+
+    public function hasPlaceholderEmail(): bool
+    {
+        return str_ends_with((string) $this->email, '@bazarbill.local');
+    }
+
+    /** The identifier shown to people as their login: email, or phone for placeholder accounts. */
+    public function loginIdentifier(): string
+    {
+        return $this->hasPlaceholderEmail() ? (string) $this->phone : (string) $this->email;
+    }
+
+    /**
+     * All spellings of a Bangladeshi mobile number that may be stored in users.phone.
+     */
+    public static function phoneVariants(string $phone): array
+    {
+        $digits = preg_replace('/\D/', '', $phone);
+        if (strlen($digits) >= 10) {
+            $local = '0' . substr($digits, -10);
+            return array_values(array_unique([$phone, $digits, $local, '88' . $local, '+88' . $local]));
+        }
+
+        return [$phone, $digits];
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->role === 'super_admin';

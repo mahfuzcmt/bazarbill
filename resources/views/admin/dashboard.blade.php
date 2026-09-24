@@ -90,7 +90,7 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 gap-6 mb-6">
         <div class="glass-card p-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('Quick Actions') }}</h3>
             <div class="grid grid-cols-2 gap-4">
@@ -121,28 +121,6 @@
             </div>
         </div>
 
-        <!-- System Info -->
-        <div class="glass-card p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ __('System Information') }}</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center py-2 border-b">
-                    <span class="text-gray-600">{{ __('Laravel Version') }}</span>
-                    <span class="font-medium text-gray-800">{{ app()->version() }}</span>
-                </div>
-                <div class="flex justify-between items-center py-2 border-b">
-                    <span class="text-gray-600">{{ __('PHP Version') }}</span>
-                    <span class="font-medium text-gray-800">{{ PHP_VERSION }}</span>
-                </div>
-                <div class="flex justify-between items-center py-2 border-b">
-                    <span class="text-gray-600">{{ __('Total Invoices') }}</span>
-                    <span class="font-medium text-gray-800">{{ number_format($stats['total_invoices']) }}</span>
-                </div>
-                <div class="flex justify-between items-center py-2">
-                    <span class="text-gray-600">{{ __('Total Due') }}</span>
-                    <span class="font-medium text-red-600">৳ {{ number_format($stats['total_due']) }}</span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Recent Data -->

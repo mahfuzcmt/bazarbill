@@ -96,7 +96,7 @@ class ShopController extends Controller
             $owner = User::create([
                 'market_id' => auth()->user()->market_id,
                 'name' => $validated['owner_name'],
-                'email' => ($validated['owner_email'] ?? null) ?: 'owner.' . preg_replace('/\D/', '', $validated['owner_phone']) . '@bazarbill.local',
+                'email' => ($validated['owner_email'] ?? null) ?: User::placeholderEmail($validated['owner_phone'], auth()->user()->market_id),
                 'phone' => $validated['owner_phone'],
                 'password' => Hash::make($validated['owner_phone']),
                 'role' => 'shop_owner',

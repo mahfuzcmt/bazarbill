@@ -110,7 +110,7 @@ class ShopController extends Controller
         $shopOwner = User::create([
             'market_id' => auth()->user()->market_id,
             'name' => $validated['owner_name'],
-            'email' => $validated['owner_email'] ?? strtolower(str_replace(' ', '.', $validated['owner_name'])) . '@' . auth()->user()->market_id . '.local',
+            'email' => ($validated['owner_email'] ?? null) ?: User::placeholderEmail($validated['owner_phone'], auth()->user()->market_id),
             'phone' => $validated['owner_phone'],
             'password' => Hash::make('123456'), // Default password
             'role' => 'shop_owner',

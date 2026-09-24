@@ -58,6 +58,7 @@ return [
         'login_button' => 'Sign In',
         'invalid_credentials' => 'Invalid email or password',
         'account_inactive' => 'Your account is inactive. Please contact administrator.',
+        'login_id' => 'Email or mobile number',
         'register_title' => 'Create your market account',
         'register_trial_hint' => 'Start with a free :days-day trial of the :plan plan. No payment needed.',
         'market_name' => 'Market name',

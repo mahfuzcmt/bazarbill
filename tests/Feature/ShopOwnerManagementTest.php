@@ -53,7 +53,7 @@ class ShopOwnerManagementTest extends TestCase
         $this->assertSame('shop_owner', $user->role);
         $this->assertTrue($user->hasRole('shop_owner'));
         $this->assertSame($this->market->id, $user->market_id);
-        $this->assertSame('owner.01712345678@bazarbill.local', $user->email);
+        $this->assertSame(User::placeholderEmail('01712345678', $this->market->id), $user->email);
         $this->assertSame($user->id, $free->fresh()->shop_owner_id);
         $this->assertNotSame($user->id, $taken->fresh()->shop_owner_id); // already-owned shop is not stolen
     }

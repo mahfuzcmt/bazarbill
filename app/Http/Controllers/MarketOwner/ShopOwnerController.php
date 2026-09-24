@@ -135,7 +135,7 @@ class ShopOwnerController extends Controller
 
             if (!empty($validated['email'])) {
                 $data['email'] = $validated['email'];
-            } elseif (str_ends_with($shopOwner->email, '@bazarbill.local')) {
+            } elseif ($shopOwner->hasPlaceholderEmail()) {
                 $data['email'] = $this->placeholderEmail($validated['phone']);
             }
 
@@ -203,22 +203,12 @@ class ShopOwnerController extends Controller
 
     protected function syncShops(User $owner, array $shopIds, int $marketId): void
     {
-        Shop::where('market_id', $marketId)
-            ->where('shop_owner_id', $owner->id)
-            ->whereNotIn('id', $shopIds ?: [0])
-            ->update(['shop_owner_id' => null]);
-
-        if ($shopIds) {
-            Shop::where('market_id', $marketId)
-                ->whereIn('id', $shopIds)
-                ->where(fn ($q) => $q->whereNull('shop_owner_id')->orWhere('shop_owner_id', $owner->id))
-                ->update(['shop_owner_id' => $owner->id]);
-        }
+        Shop::syncOwner($owner, $shopIds, $marketId);
     }
 
     protected function placeholderEmail(string $phone): string
     {
-        return 'owner.' . preg_replace('/\D/', '', $phone) . '@bazarbill.local';
+        return User::placeholderEmail($phone, auth()->user()->market_id);
     }
 
     protected function ensureOwn(User $user): void
