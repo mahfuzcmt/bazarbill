@@ -37,6 +37,7 @@ return [
     // Navigation
     'nav' => [
         'shops' => 'Shops',
+        'shop_owners' => 'Shop Owners',
         'invoices' => 'Invoices',
         'payments' => 'Payments',
         'staff' => 'Staff',

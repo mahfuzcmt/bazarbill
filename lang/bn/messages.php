@@ -37,6 +37,7 @@ return [
     // Navigation
     'nav' => [
         'shops' => 'দোকান সমূহ',
+        'shop_owners' => 'দোকান মালিক',
         'invoices' => 'বিল সমূহ',
         'payments' => 'পেমেন্ট সমূহ',
         'staff' => 'কর্মচারী',

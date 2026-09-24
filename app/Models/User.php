@@ -53,6 +53,12 @@ class User extends Authenticatable
         return $this->hasOne(Shop::class, 'shop_owner_id');
     }
 
+    /** All shops this user owns (a shop owner can hold several units). */
+    public function ownedShops(): HasMany
+    {
+        return $this->hasMany(Shop::class, 'shop_owner_id');
+    }
+
     public function assignedShops(): HasMany
     {
         return $this->hasMany(Shop::class, 'collector_id');

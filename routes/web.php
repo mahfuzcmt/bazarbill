@@ -12,6 +12,7 @@ use App\Http\Controllers\SubscriptionExpiredController;
 use App\Http\Controllers\MarketOwner\DashboardController as MarketOwnerDashboard;
 use App\Http\Controllers\MarketOwner\ShopController as MarketOwnerShopController;
 use App\Http\Controllers\MarketOwner\StaffController;
+use App\Http\Controllers\MarketOwner\ShopOwnerController;
 use App\Http\Controllers\MarketOwner\InvoiceController as MarketOwnerInvoiceController;
 use App\Http\Controllers\MarketOwner\PaymentController as MarketOwnerPaymentController;
 use App\Http\Controllers\MarketOwner\ComplaintController as MarketOwnerComplaintController;
@@ -83,6 +84,10 @@ Route::middleware(['auth', 'verified', 'market.active', 'role:market_owner'])
         Route::resource('shops', MarketOwnerShopController::class);
         Route::post('shops/{shop}/assign-collector', [MarketOwnerShopController::class, 'assignCollector'])->name('shops.assign-collector');
         Route::post('shops/{shop}/assign-owner', [MarketOwnerShopController::class, 'assignOwner'])->name('shops.assign-owner');
+
+        // Shop owners (tenant logins)
+        Route::resource('shop-owners', ShopOwnerController::class)->except(['show'])->parameters(['shop-owners' => 'shopOwner']);
+        Route::post('shop-owners/{shopOwner}/toggle-status', [ShopOwnerController::class, 'toggleStatus'])->name('shop-owners.toggle-status');
 
         // Staff
         Route::resource('staff', StaffController::class);
