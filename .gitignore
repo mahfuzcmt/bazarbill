@@ -34,3 +34,4 @@ Thumbs.db
 /clear-cache.php
 /.claude/settings.local.json
 /bazarbill_init.sql
+*.mp4

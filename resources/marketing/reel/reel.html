@@ -1,0 +1,80 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8">
+<link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:700,800|hind-siliguri:500,600,700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}html,body{width:1080px;height:1920px;overflow:hidden}
+body{font-family:"Hind Siliguri",sans-serif;color:#fff;background:linear-gradient(160deg,#312e81 0%,#4c1d95 50%,#0c4a6e 130%)}
+.latin{font-family:"Plus Jakarta Sans",sans-serif}
+.scene{position:absolute;inset:0;opacity:0}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 90px}
+.brand{position:absolute;top:70px;left:0;right:0;display:flex;justify-content:center;opacity:.95}
+.brand img{height:96px}
+h1{font-size:92px;line-height:1.25;font-weight:700}
+.sub{font-size:46px;color:#c7d2fe;margin-top:30px;line-height:1.4}
+.pain{display:flex;align-items:center;gap:28px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:32px;padding:34px 40px;font-size:54px;font-weight:600;width:900px;margin:18px 0;opacity:0}
+.pain .x{width:64px;height:64px;border-radius:50%;background:#f43f5e;display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0}
+.phone{position:absolute;left:50%;top:430px;width:640px;height:1385px;margin-left:-320px;border-radius:72px;background:#0f172a;padding:18px;box-shadow:0 40px 120px rgba(0,0,0,.45)}
+.screen{position:relative;width:100%;height:100%;border-radius:56px;overflow:hidden;background:#eef2ff}
+.screen img{position:absolute;left:0;top:0;width:100%;opacity:0}
+.notch{position:absolute;top:18px;left:50%;width:220px;height:34px;margin-left:-110px;background:#0f172a;border-radius:0 0 26px 26px;z-index:2}
+.cap{position:absolute;left:60px;right:60px;top:210px;text-align:center;font-size:56px;font-weight:700;line-height:1.3;opacity:0}
+.cap small{display:block;font-size:34px;color:#c7d2fe;font-weight:500;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;width:960px}
+.chip{background:#fff;color:#1e1b4b;border-radius:999px;padding:26px 44px;font-size:48px;font-weight:600;opacity:0;display:flex;align-items:center;gap:16px}
+.chip i{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed)}
+.cta img{width:300px;height:300px;border-radius:66px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.cta .word{font-size:150px;font-weight:800;letter-spacing:-.03em;margin-top:26px}
+.cta .num{font-size:96px;font-weight:800;margin-top:40px;background:#fff;color:#4f46e5;border-radius:36px;padding:14px 50px}
+.cta .site{font-size:60px;font-weight:700;color:#c7d2fe;margin-top:26px}
+.cta .free{margin-top:36px;font-size:44px;background:#22c55e;border-radius:999px;padding:16px 40px;font-weight:700}
+.bar{position:absolute;left:0;bottom:0;height:14px;background:#22d3ee;width:0}
+</style></head><body>
+<div class="brand"><img src="logo-horizontal-dark.png"></div>
+
+<div class="scene center" id="s1"><h1 id="s1h">প্রতি মাসে দোকান ভাড়ার হিসাব এখনো খাতায়?</h1><div class="sub" id="s1s">বকেয়া কার কত, কে দিল, কে দিল না — মনে থাকে?</div></div>
+
+<div class="scene center" id="s2">
+  <div class="pain"><span class="x">✕</span>বকেয়ার হিসাব হারিয়ে যায়</div>
+  <div class="pain"><span class="x">✕</span>কালেক্টরের হিসাব মেলে না</div>
+  <div class="pain"><span class="x">✕</span>দোকানদার বলেন, “জানতাম না”</div>
+  <div class="pain"><span class="x">✕</span>কমিটির রিপোর্ট বানাতে দিন লাগে</div>
+</div>
+
+<div class="scene" id="s3">
+  <div class="cap" id="c0">মালিকের ড্যাশবোর্ড<small>আদায় ও বকেয়া — এক নজরে</small></div>
+  <div class="cap" id="c1">এক ক্লিকে মাসের বিল<small>পুরো মার্কেট, আগের বকেয়াসহ</small></div>
+  <div class="cap" id="c2">কালেক্টর আদায় করেন মোবাইল থেকে<small>সাথে সাথে রসিদ ও এসএমএস</small></div>
+  <div class="cap" id="c3">দোকানদারের নিজের অ্যাপ<small>কোন মাসে কত দিয়েছেন, কত বাকি</small></div>
+  <div class="phone"><div class="notch"></div><div class="screen">
+    <img id="i0" src="shots/owner-dashboard.png"><img id="i1" src="shots/owner-invoices.png"><img id="i2" src="shots/collector-payment.png"><img id="i3" src="shots/tenant-invoices.png">
+  </div></div>
+</div>
+
+<div class="scene center" id="s4"><h1 style="font-size:80px;margin-bottom:50px">আরও যা পাচ্ছেন</h1><div class="chips">
+  <div class="chip"><i></i>বাংলা এসএমএস রিমাইন্ডার</div><div class="chip"><i></i>লোগোসহ পিডিএফ রসিদ</div><div class="chip"><i></i>মাসিক ও বকেয়া রিপোর্ট</div><div class="chip"><i></i>অভিযোগ ও নোটিশ বোর্ড</div><div class="chip"><i></i>মোবাইল নম্বরে লগইন</div>
+</div></div>
+
+<div class="scene center cta" id="s5"><img src="icon-512.png"><div class="word latin">DueTap</div><div class="sub">মার্কেটের ভাড়া ও বকেয়া আদায়, সহজে</div><div class="num latin">01805995662</div><div class="site latin">duetap.com</div><div class="free">১৪ দিন সম্পূর্ণ ফ্রি</div></div>
+<div class="bar" id="bar"></div>
+
+<script>
+const DUR = 24;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const ease=t=>{t=clamp(t,0,1);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const fadeIn=(el,t0,d,t)=>{const p=ease((t-t0)/d);el.style.opacity=p;return p};
+const $=id=>document.getElementById(id);
+function show(el,on){el.style.opacity=on?1:0}
+window.seek=function(t){
+  document.querySelectorAll('.scene').forEach(s=>s.style.opacity=0);
+  $('bar').style.width=(t/DUR*1080)+'px';
+  if(t<3){ show($('s1'),1); const p=fadeIn($('s1h'),0.1,0.6,t); $('s1h').style.transform=`translateY(${(1-p)*40}px) scale(${.96+.04*p})`; fadeIn($('s1s'),0.9,0.6,t); if(t>2.6){$('s1').style.opacity=1-(t-2.6)/0.4;} }
+  else if(t<7.2){ show($('s2'),1); document.querySelectorAll('.pain').forEach((el,i)=>{const p=fadeIn(el,3.2+i*0.75,0.5,t); el.style.transform=`translateX(${(1-p)*-80}px)`;}); if(t>6.8){$('s2').style.opacity=1-(t-6.8)/0.4;} }
+  else if(t<19.4){ show($('s3'),1); const start=7.2, per=3.0;
+    for(let i=0;i<4;i++){const t0=start+i*per, img=$('i'+i), cap=$('c'+i);
+      const on = t>=t0 && t<t0+per+0.35; const pin=ease((t-t0)/0.45); const pout= i<3 ? 1-ease((t-(t0+per))/0.35) : 1;
+      img.style.opacity = on ? Math.min(pin,pout) : 0; cap.style.opacity = on ? Math.min(pin,pout) : 0;
+      const scroll = clamp((t-t0-0.6)/(per-0.8),0,1)*180; img.style.transform=`translateY(${(1-pin)*120 - scroll}px)`; cap.style.transform=`translateY(${(1-pin)*30}px)`; }
+    if(t>19.0){$('s3').style.opacity=1-(t-19.0)/0.4;} }
+  else if(t<21.8){ show($('s4'),1); document.querySelectorAll('.chip').forEach((el,i)=>{const p=fadeIn(el,19.5+i*0.3,0.4,t); el.style.transform=`scale(${.85+.15*p})`;}); if(t>21.5){$('s4').style.opacity=1-(t-21.5)/0.3;} }
+  else { show($('s5'),1); const p=ease((t-21.8)/0.7); $('s5').style.transform=`scale(${.9+.1*p})`; $('s5').style.opacity=p; }
+};
+</script></body></html>
