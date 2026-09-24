@@ -7,6 +7,8 @@
 
         <title>{{ isset($header) ? strip_tags($header) : __('messages.welcome') }} - DueTap</title>
 
+        @include('partials.pwa-head')
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700|hind-siliguri:400,500,600,700&display=swap" rel="stylesheet" />
@@ -168,5 +170,6 @@
         </script>
 
         @stack('scripts')
+        @include('partials.pwa-install')
     </body>
 </html>

@@ -3,6 +3,11 @@
 return [
     // General
     'welcome' => 'Welcome to DueTap',
+    'pwa' => [
+        'title' => 'Add DueTap to your home screen',
+        'body' => 'Opens like an app, one tap away.',
+        'install' => 'Add',
+    ],
     'tagline' => 'Market rent & due collection, made simple',
     'dashboard' => 'Dashboard',
     'logout' => 'Logout',
