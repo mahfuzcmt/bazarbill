@@ -43,7 +43,10 @@
     <meta property="og:description" content="{{ __('landing.meta_description') }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:image" content="{{ asset('icons/icon-512.png') }}">
+    <meta property="og:image" content="{{ asset('brand/og-image-1200x630.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="{{ url('/') }}">
     @include('partials.pwa-head')
     <link rel="preconnect" href="https://fonts.bunny.net">
