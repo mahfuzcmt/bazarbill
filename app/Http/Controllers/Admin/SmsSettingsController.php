@@ -71,7 +71,7 @@ class SmsSettingsController extends Controller
             return back()->with('error', __('No platform API key is set. Save one first.'));
         }
 
-        $result = SmsService::platformTest($validated['phone'], 'BazarBill test SMS ' . now()->format('H:i'));
+        $result = SmsService::platformTest($validated['phone'], 'DueTap test SMS ' . now()->format('H:i'));
 
         return back()->with($result['ok'] ? 'success' : 'error', $result['ok']
             ? __('Test SMS accepted by the gateway for :phone.', ['phone' => $validated['phone']])

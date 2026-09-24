@@ -167,7 +167,7 @@
     </table>
 
     <div class="footer">
-        <p>BazarBill - Market Rent Collection System</p>
+        <p>DueTap - Market Rent Collection System | duetap.com</p>
     </div>
 </body>
 </html>

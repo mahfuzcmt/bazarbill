@@ -2,7 +2,8 @@
 
 return [
     // General
-    'welcome' => 'Welcome to BazarBill',
+    'welcome' => 'Welcome to DueTap',
+    'tagline' => 'Market rent & due collection, made simple',
     'dashboard' => 'Dashboard',
     'logout' => 'Logout',
     'login' => 'Login',
@@ -94,7 +95,7 @@ return [
         'plan' => 'Plan',
         'ended_on' => 'Ended on',
         'monthly_price' => 'Monthly price',
-        'how_to_renew' => 'To renew, pay via bKash / Nagad / bank and contact BazarBill support with your transaction ID. Access is restored as soon as the payment is recorded.',
+        'how_to_renew' => 'To renew, pay via bKash / Nagad / bank and contact DueTap support with your transaction ID. Access is restored as soon as the payment is recorded.',
         'my_profile' => 'My profile',
     ],
     'created_success' => ':item created successfully',

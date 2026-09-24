@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ isset($header) ? strip_tags($header) : __('messages.welcome') }} - BazarBill</title>
+        <title>{{ isset($header) ? strip_tags($header) : __('messages.welcome') }} - DueTap</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -28,7 +28,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 7l1.5-3h13L20 7M4 7h16M4 7v11a2 2 0 002 2h12a2 2 0 002-2V7M9 11a3 3 0 006 0"/>
                             </svg>
                         </span>
-                        <a href="{{ route('dashboard') }}" class="text-xl font-bold tracking-tight brand-mark">BazarBill</a>
+                        <a href="{{ route('dashboard') }}" class="text-xl font-bold tracking-tight brand-mark">DueTap</a>
                     </div>
 
                     <!-- Market Info -->

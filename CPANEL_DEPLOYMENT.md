@@ -1,4 +1,4 @@
-# BazarBill cPanel Deployment Guide
+# DueTap (formerly BazarBill) cPanel Deployment Guide
 
 ## Prerequisites
 
@@ -82,7 +82,7 @@ unzip bazarbill.zip
 Create `.env` in your project root:
 
 ```env
-APP_NAME=BazarBill
+APP_NAME=DueTap
 APP_ENV=production
 APP_KEY=
 APP_DEBUG=false
@@ -230,7 +230,7 @@ php artisan optimize
 
 ## Step 6b: Cron Job for Scheduled Tasks (REQUIRED)
 
-BazarBill runs four background jobs through Laravel's scheduler:
+DueTap runs four background jobs through Laravel's scheduler:
 
 | Job | When | What it does |
 |-----|------|--------------|
@@ -273,7 +273,7 @@ If the server timezone differs from Bangladesh, set `APP_TIMEZONE=Asia/Dhaka` in
 Visit: `https://yourdomain.com`
 
 ### 7.2 Login with Default Admin
-- **Email:** admin@bazarbill.com
+- **Email:** admin@duetap.com (admin@bazarbill.com on installs made before the rebrand)
 - **Password:** password
 
 **IMPORTANT:** Change the admin password immediately after first login!

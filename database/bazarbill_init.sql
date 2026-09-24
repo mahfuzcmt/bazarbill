@@ -1,7 +1,7 @@
--- BazarBill — MySQL schema + base data for cPanel
--- Generated 2026-09-24 18:31 from Laravel migrations (SMS credits, plans, subscriptions, settings).
--- Import into an EMPTY database via phpMyAdmin. Contains: all tables, migrations ledger,
--- roles/permissions, 3 subscription plans, super admin login admin@bazarbill.com / password.
+-- DueTap — MySQL schema + base data for cPanel
+-- Generated 2026-09-24 19:59 from Laravel migrations.
+-- Import into an EMPTY database. Contains: all tables, migrations ledger, roles/permissions,
+-- 3 subscription plans, super admin login admin@duetap.com / password.
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS=0;
 /*M!999999\- enable the sandbox mode */ 
@@ -500,40 +500,40 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'0001_01_01_0000
 (20,'2026_09_24_000001_create_settings_table',1);
 commit;
 set autocommit=0;
-INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'manage markets','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(2,'view shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(3,'create shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(4,'edit shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(5,'delete shops','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(6,'view staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(7,'create staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(8,'edit staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(9,'delete staff','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(10,'view invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(11,'create invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(12,'edit invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(13,'delete invoices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(14,'view payments','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(15,'collect payments','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(16,'delete payments','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(17,'view reports','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(18,'export reports','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(19,'view complaints','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(20,'create complaints','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(21,'manage complaints','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(22,'view notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(23,'create notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(24,'edit notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(25,'delete notices','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(26,'manage settings','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(27,'send sms','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(28,'view sms logs','web','2026-09-24 06:31:20','2026-09-24 06:31:20');
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'manage markets','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(2,'view shops','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(3,'create shops','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(4,'edit shops','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(5,'delete shops','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(6,'view staff','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(7,'create staff','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(8,'edit staff','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(9,'delete staff','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(10,'view invoices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(11,'create invoices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(12,'edit invoices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(13,'delete invoices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(14,'view payments','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(15,'collect payments','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(16,'delete payments','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(17,'view reports','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(18,'export reports','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(19,'view complaints','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(20,'create complaints','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(21,'manage complaints','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(22,'view notices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(23,'create notices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(24,'edit notices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(25,'delete notices','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(26,'manage settings','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(27,'send sms','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(28,'view sms logs','web','2026-09-24 07:59:23','2026-09-24 07:59:23');
 commit;
 set autocommit=0;
-INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'super_admin','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(2,'market_owner','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(3,'collector','web','2026-09-24 06:31:20','2026-09-24 06:31:20'),
-(4,'shop_owner','web','2026-09-24 06:31:20','2026-09-24 06:31:20');
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES (1,'super_admin','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(2,'market_owner','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(3,'collector','web','2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(4,'shop_owner','web','2026-09-24 07:59:23','2026-09-24 07:59:23');
 commit;
 set autocommit=0;
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES (1,1),
@@ -605,12 +605,12 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES (1,1),
 (22,4);
 commit;
 set autocommit=0;
-INSERT INTO `plans` (`id`, `name`, `name_bn`, `slug`, `description`, `monthly_price`, `yearly_price`, `shop_limit`, `sms_credits_per_month`, `trial_days`, `trial_sms_credits`, `features`, `is_default`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES (1,'Starter','স্টার্টার','starter','For small markets and single buildings.',1000.00,10000.00,50,200,14,20,'{\"masking_sms\":false,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',1,1,1,'2026-09-24 06:31:21','2026-09-24 06:31:21'),
-(2,'Standard','স্ট্যান্ডার্ড','standard','For mid-size markets with several collectors.',2500.00,25000.00,200,1000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,2,'2026-09-24 06:31:21','2026-09-24 06:31:21'),
-(3,'Enterprise','এন্টারপ্রাইজ','enterprise','Unlimited shops for large markets and market committees.',5000.00,50000.00,NULL,3000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,3,'2026-09-24 06:31:21','2026-09-24 06:31:21');
+INSERT INTO `plans` (`id`, `name`, `name_bn`, `slug`, `description`, `monthly_price`, `yearly_price`, `shop_limit`, `sms_credits_per_month`, `trial_days`, `trial_sms_credits`, `features`, `is_default`, `is_active`, `sort_order`, `created_at`, `updated_at`) VALUES (1,'Starter','স্টার্টার','starter','For small markets and single buildings.',1000.00,10000.00,50,200,14,20,'{\"masking_sms\":false,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',1,1,1,'2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(2,'Standard','স্ট্যান্ডার্ড','standard','For mid-size markets with several collectors.',2500.00,25000.00,200,1000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,2,'2026-09-24 07:59:23','2026-09-24 07:59:23'),
+(3,'Enterprise','এন্টারপ্রাইজ','enterprise','Unlimited shops for large markets and market committees.',5000.00,50000.00,NULL,3000,14,20,'{\"masking_sms\":true,\"pdf_reports\":true,\"complaints\":true,\"notices\":true}',0,1,3,'2026-09-24 07:59:23','2026-09-24 07:59:23');
 commit;
 set autocommit=0;
-INSERT INTO `users` (`id`, `market_id`, `name`, `name_bn`, `email`, `phone`, `role`, `avatar`, `is_active`, `language_preference`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1,NULL,'Super Admin','সুপার এডমিন','admin@bazarbill.com','01800000000','super_admin',NULL,1,'en',NULL,'$2y$12$RyyTVUIU4r57sggxaGBo/.nsWF9Yg.k0wbZNOad8fv3feHDsduOYW',NULL,'2026-09-24 06:31:21','2026-09-24 06:31:21');
+INSERT INTO `users` (`id`, `market_id`, `name`, `name_bn`, `email`, `phone`, `role`, `avatar`, `is_active`, `language_preference`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1,NULL,'Super Admin','সুপার এডমিন','admin@duetap.com','01800000000','super_admin',NULL,1,'en',NULL,'$2y$12$eQsSGFwA4h/wLz9fQ9KH/uqPQDwrUhgmPDxFKvDkuje63GiujElo6',NULL,'2026-09-24 07:59:24','2026-09-24 07:59:24');
 commit;
 set autocommit=0;
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES (1,'App\\Models\\User',1);

@@ -14,7 +14,7 @@ return new class extends Migration
         });
 
         Schema::table('sms_logs', function (Blueprint $table) {
-            // 'platform' = sent through BazarBill's gateway and billed in credits,
+            // 'platform' = sent through the platform (DueTap) gateway and billed in credits,
             // 'own' = sent through the market's own API key (no credits consumed).
             $table->string('gateway', 20)->default('platform')->after('status');
             $table->unsignedSmallInteger('credits_used')->default(0)->after('gateway');

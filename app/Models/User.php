@@ -90,12 +90,13 @@ class User extends Authenticatable
      */
     public static function placeholderEmail(string $phone, int $marketId): string
     {
-        return 'm' . $marketId . '.' . preg_replace('/\D/', '', $phone) . '@bazarbill.local';
+        return 'm' . $marketId . '.' . preg_replace('/\D/', '', $phone) . '@duetap.local';
     }
 
     public function hasPlaceholderEmail(): bool
     {
-        return str_ends_with((string) $this->email, '@bazarbill.local');
+        // Older accounts were created under the previous brand; both suffixes are placeholders.
+        return str_ends_with((string) $this->email, '@duetap.local') || str_ends_with((string) $this->email, '@bazarbill.local');
     }
 
     /** The identifier shown to people as their login: email, or phone for placeholder accounts. */

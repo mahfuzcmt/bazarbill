@@ -307,7 +307,7 @@
         <!-- Footer -->
         <div class="footer">
             <p>{{ __('invoices.thank_you') }}</p>
-            <p>{{ __('invoices.generated_by') }} BazarBill | {{ now()->format('d M Y, h:i A') }}</p>
+            <p>{{ __('invoices.generated_by') }} DueTap (duetap.com) | {{ now()->format('d M Y, h:i A') }}</p>
         </div>
     </div>
 </body>

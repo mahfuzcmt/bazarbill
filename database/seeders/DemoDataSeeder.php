@@ -41,7 +41,7 @@ class DemoDataSeeder extends Seeder
         $superAdmin = User::create([
             'name' => 'Super Admin',
             'name_bn' => 'সুপার এডমিন',
-            'email' => 'admin@bazarbill.com',
+            'email' => 'admin@duetap.com',
             'phone' => '01800000000',
             'password' => Hash::make('password'),
             'role' => 'super_admin',

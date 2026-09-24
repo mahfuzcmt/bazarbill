@@ -1,6 +1,6 @@
 <?php
 /**
- * BazarBill maintenance page for shared hosting without SSH.
+ * DueTap maintenance page for shared hosting without SSH.
  *
  * Runs artisan tasks in-process (no shell access needed). Disabled unless
  * MAINT_KEY is set in .env. Call it as:
@@ -51,7 +51,7 @@ if (!in_array($action, $allowed, true)) {
     exit("Unknown action. Allowed: " . implode(', ', $allowed) . "\n");
 }
 
-echo "=== BazarBill maintenance: {$action} ===\n";
+echo "=== DueTap maintenance: {$action} ===\n";
 echo 'Time: ' . date('Y-m-d H:i:s') . "\n\n";
 
 // --- pre-boot diagnostics (work even if Laravel cannot boot)

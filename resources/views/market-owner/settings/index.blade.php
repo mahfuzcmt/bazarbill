@@ -194,7 +194,7 @@
                         </label>
                         <input type="text" name="sms_sender_id" id="sms_sender_id"
                                value="{{ old('sms_sender_id', $market->sms_sender_id) }}"
-                               placeholder="BAZARBILL"
+                               placeholder="DUETAP"
                                class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('sms_sender_id')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

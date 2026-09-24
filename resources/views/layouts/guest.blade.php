@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'BazarBill') }}</title>
+        <title>{{ config('app.name', 'DueTap') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -22,14 +22,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 7l1.5-3h13L20 7M4 7h16M4 7v11a2 2 0 002 2h12a2 2 0 002-2V7M9 11a3 3 0 006 0"/>
                     </svg>
                 </span>
-                <span class="text-3xl font-bold tracking-tight brand-mark">BazarBill</span>
+                <span class="text-3xl font-bold tracking-tight brand-mark">DueTap</span>
+                <span class="text-sm text-slate-500">{{ __('messages.tagline') }}</span>
             </a>
 
             <div class="w-full sm:max-w-md glass-card px-8 py-8">
                 {{ $slot }}
             </div>
 
-            <p class="mt-8 text-xs text-slate-500">&copy; {{ date('Y') }} BazarBill</p>
+            <p class="mt-8 text-xs text-slate-500">&copy; {{ date('Y') }} DueTap &middot; duetap.com</p>
         </div>
     </body>
 </html>

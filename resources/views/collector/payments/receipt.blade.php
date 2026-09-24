@@ -120,7 +120,7 @@
 
     <div class="receipt">
         <div class="header">
-            <h1>{{ $payment->shop->market?->name ?? 'BazarBill' }}</h1>
+            <h1>{{ $payment->shop->market?->name ?? 'DueTap' }}</h1>
             <p>{{ __('Payment Receipt') }}</p>
         </div>
 
