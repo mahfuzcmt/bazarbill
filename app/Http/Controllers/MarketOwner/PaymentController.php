@@ -111,6 +111,9 @@ class PaymentController extends Controller
                 'phone' => $invoice->shop->shopOwner->phone,
                 'amount' => number_format($payment->amount),
                 'receipt_no' => $payment->receipt_number,
+                'shop_owner' => $invoice->shop->shopOwner->getLocalizedName(),
+                'shop_no' => $invoice->shop->shop_number,
+                'due_amount' => number_format($invoice->fresh()->due_amount),
             ]);
         }
 

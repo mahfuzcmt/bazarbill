@@ -56,6 +56,8 @@ class SendInvoiceReminders extends Command
                     'phone' => $owner->phone,
                     'shop_owner' => $owner->getLocalizedName(),
                     'amount' => number_format($invoice->due_amount),
+                    'shop_no' => $invoice->shop->shop_number,
+                    'due_date' => $invoice->due_date->format('d M Y'),
                 ]);
 
                 if ($ok) {

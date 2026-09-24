@@ -195,9 +195,18 @@ class Market extends Model
         return $this->address;
     }
 
+    /** The market's own override for a template type, if it set one. */
     public function getSmsTemplate(string $type): ?string
     {
-        return $this->sms_templates[$type] ?? null;
+        $own = trim((string) ($this->sms_templates[$type] ?? ''));
+
+        return $own !== '' ? $own : null;
+    }
+
+    /** The template text this market actually sends (own → platform default → built-in). */
+    public function resolveSmsTemplate(string $type): string
+    {
+        return \App\Support\SmsTemplates::resolve($this, $type);
     }
 
     public function getSetting(string $key, mixed $default = null): mixed
@@ -207,10 +216,6 @@ class Market extends Model
 
     public function getDefaultSmsTemplates(): array
     {
-        return [
-            'invoice_generated' => 'প্রিয় {shop_owner}, আপনার {month} মাসের ভাড়া {amount} টাকা। বিল নং: {invoice_no}',
-            'payment_reminder' => 'প্রিয় {shop_owner}, আপনার {amount} টাকা বকেয়া আছে। অনুগ্রহ করে পরিশোধ করুন।',
-            'payment_received' => 'ধন্যবাদ! {amount} টাকা পেমেন্ট গৃহীত হয়েছে। রসিদ নং: {receipt_no}',
-        ];
+        return \App\Support\SmsTemplates::builtIn();
     }
 }

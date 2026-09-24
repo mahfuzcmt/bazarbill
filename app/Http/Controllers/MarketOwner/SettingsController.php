@@ -59,13 +59,25 @@ class SettingsController extends Controller
         $validated = $request->validate([
             'sms_api_key' => 'nullable|string|max:255',
             'sms_sender_id' => 'nullable|string|max:20',
+            'templates' => 'nullable|array',
+            'templates.*' => 'nullable|string|max:' . \App\Support\SmsTemplates::MAX_LENGTH,
         ]);
 
         $market = auth()->user()->market;
 
+        // Blank = fall back to the platform default for that message type.
+        $templates = [];
+        foreach (\App\Support\SmsTemplates::TYPES as $type) {
+            $text = trim((string) ($validated['templates'][$type] ?? ''));
+            if ($text !== '') {
+                $templates[$type] = $text;
+            }
+        }
+
         $market->update([
-            'sms_api_key' => $validated['sms_api_key'],
-            'sms_sender_id' => $validated['sms_sender_id'],
+            'sms_api_key' => $validated['sms_api_key'] ?? null,
+            'sms_sender_id' => $validated['sms_sender_id'] ?? null,
+            'sms_templates' => $templates ?: null,
         ]);
 
         return back()->with('success', __('settings.sms_updated'));

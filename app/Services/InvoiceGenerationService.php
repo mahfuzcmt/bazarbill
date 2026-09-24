@@ -71,6 +71,8 @@ class InvoiceGenerationService
                     'month' => $invoice->getBillingMonthFormattedBn(),
                     'amount' => number_format($invoice->total_amount),
                     'invoice_no' => $invoice->invoice_number,
+                    'shop_no' => $shop->shop_number,
+                    'due_date' => $dueDate->format('d M Y'),
                 ]);
 
                 if ($sent) {

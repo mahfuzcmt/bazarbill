@@ -42,6 +42,8 @@ class SmsSettingsController extends Controller
             'api_key' => ['nullable', 'string', 'max:255'],
             'sender_id' => ['required', 'string', 'max:20'],
             'low_credit_threshold' => ['required', 'integer', 'min:0', 'max:10000'],
+            'templates' => ['nullable', 'array'],
+            'templates.*' => ['nullable', 'string', 'max:' . \App\Support\SmsTemplates::MAX_LENGTH],
         ]);
 
         // An empty submitted key keeps the stored one (the field is masked in the form).
@@ -54,6 +56,11 @@ class SmsSettingsController extends Controller
         }
         if ($request->boolean('clear_api_key')) {
             $values['sms.api_key'] = null;
+        }
+        foreach (\App\Support\SmsTemplates::TYPES as $type) {
+            $text = trim((string) ($validated['templates'][$type] ?? ''));
+            // Blank = back to the built-in text.
+            $values['sms.template.' . $type] = $text !== '' ? $text : null;
         }
 
         Setting::setMany($values);

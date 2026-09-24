@@ -130,6 +130,8 @@ class InvoiceController extends Controller
                 'month' => $invoice->getBillingMonthFormattedBn(),
                 'amount' => number_format($invoice->total_amount),
                 'invoice_no' => $invoice->invoice_number,
+                'shop_no' => $shop->shop_number,
+                'due_date' => $invoice->due_date->format('d M Y'),
             ]);
             if (!$sent) {
                 $smsError = $smsService->lastFailedForCredits
@@ -269,6 +271,8 @@ class InvoiceController extends Controller
             'phone' => $shop->shopOwner->phone,
             'shop_owner' => $shop->shopOwner->getLocalizedName(),
             'amount' => number_format($invoice->due_amount),
+            'shop_no' => $shop->shop_number,
+            'due_date' => $invoice->due_date->format('d M Y'),
         ]);
 
         if (!$sent) {

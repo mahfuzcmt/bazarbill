@@ -231,6 +231,8 @@
                 </div>
                 @endif
 
+                @include('partials.sms-template-editor', ['fieldPrefix' => 'templates', 'values' => $market->sms_templates ?? [], 'defaults' => collect(\App\Support\SmsTemplates::TYPES)->mapWithKeys(fn ($t) => [$t => \App\Support\SmsTemplates::platformDefault($t)])->all(), 'blankHint' => __('settings.sms_template_blank_market')])
+
                 <!-- Test SMS -->
                 <div class="flex flex-col sm:flex-row sm:items-end gap-3">
                     <div class="flex-1">

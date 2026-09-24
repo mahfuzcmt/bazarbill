@@ -42,6 +42,24 @@ return [
     'used_this_month' => 'Credits used this month',
     'credit_type' => 'Type',
 
+    'sms_templates' => 'SMS message texts',
+    'sms_templates_desc' => 'Edit what your shopkeepers receive. Placeholders in curly braces are replaced automatically.',
+    'sms_template_blank_market' => 'Leave blank to use the standard text shown below.',
+    'sms_template_types' => [
+        'invoice_generated' => 'When a bill is created',
+        'payment_reminder' => 'Payment reminder',
+        'payment_received' => 'Payment received',
+    ],
+    'sms_placeholders' => [
+        'shop_owner' => 'shopkeeper name', 'shop_no' => 'shop number', 'market' => 'market name',
+        'month' => 'billing month', 'amount' => 'amount', 'invoice_no' => 'bill number',
+        'due_date' => 'due date', 'receipt_no' => 'receipt number', 'due_amount' => 'remaining due',
+    ],
+    'sms_placeholders_label' => 'Available placeholders',
+    'sms_default_label' => 'Standard text',
+    'sms_preview_label' => 'Preview',
+    'sms_length' => ':chars characters · :segments SMS',
+
     'subscription' => 'Subscription',
     'subscription_desc' => 'Your current plan and what it includes.',
     'plan' => 'Plan',

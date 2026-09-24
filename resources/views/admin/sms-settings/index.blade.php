@@ -72,6 +72,11 @@
                             @error('low_credit_threshold')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
                         </div>
                     </div>
+                    <div class="pt-4 border-t">
+                        <h4 class="text-base font-semibold text-gray-800">{{ __('Default SMS templates') }}</h4>
+                        <p class="text-sm text-gray-500 mb-3">{{ __('Sent by every market that has not written its own text. Market owners can override these under Settings > SMS.') }}</p>
+                        @include('partials.sms-template-editor', ['fieldPrefix' => 'templates', 'values' => collect(\App\Support\SmsTemplates::TYPES)->mapWithKeys(fn ($t) => [$t => \App\Models\Setting::get('sms.template.' . $t)])->all(), 'defaults' => \App\Support\SmsTemplates::builtIn(), 'blankHint' => __('Leave blank to use the built-in text shown below.')])
+                    </div>
                     <button type="submit" class="w-full sm:w-auto px-4 py-2 btn-primary transition">{{ __('Save settings') }}</button>
                 </form>
             </div>

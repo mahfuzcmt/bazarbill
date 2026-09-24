@@ -42,6 +42,24 @@ return [
     'used_this_month' => 'এই মাসে ব্যবহৃত ক্রেডিট',
     'credit_type' => 'ধরন',
 
+    'sms_templates' => 'এসএমএস বার্তার লেখা',
+    'sms_templates_desc' => 'দোকানদার কী বার্তা পাবেন তা নিজের মতো সাজান। কার্লি ব্র্যাকেটের ভেতরের প্লেসহোল্ডারগুলো স্বয়ংক্রিয়ভাবে বসে যায়।',
+    'sms_template_blank_market' => 'খালি রাখলে নিচের স্ট্যান্ডার্ড লেখাটি যাবে।',
+    'sms_template_types' => [
+        'invoice_generated' => 'বিল তৈরি হলে',
+        'payment_reminder' => 'পেমেন্ট রিমাইন্ডার',
+        'payment_received' => 'পেমেন্ট গৃহীত হলে',
+    ],
+    'sms_placeholders' => [
+        'shop_owner' => 'দোকানদারের নাম', 'shop_no' => 'দোকান নম্বর', 'market' => 'মার্কেটের নাম',
+        'month' => 'বিলের মাস', 'amount' => 'টাকার পরিমাণ', 'invoice_no' => 'বিল নম্বর',
+        'due_date' => 'পরিশোধের শেষ তারিখ', 'receipt_no' => 'রসিদ নম্বর', 'due_amount' => 'অবশিষ্ট বকেয়া',
+    ],
+    'sms_placeholders_label' => 'ব্যবহারযোগ্য প্লেসহোল্ডার',
+    'sms_default_label' => 'স্ট্যান্ডার্ড লেখা',
+    'sms_preview_label' => 'প্রিভিউ',
+    'sms_length' => ':chars অক্ষর · :segments এসএমএস',
+
     'subscription' => 'সাবস্ক্রিপশন',
     'subscription_desc' => 'আপনার বর্তমান প্ল্যান এবং এতে যা যা আছে।',
     'plan' => 'প্ল্যান',

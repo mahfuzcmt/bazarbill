@@ -7,6 +7,7 @@ use App\Models\Market;
 use App\Models\Setting;
 use App\Models\SmsCreditTransaction;
 use App\Models\SmsLog;
+use App\Support\SmsTemplates;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -218,40 +219,34 @@ class SmsService
 
     public function sendInvoiceNotification(array $data): bool
     {
-        $template = $this->market->getSmsTemplate('invoice_generated')
-            ?? 'প্রিয় {shop_owner}, আপনার {month} মাসের ভাড়া {amount} টাকা। বিল নং: {invoice_no}';
-
-        $message = $this->parseTemplate($template, $data);
+        $message = $this->parseTemplate($this->market->resolveSmsTemplate('invoice_generated'), $data);
 
         return $this->send($data['phone'], $message);
     }
 
     public function sendPaymentReminder(array $data): bool
     {
-        $template = $this->market->getSmsTemplate('payment_reminder')
-            ?? 'প্রিয় {shop_owner}, আপনার {amount} টাকা বকেয়া আছে। অনুগ্রহ করে পরিশোধ করুন।';
-
-        $message = $this->parseTemplate($template, $data);
+        $message = $this->parseTemplate($this->market->resolveSmsTemplate('payment_reminder'), $data);
 
         return $this->send($data['phone'], $message);
     }
 
     public function sendPaymentConfirmation(array $data): bool
     {
-        $template = $this->market->getSmsTemplate('payment_received')
-            ?? 'ধন্যবাদ! {amount} টাকা পেমেন্ট গৃহীত হয়েছে। রসিদ নং: {receipt_no}';
-
-        $message = $this->parseTemplate($template, $data);
+        $message = $this->parseTemplate($this->market->resolveSmsTemplate('payment_received'), $data);
 
         return $this->send($data['phone'], $message);
     }
 
     protected function parseTemplate(string $template, array $data): string
     {
-        foreach ($data as $key => $value) {
-            $template = str_replace('{' . $key . '}', $value, $template);
-        }
-        return $template;
+        $data += [
+            'market' => $this->market->getLocalizedName(),
+            'shop_no' => '', 'shop_owner' => '', 'due_date' => '', 'due_amount' => '',
+        ];
+
+        // Collapse the separators left behind by placeholders that had no value.
+        return trim(preg_replace('/\s{2,}/', ' ', SmsTemplates::render($template, $data)));
     }
 
     /**
