@@ -53,11 +53,11 @@
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
-                                    class="flex-1 px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-medium hover:bg-rose-100 text-sm transition">
                                 PDF
                             </button>
                             <button type="submit" name="format" value="excel"
-                                    class="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-medium hover:bg-emerald-100 text-sm transition">
                                 Excel
                             </button>
                         </div>
@@ -90,11 +90,11 @@
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
-                                    class="flex-1 px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-medium hover:bg-rose-100 text-sm transition">
                                 PDF
                             </button>
                             <button type="submit" name="format" value="excel"
-                                    class="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-medium hover:bg-emerald-100 text-sm transition">
                                 Excel
                             </button>
                         </div>
@@ -128,11 +128,11 @@
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
-                                    class="flex-1 px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-medium hover:bg-rose-100 text-sm transition">
                                 PDF
                             </button>
                             <button type="submit" name="format" value="excel"
-                                    class="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-medium hover:bg-emerald-100 text-sm transition">
                                 Excel
                             </button>
                         </div>
@@ -162,11 +162,11 @@
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
-                                    class="flex-1 px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-medium hover:bg-rose-100 text-sm transition">
                                 PDF
                             </button>
                             <button type="submit" name="format" value="excel"
-                                    class="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-medium hover:bg-emerald-100 text-sm transition">
                                 Excel
                             </button>
                         </div>
@@ -203,11 +203,11 @@
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
-                                    class="flex-1 px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-medium hover:bg-rose-100 text-sm transition">
                                 PDF
                             </button>
                             <button type="submit" name="format" value="excel"
-                                    class="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-medium hover:bg-emerald-100 text-sm transition">
                                 Excel
                             </button>
                         </div>
@@ -237,11 +237,11 @@
                         </div>
                         <div class="flex space-x-2">
                             <button type="submit" name="format" value="pdf"
-                                    class="flex-1 px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 font-medium hover:bg-rose-100 text-sm transition">
                                 PDF
                             </button>
                             <button type="submit" name="format" value="excel"
-                                    class="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                                    class="flex-1 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-medium hover:bg-emerald-100 text-sm transition">
                                 Excel
                             </button>
                         </div>

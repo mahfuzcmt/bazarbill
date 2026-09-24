@@ -181,6 +181,9 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
+            @if($invoice->market->logo && file_exists(storage_path('app/public/' . $invoice->market->logo)))
+            <img src="{{ storage_path('app/public/' . $invoice->market->logo) }}" alt="" style="height:56px;max-width:160px;margin-bottom:6px">
+            @endif
             <h1>{{ $invoice->market->getLocalizedName() }}</h1>
             <p>{{ $invoice->market->address }}</p>
             <p>{{ __('messages.phone') }}: {{ $invoice->market->phone }} | {{ __('messages.email') }}: {{ $invoice->market->email }}</p>

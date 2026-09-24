@@ -26,10 +26,19 @@ class SettingsController extends Controller
             'address_bn' => 'nullable|string|max:500',
             'contact_phone' => 'nullable|string|max:20',
             'contact_email' => 'nullable|email|max:255',
-            'logo' => 'nullable|image|max:2048',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg,gif,webp|max:2048',
+        ], [
+            'logo.max' => __('settings.logo_too_large'),
+            'logo.image' => __('settings.logo_invalid'),
+            'logo.mimes' => __('settings.logo_invalid'),
         ]);
 
         $market = auth()->user()->market;
+
+        // Form field names differ from the column names.
+        $validated['phone'] = $validated['contact_phone'] ?? null;
+        $validated['email'] = $validated['contact_email'] ?? null;
+        unset($validated['contact_phone'], $validated['contact_email']);
 
         // Handle logo upload
         if ($request->hasFile('logo')) {

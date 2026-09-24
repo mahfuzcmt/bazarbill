@@ -6,6 +6,8 @@ return [
     'market_info_desc' => 'আপনার মার্কেটের বিবরণ এবং যোগাযোগের তথ্য আপডেট করুন।',
     'market_logo' => 'মার্কেট লোগো',
     'logo_hint' => 'PNG, JPG বা GIF (সর্বোচ্চ 2MB)',
+    'logo_too_large' => 'লোগো ২ MB-এর ছোট হতে হবে।',
+    'logo_invalid' => 'লোগো PNG, JPG, GIF বা WebP ছবি হতে হবে।',
     'market_name' => 'মার্কেটের নাম',
     'market_name_bn' => 'মার্কেটের নাম (বাংলা)',
     'contact_email' => 'যোগাযোগের ইমেইল',

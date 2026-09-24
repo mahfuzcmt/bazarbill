@@ -28,6 +28,16 @@ use App\Http\Controllers\ShopOwner\InvoiceController as ShopOwnerInvoiceControll
 use App\Http\Controllers\ShopOwner\ComplaintController as ShopOwnerComplaintController;
 use Illuminate\Support\Facades\Route;
 
+// Uploaded files (market logos). Normally served by the public/storage symlink;
+// this route is the fallback for hosts where symlinks are unavailable.
+Route::get('/storage/{path}', function (string $path) {
+    abort_if(str_contains($path, '..'), 404);
+    $disk = \Illuminate\Support\Facades\Storage::disk('public');
+    abort_unless($disk->exists($path), 404);
+
+    return response()->file($disk->path($path), ['Cache-Control' => 'public, max-age=86400']);
+})->where('path', '.*')->name('storage.file');
+
 // Public landing page (guests); signed-in users go to their dashboard
 Route::get('/', \App\Http\Controllers\LandingController::class)->name('landing');
 

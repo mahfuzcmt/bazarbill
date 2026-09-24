@@ -104,10 +104,21 @@ class SmsService
         $this->lastFailedForCredits = false;
 
         if (!$this->isConfigured()) {
-            $this->lastError = 'SMS gateway not configured';
+            $this->lastError = $this->usesPlatformGateway()
+                ? 'Platform SMS gateway not configured (super admin: Admin > SMS Gateway)'
+                : 'Market SMS API key not set';
             Log::warning('SMS gateway not configured for market', [
                 'market_id' => $this->market->id,
                 'gateway' => $this->gateway(),
+            ]);
+            SmsLog::create([
+                'market_id' => $this->market->id,
+                'recipient_phone' => $this->normalizePhone($phone),
+                'message' => $message,
+                'status' => 'failed',
+                'gateway' => $this->gateway(),
+                'credits_used' => 0,
+                'api_response' => $this->lastError,
             ]);
             return false;
         }

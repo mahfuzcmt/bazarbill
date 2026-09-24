@@ -23,7 +23,7 @@ class InvoiceGenerationService
         bool $includePreviousDue = true,
         bool $sendSms = false,
     ): array {
-        $result = ['created' => 0, 'skipped' => 0, 'sms_sent' => 0, 'sms_failed' => 0, 'sms_blocked_for_credits' => false];
+        $result = ['created' => 0, 'skipped' => 0, 'sms_sent' => 0, 'sms_failed' => 0, 'sms_blocked_for_credits' => false, 'sms_last_error' => null];
 
         $shops = Shop::withoutGlobalScopes()
             ->where('market_id', $market->id)
@@ -77,6 +77,7 @@ class InvoiceGenerationService
                     $result['sms_sent']++;
                 } else {
                     $result['sms_failed']++;
+                    $result['sms_last_error'] = $smsService->lastError;
                     if ($smsService->lastFailedForCredits) {
                         $result['sms_blocked_for_credits'] = true;
                     }

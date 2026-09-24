@@ -6,6 +6,8 @@ return [
     'market_info_desc' => 'Update your market details and contact information.',
     'market_logo' => 'Market Logo',
     'logo_hint' => 'PNG, JPG or GIF (max 2MB)',
+    'logo_too_large' => 'The logo must be smaller than 2 MB.',
+    'logo_invalid' => 'The logo must be a PNG, JPG, GIF or WebP image.',
     'market_name' => 'Market Name',
     'market_name_bn' => 'Market Name (Bengali)',
     'contact_email' => 'Contact Email',

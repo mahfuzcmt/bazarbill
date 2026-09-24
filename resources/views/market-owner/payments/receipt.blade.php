@@ -163,6 +163,9 @@
     <div class="receipt">
         <!-- Header -->
         <div class="header">
+            @if($payment->market->logo && file_exists(storage_path('app/public/' . $payment->market->logo)))
+            <img src="{{ storage_path('app/public/' . $payment->market->logo) }}" alt="" style="height:56px;max-width:160px;margin-bottom:6px">
+            @endif
             <h1>{{ $payment->market->getLocalizedName() }}</h1>
             <p>{{ $payment->market->address }}</p>
             <p>{{ __('messages.phone') }}: {{ $payment->market->phone }}</p>

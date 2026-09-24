@@ -121,19 +121,26 @@ class InvoiceController extends Controller
         ]);
 
         // Send SMS if requested
+        $smsError = null;
         if ($request->boolean('send_sms') && $shop->shopOwner?->phone) {
             $smsService = new SmsService(auth()->user()->market);
-            $smsService->sendInvoiceNotification([
+            $sent = $smsService->sendInvoiceNotification([
                 'phone' => $shop->shopOwner->phone,
                 'shop_owner' => $shop->shopOwner->getLocalizedName(),
                 'month' => $invoice->getBillingMonthFormattedBn(),
                 'amount' => number_format($invoice->total_amount),
                 'invoice_no' => $invoice->invoice_number,
             ]);
+            if (!$sent) {
+                $smsError = $smsService->lastFailedForCredits
+                    ? __('settings.sms_insufficient_credits', ['count' => 1])
+                    : __('settings.sms_send_failed') . ($smsService->lastError ? ' — ' . $smsService->lastError : '');
+            }
         }
 
-        return redirect()->route('market-owner.invoices.index')
-            ->with('success', __('invoices.created'));
+        $redirect = redirect()->route('market-owner.invoices.index')->with('success', __('invoices.created'));
+
+        return $smsError ? $redirect->with('error', $smsError) : $redirect;
     }
 
     public function show(Invoice $invoice)
@@ -239,7 +246,8 @@ class InvoiceController extends Controller
         if ($result['sms_failed'] > 0) {
             $redirect->with('error', $result['sms_blocked_for_credits']
                 ? __('settings.sms_insufficient_credits', ['count' => $result['sms_failed']])
-                : __('settings.sms_send_failed_count', ['count' => $result['sms_failed']]));
+                : __('settings.sms_send_failed_count', ['count' => $result['sms_failed']])
+                    . ($result['sms_last_error'] ? ' — ' . $result['sms_last_error'] : ''));
         }
 
         return $redirect;

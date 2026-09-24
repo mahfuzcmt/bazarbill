@@ -33,7 +33,7 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            'serve' => false, // private files are never served by URL; /storage/* is the public disk (symlink or fallback route)
             'throw' => false,
             'report' => false,
         ],

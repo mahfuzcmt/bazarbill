@@ -108,7 +108,7 @@
                         <label for="contact_email" class="block text-sm font-medium text-gray-700">
                             {{ __('settings.contact_email') }}
                         </label>
-                        <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email', $market->contact_email) }}"
+                        <input type="email" name="contact_email" id="contact_email" value="{{ old('contact_email', $market->email) }}"
                                class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('contact_email')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -120,7 +120,7 @@
                         <label for="contact_phone" class="block text-sm font-medium text-gray-700">
                             {{ __('settings.contact_phone') }}
                         </label>
-                        <input type="tel" name="contact_phone" id="contact_phone" value="{{ old('contact_phone', $market->contact_phone) }}"
+                        <input type="tel" name="contact_phone" id="contact_phone" value="{{ old('contact_phone', $market->phone) }}"
                                class="mt-1 block w-full glass-input focus:ring-indigo-500 focus:border-indigo-500">
                         @error('contact_phone')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
