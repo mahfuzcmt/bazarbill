@@ -173,7 +173,19 @@ $app = require_once __DIR__.'/../bazarbill/bootstrap/app.php';
 
 ## Step 6: Final Setup Commands
 
-Via SSH or Terminal in cPanel:
+### No SSH or Terminal? Use the browser maintenance page
+
+1. Add a long random line to `.env` (File Manager → Edit):
+   ```
+   MAINT_KEY=paste-40-random-characters-here
+   ```
+2. Open `https://yourdomain.com/maint.php?key=YOUR_KEY&action=check` and fix anything reported as MISSING or NOT WRITABLE.
+3. Open `https://yourdomain.com/maint.php?key=YOUR_KEY&action=setup` — this creates the storage link, runs migrations and builds the caches.
+4. After every future upload, open the same `action=setup` URL again.
+
+Other actions: `clear` (clear caches), `migrate`, `cache`, `storage-link`, `schedule` (runs due jobs; use it from cron with `curl`, see 6b). Remove `MAINT_KEY` from `.env` to disable the page.
+
+### With SSH / Terminal
 
 ```bash
 # Apply any new migrations (SMS credits, plans, subscriptions, reminder tracking)
@@ -215,7 +227,13 @@ None of these run unless cron calls the scheduler every minute.
 
 1. In cPanel go to **Advanced → Cron Jobs**.
 2. Add a new cron job with **Common Settings: Once Per Minute** (`* * * * *`).
-3. Command (adjust the path and PHP binary for your account):
+3. Command. Without SSH, the simplest is to call the maintenance page:
+
+```bash
+curl -s "https://yourdomain.com/maint.php?key=YOUR_KEY&action=schedule" > /dev/null 2>&1
+```
+
+   Or, if you know your PHP binary path:
 
 ```bash
 cd /home/USERNAME/public_html/bazarbill && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1

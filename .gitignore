@@ -33,3 +33,4 @@ Thumbs.db
 /htaccess.txt
 /clear-cache.php
 /.claude/settings.local.json
+/bazarbill_init.sql
