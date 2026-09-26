@@ -20,7 +20,7 @@ return [
     'phone' => 'Market phone',
     'create' => 'Create market',
     'created' => ':market is ready with a :days-day free trial. You are now working in it.',
-    'no_plan' => 'Self-service market creation is not available right now. Please contact support.',
+    'no_default_plan' => 'Self-service market creation is not available right now. Please contact support.',
 
     'managers_title' => 'Managers',
     'managers_subtitle' => 'Owner-level logins for this market, such as the committee secretary or accountant. Managers can see and do everything you can.',

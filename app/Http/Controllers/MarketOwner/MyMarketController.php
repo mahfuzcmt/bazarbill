@@ -20,7 +20,9 @@ class MyMarketController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $markets = $user->markets()->with('plan')->withCount('shops')->orderBy('name')->get();
+        $markets = $user->markets()->with('plan')
+            ->withCount(['shops' => fn ($q) => $q->withoutGlobalScope('market')]) // every market's own shops, not just the active one's
+            ->orderBy('name')->get();
         $plan = Plan::default();
 
         return view('market-owner.markets.index', compact('markets', 'plan'));
@@ -37,7 +39,7 @@ class MyMarketController extends Controller
 
         $plan = Plan::default();
         if (!$plan) {
-            return back()->with('error', __('mymarkets.no_plan'));
+            return back()->with('error', __('mymarkets.no_default_plan'));
         }
 
         $user = auth()->user();
