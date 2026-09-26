@@ -12,6 +12,7 @@
  *   /maint.php?key=YOUR_KEY&action=clear          clear all caches
  *   /maint.php?key=YOUR_KEY&action=storage-link   create public/storage link
  *   /maint.php?key=YOUR_KEY&action=schedule       run due scheduled jobs (use from a cPanel cron with curl)
+ *   /maint.php?key=YOUR_KEY&action=log            last error entries from storage/logs/laravel.log
  */
 
 declare(strict_types=1);
@@ -45,7 +46,7 @@ if ($given === '' || !hash_equals($expected, $given)) {
 }
 
 $action = (string) ($_GET['action'] ?? 'check');
-$allowed = ['check', 'setup', 'migrate', 'cache', 'clear', 'storage-link', 'schedule'];
+$allowed = ['check', 'setup', 'migrate', 'cache', 'clear', 'storage-link', 'schedule', 'log'];
 if (!in_array($action, $allowed, true)) {
     http_response_code(400);
     exit("Unknown action. Allowed: " . implode(', ', $allowed) . "\n");
@@ -164,6 +165,27 @@ switch ($action) {
 
     case 'schedule':
         $artisan('schedule:run');
+        break;
+
+    case 'log':
+        $file = $base . '/storage/logs/laravel.log';
+        if (!is_file($file)) { echo "No log file yet.\n"; break; }
+        $lines = (int) ($_GET['lines'] ?? 80);
+        $lines = max(10, min(400, $lines));
+        // Read the tail of the file without loading all of it.
+        $fh = fopen($file, 'r'); $chunk = 65536; $pos = filesize($file); $buf = '';
+        while ($pos > 0 && substr_count($buf, "\n") <= $lines * 8) { $read = min($chunk, $pos); $pos -= $read; fseek($fh, $pos); $buf = fread($fh, $read) . $buf; }
+        fclose($fh);
+        $all = explode("\n", $buf);
+        // Keep only the entry header lines (level + message) and the first stack frame, newest last.
+        $out = [];
+        foreach ($all as $l) {
+            if (preg_match('/^\[\d{4}-\d{2}-\d{2} [\d:]+\] \w+\.(ERROR|CRITICAL|ALERT|EMERGENCY|WARNING)/', $l) || str_starts_with($l, '#0 ')) {
+                $out[] = mb_substr($l, 0, 700);
+            }
+        }
+        echo "Log size: " . round(filesize($file) / 1024) . " KB. Showing the last {$lines} error/warning entries (oldest first):\n\n";
+        echo implode("\n", array_slice($out, -$lines)) . "\n";
         break;
 }
 
