@@ -318,6 +318,12 @@
             <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
                 <a href="{{ $telHref }}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 font-semibold text-indigo-700 shadow hover:bg-indigo-50">{!! $phoneIcon !!}<span>{{ __('landing.hero_call') }}</span></a>
                 <a href="{{ $whatsapp }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 font-semibold text-white shadow hover:bg-[#1ebe5d]">{!! $waIcon !!}<span>{{ __('landing.hero_whatsapp') }}</span></a>
+                @if(config('services.support.facebook'))
+                <a href="{{ config('services.support.facebook') }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1877F2] px-5 py-3 font-semibold text-white shadow hover:bg-[#166fe5]">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.8-4.69 4.54-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+                    <span>{{ __('landing.facebook') }}</span>
+                </a>
+                @endif
             </div>
             <p class="mt-6 text-sm text-indigo-200">{{ __('landing.contact_or') }} <a href="{{ route('register') }}" class="font-semibold text-white underline">{{ __('landing.hero_trial') }}</a></p>
         </div>
@@ -350,6 +356,12 @@
                 <ul class="mt-3 space-y-2 text-sm text-slate-700">
                     <li><a href="{{ $telHref }}" class="hover:text-indigo-600 font-sans">{{ $displayPhone }}</a></li>
                     <li><a href="{{ $whatsapp }}" target="_blank" rel="noopener" class="hover:text-indigo-600">{{ __('landing.wa_float') }}</a></li>
+                    @if(config('services.support.facebook'))
+                    <li><a href="{{ config('services.support.facebook') }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-indigo-600">
+                        <svg class="h-4 w-4 text-[#1877F2]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.8-4.69 4.54-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+                        {{ __('landing.facebook') }}
+                    </a></li>
+                    @endif
                     @if(config('services.support.email'))<li><a href="mailto:{{ config('services.support.email') }}" class="hover:text-indigo-600 font-sans">{{ config('services.support.email') }}</a></li>@endif
                     <li class="text-slate-500">{{ __('landing.contact_hours') }}</li>
                 </ul>

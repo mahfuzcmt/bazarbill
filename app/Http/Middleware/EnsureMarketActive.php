@@ -26,7 +26,7 @@ class EnsureMarketActive
             }
 
             // Subscription lapsed: keep the session, show the renewal page.
-            if (!$user->market->hasActiveSubscription() && !$request->routeIs('subscription.expired', 'logout', 'profile.*', 'locale.switch')) {
+            if (!$user->market->hasActiveSubscription() && !$request->routeIs('subscription.expired', 'logout', 'profile.*', 'locale.switch', 'market.switch')) {
                 return redirect()->route('subscription.expired');
             }
         }

@@ -14,6 +14,8 @@ use App\Http\Controllers\MarketOwner\DashboardController as MarketOwnerDashboard
 use App\Http\Controllers\MarketOwner\ShopController as MarketOwnerShopController;
 use App\Http\Controllers\MarketOwner\StaffController;
 use App\Http\Controllers\MarketOwner\ShopOwnerController;
+use App\Http\Controllers\MarketOwner\MyMarketController;
+use App\Http\Controllers\MarketOwner\ManagerController;
 use App\Http\Controllers\MarketOwner\InvoiceController as MarketOwnerInvoiceController;
 use App\Http\Controllers\MarketOwner\PaymentController as MarketOwnerPaymentController;
 use App\Http\Controllers\MarketOwner\ComplaintController as MarketOwnerComplaintController;
@@ -76,6 +78,11 @@ Route::get('/subscription-expired', SubscriptionExpiredController::class)
     ->middleware('auth')
     ->name('subscription.expired');
 
+// Switch the market a user is working in (members only)
+Route::post('/switch-market/{market}', \App\Http\Controllers\MarketSwitchController::class)
+    ->middleware('auth')
+    ->name('market.switch');
+
 // Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -94,6 +101,13 @@ Route::middleware(['auth', 'verified', 'market.active', 'role:market_owner'])
         Route::resource('shops', MarketOwnerShopController::class);
         Route::post('shops/{shop}/assign-collector', [MarketOwnerShopController::class, 'assignCollector'])->name('shops.assign-collector');
         Route::post('shops/{shop}/assign-owner', [MarketOwnerShopController::class, 'assignOwner'])->name('shops.assign-owner');
+
+        // My markets & co-managers
+        Route::get('markets', [MyMarketController::class, 'index'])->name('markets.index');
+        Route::post('markets', [MyMarketController::class, 'store'])->name('markets.store');
+        Route::get('managers', [ManagerController::class, 'index'])->name('managers.index');
+        Route::post('managers', [ManagerController::class, 'store'])->name('managers.store');
+        Route::delete('managers/{manager}', [ManagerController::class, 'destroy'])->name('managers.destroy');
 
         // Shop owners (tenant logins)
         Route::resource('shop-owners', ShopOwnerController::class)->except(['show'])->parameters(['shop-owners' => 'shopOwner']);

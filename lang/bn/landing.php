@@ -124,4 +124,5 @@ return [
     'footer_contact' => 'যোগাযোগ',
     'footer_rights' => 'সর্বস্বত্ব সংরক্ষিত।',
     'wa_float' => 'হোয়াটসঅ্যাপ',
+    'facebook' => 'ফেসবুক পেজ',
 ];

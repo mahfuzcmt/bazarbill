@@ -15,7 +15,8 @@ class SubscriptionExpiredController extends Controller
 
         $market->load('plan');
         $lastSubscription = $market->subscriptions()->with('plan')->latest('ends_at')->first();
+        $otherMarkets = $user->markets()->where('markets.id', '!=', $market->id)->get()->filter->hasActiveSubscription();
 
-        return view('subscription.expired', compact('market', 'lastSubscription'));
+        return view('subscription.expired', compact('market', 'lastSubscription', 'otherMarkets'));
     }
 }

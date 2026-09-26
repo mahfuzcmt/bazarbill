@@ -124,4 +124,5 @@ return [
     'footer_contact' => 'Contact',
     'footer_rights' => 'All rights reserved.',
     'wa_float' => 'WhatsApp',
+    'facebook' => 'Facebook page',
 ];

@@ -96,6 +96,21 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+                    <!-- Markets (market owners only) -->
+                    <div id="market-picker" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('Markets this owner can manage') }}</label>
+                        <div class="border border-gray-300 rounded-md max-h-48 overflow-y-auto p-3 space-y-2 text-sm">
+                            @foreach($markets as $m)
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="market_ids[]" value="{{ $m->id }}" class="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                           @checked(in_array($m->id, old('market_ids', $memberMarketIds ?? [])))>
+                                    <span class="ml-2 text-gray-700">{{ $m->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">{{ __('The market selected above is always included. The owner switches between markets from their sidebar.') }}</p>
+                    </div>
+
                     <!-- Shops (shop owners only) -->
                     <div id="shop-picker" class="hidden">
                         <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('Shops owned') }}</label>
@@ -135,6 +150,8 @@
                     if (!role || !market || !picker || !list) return;
 
                     function render() {
+                        const mp = document.getElementById('market-picker');
+                        if (mp) mp.classList.toggle('hidden', role.value !== 'market_owner');
                         const isShopOwner = role.value === 'shop_owner';
                         picker.classList.toggle('hidden', !isShopOwner);
                         if (!isShopOwner) return;

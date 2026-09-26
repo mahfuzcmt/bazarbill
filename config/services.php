@@ -49,6 +49,7 @@ return [
         'email' => env('SUPPORT_EMAIL'),
         // Number shown on the public landing page (call + WhatsApp)
         'sales_phone' => env('SALES_PHONE', '01805995662'),
+        'facebook' => env('FACEBOOK_PAGE_URL', 'https://www.facebook.com/duetapapp'),
     ],
 
     'slack' => [

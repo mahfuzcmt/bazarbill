@@ -53,6 +53,8 @@ return [
         'settings' => 'Settings',
         'sms_logs' => 'SMS Logs',
         'manual' => 'User Guide',
+        'managers' => 'Managers',
+        'my_markets' => 'My Markets',
     ],
 
     // Auth

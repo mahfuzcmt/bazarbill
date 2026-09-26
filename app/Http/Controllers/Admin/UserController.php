@@ -83,6 +83,8 @@ class UserController extends Controller
             'is_active' => 'boolean',
             'shop_ids' => 'nullable|array',
             'shop_ids.*' => 'integer|exists:shops,id',
+            'market_ids' => 'nullable|array',
+            'market_ids.*' => 'integer|exists:markets,id',
         ];
     }
 
@@ -123,7 +125,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load('market');
+        $user->load(['market', 'markets']);
         return view('admin.users.show', compact('user'));
     }
 
@@ -132,8 +134,9 @@ class UserController extends Controller
         $markets = Market::where('status', 'active')->get();
         $shopsByMarket = $this->shopsByMarket($user);
         $ownedShopIds = $user->ownedShops()->pluck('id')->all();
+        $memberMarketIds = $user->markets()->pluck('markets.id')->all();
 
-        return view('admin.users.edit', compact('user', 'markets', 'shopsByMarket', 'ownedShopIds'));
+        return view('admin.users.edit', compact('user', 'markets', 'shopsByMarket', 'ownedShopIds', 'memberMarketIds'));
     }
 
     public function update(Request $request, User $user)
@@ -141,7 +144,8 @@ class UserController extends Controller
         $validated = $request->validate($this->userRules($user), $this->userMessages());
 
         $shopIds = $validated['shop_ids'] ?? [];
-        unset($validated['shop_ids']);
+        $marketIds = $validated['market_ids'] ?? null;
+        unset($validated['shop_ids'], $validated['market_ids']);
 
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
@@ -164,6 +168,11 @@ class UserController extends Controller
             \App\Models\Shop::syncOwner($user, $shopIds, $user->market_id);
         } else {
             $user->ownedShops()->update(['shop_owner_id' => null]);
+        }
+
+        // Market owners may hold several markets; the active one is always a member.
+        if ($user->role === 'market_owner' && is_array($marketIds)) {
+            $user->markets()->sync(array_unique(array_merge($marketIds, $user->market_id ? [$user->market_id] : [])));
         }
 
         return redirect()->route('admin.users.index')

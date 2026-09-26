@@ -50,9 +50,22 @@ class Market extends Model
         });
     }
 
+    /** Users currently working in this market (users.market_id). */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /** Everyone with membership of this market, whichever market they are working in now. */
+    public function members(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    /** Owner-level accounts (market owners / managers) of this market. */
+    public function managers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->members()->where('users.role', 'market_owner');
     }
 
     public function shops(): HasMany

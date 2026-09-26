@@ -69,7 +69,11 @@
 
             @if($user->market && $user->role === 'market_owner')
                 <div class="mt-6 pt-6 border-t">
-                    <h3 class="text-sm font-medium text-gray-500 mb-3">{{ __('Market account') }}: {{ $user->market->name }}</h3>
+                    <h3 class="text-sm font-medium text-gray-500 mb-3">{{ __('Market account') }}: {{ $user->market->name }}
+                        @if($user->markets->count() > 1)
+                            <span class="ml-2 text-xs text-gray-500">({{ __('also manages') }}: {{ $user->markets->where('id', '!=', $user->market_id)->pluck('name')->join(', ') }})</span>
+                        @endif
+                    </h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div class="p-4 rounded-lg bg-indigo-50">
                             <p class="text-xs text-indigo-700">{{ __('SMS credit balance') }}</p>

@@ -35,9 +35,31 @@
 
                     <!-- Market Info -->
                     @if(auth()->user()->market)
-                    <div class="mx-4 mb-2 rounded-xl border border-white/60 bg-white/40 px-4 py-3">
+                    @php $myMarkets = auth()->user()->hasMultipleMarkets() ? auth()->user()->markets()->orderBy('name')->get() : collect(); @endphp
+                    <div class="mx-4 mb-2 rounded-xl border border-white/60 bg-white/40 px-4 py-3" @if($myMarkets->count() > 1) x-data="{ open: false }" @endif>
+                        @if($myMarkets->count() > 1)
+                        <button type="button" @click="open = !open" class="w-full flex items-center justify-between gap-2 text-left">
+                            <span class="min-w-0">
+                                <span class="block text-sm font-semibold text-slate-800 truncate">{{ auth()->user()->market->getLocalizedName() }}</span>
+                                <span class="block text-xs text-indigo-600 truncate">{{ __('mymarkets.switch_hint', ['count' => $myMarkets->count()]) }}</span>
+                            </span>
+                            <svg class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>
+                        </button>
+                        <div x-show="open" x-cloak @click.away="open = false" class="mt-2 space-y-1">
+                            @foreach($myMarkets as $m)
+                                @if($m->id === auth()->user()->market_id)
+                                    <div class="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white truncate">{{ $m->getLocalizedName() }}</div>
+                                @else
+                                    <form method="POST" action="{{ route('market.switch', $m) }}">@csrf
+                                        <button type="submit" class="w-full text-left rounded-lg px-3 py-1.5 text-xs text-slate-700 hover:bg-white truncate">{{ $m->getLocalizedName() }}</button>
+                                    </form>
+                                @endif
+                            @endforeach
+                        </div>
+                        @else
                         <p class="text-sm font-semibold text-slate-800 truncate">{{ auth()->user()->market->getLocalizedName() }}</p>
                         <p class="text-xs text-indigo-600 truncate">{{ auth()->user()->getLocalizedName() }}</p>
+                        @endif
                     </div>
                     @endif
 

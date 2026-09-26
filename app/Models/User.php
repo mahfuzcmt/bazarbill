@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,9 +44,53 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted(): void
+    {
+        // Whoever creates or moves a user into a market also grants membership of it.
+        static::saved(function (User $user) {
+            if ($user->market_id && !$user->markets()->where('markets.id', $user->market_id)->exists()) {
+                $user->markets()->attach($user->market_id);
+            }
+        });
+    }
+
+    /** The market the user is currently working in. */
     public function market(): BelongsTo
     {
         return $this->belongsTo(Market::class);
+    }
+
+    /** Every market the user may work in (owners can hold several). */
+    public function markets(): BelongsToMany
+    {
+        return $this->belongsToMany(Market::class)->withTimestamps();
+    }
+
+    public function isMemberOf(Market|int $market): bool
+    {
+        $id = $market instanceof Market ? $market->id : $market;
+
+        return $this->markets()->where('markets.id', $id)->exists();
+    }
+
+    public function hasMultipleMarkets(): bool
+    {
+        return $this->markets()->count() > 1;
+    }
+
+    /**
+     * Make $market the active one. Returns false if the user is not a member.
+     */
+    public function switchMarket(Market $market): bool
+    {
+        if (!$this->isMemberOf($market)) {
+            return false;
+        }
+
+        $this->forceFill(['market_id' => $market->id])->save();
+        $this->setRelation('market', $market);
+
+        return true;
     }
 
     public function shop(): HasOne

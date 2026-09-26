@@ -31,6 +31,17 @@
         <p class="mt-1 text-center text-lg font-semibold text-indigo-700">{{ config('services.support.phone') }}</p>
     @endif
 
+    @if(isset($otherMarkets) && $otherMarkets->isNotEmpty())
+    <div class="mt-6 rounded-lg border border-indigo-100 bg-indigo-50 p-4">
+        <p class="text-sm font-medium text-indigo-800 mb-2">{{ __('mymarkets.switch_other') }}</p>
+        @foreach($otherMarkets as $m)
+            <form method="POST" action="{{ route('market.switch', $m) }}" class="mb-1">@csrf
+                <button type="submit" class="w-full text-left rounded-lg bg-white px-3 py-2 text-sm text-indigo-700 hover:bg-indigo-100">{{ $m->getLocalizedName() }} &rarr;</button>
+            </form>
+        @endforeach
+    </div>
+    @endif
+
     <div class="mt-6 flex items-center justify-between">
         <a href="{{ route('profile.edit') }}" class="text-sm text-gray-600 underline hover:text-gray-900">{{ __('messages.subscription.my_profile') }}</a>
         <form method="POST" action="{{ route('logout') }}">

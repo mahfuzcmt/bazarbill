@@ -135,6 +135,22 @@
         {{ __('messages.nav.reports') }}
     </a>
 
+    <a href="{{ route('market-owner.managers.index') }}"
+       class="{{ request()->routeIs('market-owner.managers.*') ? 'nav-link-active' : 'nav-link' }}">
+        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7zM19 8v6m3-3h-6"/>
+        </svg>
+        {{ __('messages.nav.managers') }}
+    </a>
+
+    <a href="{{ route('market-owner.markets.index') }}"
+       class="{{ request()->routeIs('market-owner.markets.*') ? 'nav-link-active' : 'nav-link' }}">
+        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+        </svg>
+        {{ __('messages.nav.my_markets') }}
+    </a>
+
     <a href="{{ route('market-owner.settings.index') }}"
        class="{{ request()->routeIs('market-owner.settings.*') ? 'nav-link-active' : 'nav-link' }}">
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

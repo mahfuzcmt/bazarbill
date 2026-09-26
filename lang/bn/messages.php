@@ -53,6 +53,8 @@ return [
         'settings' => 'সেটিংস',
         'sms_logs' => 'এসএমএস লগ',
         'manual' => 'ব্যবহার সহায়িকা',
+        'managers' => 'ব্যবস্থাপক',
+        'my_markets' => 'আমার মার্কেট',
     ],
 
     // Auth
